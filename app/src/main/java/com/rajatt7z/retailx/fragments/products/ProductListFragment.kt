@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -44,7 +45,7 @@ class ProductListFragment : Fragment() {
         setupTabs()
         loadProducts()
         setupSearch()
-        
+
         binding.fabAddProduct.setOnClickListener {
             findNavController().navigate(R.id.action_productListFragment_to_addProductFragment)
         }
@@ -87,11 +88,11 @@ class ProductListFragment : Fragment() {
             try {
                 // Parallel fetching if possible, but sequential is fine
                 allProducts = repository.getAllProducts()
-                
+
                 // Fetch drafts
                 val drafts = AppDatabase.getDatabase(requireContext()).draftProductDao().getAllDrafts()
                 draftProducts = drafts.map { it.toProduct() }
-                
+
                 filterList()
             } catch (e: Exception) {
                 // Log error
@@ -100,28 +101,33 @@ class ProductListFragment : Fragment() {
     }
 
     private fun setupSearch() {
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                currentSearchQuery = newText ?: ""
-                filterList()
-                return true
-            }
-        })
+        binding.searchBar.addTextChangedListener { editable ->
+            currentSearchQuery = editable?.toString() ?: ""
+            filterList()
+        }
     }
 
     private fun filterList() {
         val sourceList = if (currentTab == 0) allProducts else draftProducts
-        
+
         val filtered = if (currentSearchQuery.isEmpty()) {
             sourceList
         } else {
-            sourceList.filter { it.name.contains(currentSearchQuery, ignoreCase = true) }
+            sourceList.filter {
+                it.name.contains(currentSearchQuery, ignoreCase = true) ||
+                        it.description.contains(currentSearchQuery, ignoreCase = true)
+            }
         }
+
         adapter.updateList(filtered)
+
+        // Optional: Show empty state
+        if (filtered.isEmpty()) {
+            binding.recyclerViewProducts.visibility = View.GONE
+            // Show empty state view if you have one
+        } else {
+            binding.recyclerViewProducts.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {

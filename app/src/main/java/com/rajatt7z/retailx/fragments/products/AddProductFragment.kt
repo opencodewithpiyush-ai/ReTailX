@@ -50,7 +50,7 @@ class AddProductFragment : Fragment() {
             "Health & Wellness",
             "Others"
         )
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, categories)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories)
         binding.etProductCategory.setAdapter(adapter)
     }
 
