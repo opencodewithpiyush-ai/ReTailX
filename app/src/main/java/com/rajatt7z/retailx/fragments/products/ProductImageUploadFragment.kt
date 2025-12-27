@@ -15,6 +15,7 @@ import com.rajatt7z.retailx.databinding.FragmentProductImageUploadBinding
 import com.rajatt7z.retailx.repository.ProductRepository
 import com.rajatt7z.retailx.adapters.LocalImageAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import com.rajatt7z.retailx.adapters.ProductImageAdapter
 import kotlinx.coroutines.launch
 
 class ProductImageUploadFragment : Fragment() {
