@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#E0E0E0"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <View
+            android:id="@+id/ivAvatarShimmer"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="#E0E0E0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <View
+            android:id="@+id/tvEmployeeNameShimmer"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            android:background="#E0E0E0"
+            app:layout_constraintStart_toEndOf="@id/ivAvatarShimmer"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <View
+            android:id="@+id/tvEmployeeRoleShimmer"
+            android:layout_width="120dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="#E0E0E0"
+            app:layout_constraintStart_toEndOf="@id/ivAvatarShimmer"
+            app:layout_constraintTop_toBottomOf="@id/tvEmployeeNameShimmer" />
+            
+         <View
+            android:id="@+id/tvEmployeePhoneShimmer"
+            android:layout_width="100dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:background="#E0E0E0"
+            app:layout_constraintStart_toEndOf="@id/ivAvatarShimmer"
+            app:layout_constraintTop_toBottomOf="@id/tvEmployeeRoleShimmer" />
+
+        <View
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="#E0E0E0"
+            app:layout_constraintBottom_toBottomOf="@+id/tvEmployeePhoneShimmer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvEmployeeNameShimmer" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
