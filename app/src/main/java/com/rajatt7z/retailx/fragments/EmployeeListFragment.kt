@@ -5,13 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Spinner
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +15,10 @@ import com.rajatt7z.retailx.databinding.FragmentEmployeeListBinding
 import com.rajatt7z.retailx.models.Employee
 import com.rajatt7z.retailx.utils.Resource
 import com.rajatt7z.retailx.viewmodel.AuthViewModel
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 
 class EmployeeListFragment : Fragment() {
 
@@ -44,7 +42,18 @@ class EmployeeListFragment : Fragment() {
         setupListeners()
         setupObservers()
         
-        viewModel.fetchEmployees()
+        setupObservers()
+        
+        lifecycleScope.launch {
+            // Fake delay for testing shimmer
+            binding.shimmerViewContainer.visibility = View.VISIBLE
+            binding.shimmerViewContainer.startShimmer()
+            binding.rvEmployeeList.visibility = View.GONE
+            binding.tvEmptyState.visibility = View.GONE
+            
+            delay(3000)
+            viewModel.fetchEmployees()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -82,15 +91,34 @@ class EmployeeListFragment : Fragment() {
     private fun setupObservers() {
         viewModel.employees.observe(viewLifecycleOwner) { resource ->
             when (resource) {
-                is Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
+                is Resource.Loading -> {
+                    // Show shimmer
+                    binding.shimmerViewContainer.visibility = View.VISIBLE
+                    binding.shimmerViewContainer.startShimmer()
+                    binding.rvEmployeeList.visibility = View.GONE
+                    binding.tvEmptyState.visibility = View.GONE
+                }
                 is Resource.Success -> {
-                    binding.progressBar.visibility = View.GONE
+                    // Hide shimmer
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.shimmerViewContainer.visibility = View.GONE
+
                     val list = resource.data ?: emptyList()
                     employeeAdapter.differ.submitList(list)
-                    binding.tvEmptyState.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
+                    
+                    if (list.isEmpty()) {
+                        binding.rvEmployeeList.visibility = View.GONE
+                        binding.tvEmptyState.visibility = View.VISIBLE
+                    } else {
+                        binding.rvEmployeeList.visibility = View.VISIBLE
+                        binding.tvEmptyState.visibility = View.GONE
+                    }
                 }
                 is Resource.Error -> {
-                    binding.progressBar.visibility = View.GONE
+                    // Hide shimmer
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.shimmerViewContainer.visibility = View.GONE
+                    
                     Toast.makeText(context, resource.message, Toast.LENGTH_SHORT).show()
                 }
             }

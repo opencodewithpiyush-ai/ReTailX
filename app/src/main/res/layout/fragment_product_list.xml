@@ -35,40 +35,55 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Enhanced Tab Layout with Material 3 expressive design -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/tabCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:background="@android:color/transparent"
-        android:elevation="0dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="?attr/colorControlHighlight"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchInputLayout"
-        app:tabGravity="fill"
-        app:tabIndicatorAnimationMode="elastic"
-        app:tabIndicatorColor="?attr/colorPrimary"
-        app:tabIndicatorFullWidth="false"
-        app:tabIndicatorGravity="bottom"
-        app:tabIndicatorHeight="3dp"
-        app:tabMode="fixed"
-        app:tabRippleColor="?attr/colorPrimaryContainer"
-        app:tabSelectedTextColor="?attr/colorPrimary"
-        app:tabTextColor="?attr/colorOnSurfaceVariant">
+        app:strokeWidth="0dp">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:icon="@drawable/rounded_local_convenience_store_24"
-            android:text="Products" />
+            android:background="@android:color/transparent"
+            android:elevation="0dp"
+            android:padding="4dp"
+            app:tabGravity="fill"
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabIndicatorColor="?attr/colorOnPrimary"
+            app:tabIndicatorFullWidth="true"
+            app:tabIndicatorGravity="stretch"
+            app:tabIndicatorHeight="48dp"
+            app:tabMode="fixed"
+            app:tabPaddingStart="16dp"
+            app:tabPaddingEnd="16dp"
+            app:tabSelectedTextColor="?attr/colorPrimary"
+            app:tabIconTint="?attr/colorPrimary">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/baseline_drafts_24"
-            android:text="Drafts" />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/rounded_local_convenience_store_24"
+                android:text="Products" />
 
-    </com.google.android.material.tabs.TabLayout>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/baseline_drafts_24"
+                android:text="Drafts" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- RecyclerView with enhanced spacing -->
     <androidx.recyclerview.widget.RecyclerView
@@ -80,11 +95,41 @@
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
         android:paddingBottom="88dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout"
+        app:layout_constraintTop_toBottomOf="@id/tabCard"
         tools:listitem="@layout/item_product" />
+
+    <!-- Shimmer View Container -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerViewContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabCard">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_product_shimmer" />
+            <include layout="@layout/item_product_shimmer" />
+            <include layout="@layout/item_product_shimmer" />
+            <include layout="@layout/item_product_shimmer" />
+            <include layout="@layout/item_product_shimmer" />
+            <include layout="@layout/item_product_shimmer" />
+            <include layout="@layout/item_product_shimmer" />
+            <include layout="@layout/item_product_shimmer" />
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <!-- Extended FAB with Material 3 expressive design -->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -102,5 +147,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large" />
+
+    <TextView
+        android:id="@+id/tvEmptyState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="No Product Found\nPlease Tap + to add product first"
+        android:textSize="18sp"
+        android:textColor="?android:textColorSecondary"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tabCard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

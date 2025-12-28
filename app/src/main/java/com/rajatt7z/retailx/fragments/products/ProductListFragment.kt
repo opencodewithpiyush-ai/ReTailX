@@ -18,6 +18,7 @@ import com.rajatt7z.retailx.databinding.FragmentProductListBinding
 import com.rajatt7z.retailx.models.Product
 import com.rajatt7z.retailx.repository.ProductRepository
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 
 class ProductListFragment : Fragment() {
 
@@ -84,8 +85,16 @@ class ProductListFragment : Fragment() {
     }
 
     private fun loadProducts() {
+        // Show shimmer and hide RecyclerView while loading
+        binding.shimmerViewContainer.visibility = View.VISIBLE
+        binding.shimmerViewContainer.startShimmer()
+        binding.recyclerViewProducts.visibility = View.GONE
+
         lifecycleScope.launch {
             try {
+                //Fake Delay
+                delay(3000)
+
                 // Parallel fetching if possible, but sequential is fine
                 allProducts = repository.getAllProducts()
 
@@ -93,9 +102,16 @@ class ProductListFragment : Fragment() {
                 val drafts = AppDatabase.getDatabase(requireContext()).draftProductDao().getAllDrafts()
                 draftProducts = drafts.map { it.toProduct() }
 
+                // Hide shimmer and stop animation
+                binding.shimmerViewContainer.stopShimmer()
+                binding.shimmerViewContainer.visibility = View.GONE
+                
                 filterList()
             } catch (e: Exception) {
                 // Log error
+                binding.shimmerViewContainer.stopShimmer()
+                binding.shimmerViewContainer.visibility = View.GONE
+                // Ideally show an error state
             }
         }
     }
@@ -121,12 +137,13 @@ class ProductListFragment : Fragment() {
 
         adapter.updateList(filtered)
 
-        // Optional: Show empty state
+        // Show empty state if list is empty
         if (filtered.isEmpty()) {
             binding.recyclerViewProducts.visibility = View.GONE
-            // Show empty state view if you have one
+            binding.tvEmptyState.visibility = View.VISIBLE
         } else {
             binding.recyclerViewProducts.visibility = View.VISIBLE
+            binding.tvEmptyState.visibility = View.GONE
         }
     }
 
