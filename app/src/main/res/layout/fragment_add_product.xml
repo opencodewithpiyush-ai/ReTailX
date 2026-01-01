@@ -60,6 +60,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:hint="Description">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -75,6 +76,18 @@
                         android:maxLines="6"
                         android:scrollbars="vertical" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnGenerateAI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cornerRadius="8dp"
+                    android:text="Generate with AI"
+                    android:layout_gravity="center"
+                    android:textAllCaps="false"
+                    app:icon="@drawable/ic_retailx"
+                    app:iconGravity="start"
+                    style="@style/Widget.Material3.Button.TonalButton"/>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

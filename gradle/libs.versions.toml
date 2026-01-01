@@ -21,8 +21,10 @@ gson = "2.10.1"
 room = "2.6.1"
 ksp = "2.0.21-1.0.28"
 shimmer = "0.5.0"
+generativeai = "0.9.0"
 
 [libraries]
+generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }

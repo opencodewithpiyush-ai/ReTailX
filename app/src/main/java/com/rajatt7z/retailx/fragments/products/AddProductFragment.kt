@@ -1,6 +1,7 @@
 package com.rajatt7z.retailx.fragments.products
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +10,17 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.ai.client.generativeai.GenerativeModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.rajatt7z.retailx.database.AppDatabase
+import com.rajatt7z.retailx.database.DraftProduct
 import com.rajatt7z.retailx.databinding.FragmentAddProductBinding
 import com.rajatt7z.retailx.models.Product
 import com.rajatt7z.retailx.repository.ProductRepository
-import com.rajatt7z.retailx.database.AppDatabase
-import com.rajatt7z.retailx.database.DraftProduct
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.URL
 
 class AddProductFragment : Fragment() {
 
@@ -62,6 +68,10 @@ class AddProductFragment : Fragment() {
 
             btnSaveDraft.setOnClickListener {
                 saveAsDraft()
+            }
+
+            btnGenerateAI.setOnClickListener {
+                generateDescription()
             }
         }
     }
@@ -155,10 +165,52 @@ class AddProductFragment : Fragment() {
             )
         }
     }
+
+    private fun generateDescription() {
+        val productName = binding.etProductName.text.toString()
+        if (productName.isBlank()) {
+            binding.etProductName.error = "Enter product name first"
+            return
+        }
+
+        lifecycleScope.launch {
+            try {
+                setLoading(true)
+                // TODO: Replace with your actual valid API Key
+                val apiKey = "AIzaSyAnMz2VMYUOM-tRyNzGPcywBUMwQgcH7b4"
+                
+                // "gemini-flash-latest" points to the current stable Flash model (often 1.5 or 2.0)
+                val modelName = "gemini-flash-latest"
+                val generativeModel = GenerativeModel(
+                    // Use a model that is available in the desired region/tier
+                    modelName = modelName, 
+                    apiKey = apiKey
+                )
+
+                val prompt = "Generate a catchy, professional product description for a product named '$productName'. Keep it under 2 sentences."
+                val response = generativeModel.generateContent(prompt)
+                
+                response.text?.let {
+                    binding.etProductDescription.setText(it)
+                }
+            } catch (e: Exception) {
+                Log.e("AddProductFragment", "AI Generation Error", e)
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("AI Generation Failed")
+                    .setMessage("Model: gemini-2.0-flash\n\nError:\n${e.localizedMessage ?: "Unknown error"}")
+                    .setPositiveButton("OK", null)
+                    .show()
+            } finally {
+                setLoading(false)
+            }
+        }
+    }
     
     private fun setLoading(isLoading: Boolean) {
         binding.btnNext.isEnabled = !isLoading
         binding.btnSaveDraft.isEnabled = !isLoading
+        binding.btnGenerateAI.isEnabled = !isLoading
+        binding.etProductName.isEnabled = !isLoading
     }
 
     override fun onDestroyView() {

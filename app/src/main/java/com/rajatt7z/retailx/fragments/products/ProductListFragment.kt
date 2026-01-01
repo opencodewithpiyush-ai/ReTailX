@@ -102,15 +102,18 @@ class ProductListFragment : Fragment() {
                 val drafts = AppDatabase.getDatabase(requireContext()).draftProductDao().getAllDrafts()
                 draftProducts = drafts.map { it.toProduct() }
 
-                // Hide shimmer and stop animation
-                binding.shimmerViewContainer.stopShimmer()
-                binding.shimmerViewContainer.visibility = View.GONE
-                
-                filterList()
+                // Check if binding is still alive before updating UI
+                if (_binding != null) {
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.shimmerViewContainer.visibility = View.GONE
+                    filterList()
+                }
             } catch (e: Exception) {
                 // Log error
-                binding.shimmerViewContainer.stopShimmer()
-                binding.shimmerViewContainer.visibility = View.GONE
+                if (_binding != null) {
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.shimmerViewContainer.visibility = View.GONE
+                }
                 // Ideally show an error state
             }
         }
