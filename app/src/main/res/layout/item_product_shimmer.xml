@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -14,46 +15,79 @@
         android:layout_height="wrap_content"
         android:padding="8dp">
 
-        <View
-            android:id="@+id/imgProductThumbnailShimmer"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/imgProductThumbnailShimmerCV"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="#E0E0E0"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent">
 
-        <View
-            android:id="@+id/tvProductNameShimmer"
+            <View
+                android:id="@+id/imgProductThumbnailShimmer"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="#E0E0E0" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tvProductNameShimmerCV"
             android:layout_width="0dp"
             android:layout_height="20dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="#E0E0E0"
-            app:layout_constraintStart_toEndOf="@id/imgProductThumbnailShimmer"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="4dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintWidth_percent="0.6"/>
+            app:layout_constraintStart_toEndOf="@+id/imgProductThumbnailShimmerCV"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <View
-            android:id="@+id/tvProductPriceShimmer"
+            <View
+                android:id="@+id/tvProductNameShimmer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#E0E0E0" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tvProductPriceShimmerCV"
             android:layout_width="60dp"
             android:layout_height="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:background="#E0E0E0"
-            app:layout_constraintStart_toEndOf="@id/imgProductThumbnailShimmer"
-            app:layout_constraintTop_toBottomOf="@id/tvProductNameShimmer"/>
+            app:cardCornerRadius="4dp"
+            app:layout_constraintStart_toEndOf="@+id/imgProductThumbnailShimmerCV"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductNameShimmerCV">
 
-        <View
-            android:id="@+id/tvProductStockShimmer"
+            <View
+                android:id="@+id/tvProductPriceShimmer"
+                android:layout_width="60dp"
+                android:layout_height="16dp"
+                android:background="#E0E0E0" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tvProductStockShimmerCV"
             android:layout_width="80dp"
             android:layout_height="14dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:background="#E0E0E0"
-            app:layout_constraintStart_toEndOf="@id/imgProductThumbnailShimmer"
-            app:layout_constraintTop_toBottomOf="@id/tvProductPriceShimmer"/>
+            app:cardCornerRadius="4dp"
+            app:layout_constraintStart_toEndOf="@+id/imgProductThumbnailShimmerCV"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductPriceShimmerCV">
+
+            <View
+                android:id="@+id/tvProductStockShimmer"
+                android:layout_width="80dp"
+                android:layout_height="14dp"
+                android:background="#E0E0E0" />
+
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
