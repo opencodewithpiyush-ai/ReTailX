@@ -6,6 +6,15 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
 }
 
+import java.util.Properties
+import java.io.FileInputStream
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
+}
+
 android {
     namespace = "com.rajatt7z.retailx"
     compileSdk = 36
@@ -18,6 +27,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("API_KEY")}\"")
     }
 
     buildTypes {
@@ -31,6 +41,7 @@ android {
     }
     buildFeatures{
         viewBinding = true
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

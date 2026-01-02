@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.rajatt7z.retailx.BuildConfig
 import com.rajatt7z.retailx.database.AppDatabase
 import com.rajatt7z.retailx.database.DraftProduct
 import com.rajatt7z.retailx.databinding.FragmentAddProductBinding
@@ -177,7 +178,7 @@ class AddProductFragment : Fragment() {
             try {
                 setLoading(true)
                 // TODO: Replace with your actual valid API Key
-                val apiKey = "AIzaSyAnMz2VMYUOM-tRyNzGPcywBUMwQgcH7b4"
+                val apiKey = BuildConfig.API_KEY
                 
                 // "gemini-flash-latest" points to the current stable Flash model (often 1.5 or 2.0)
                 val modelName = "gemini-flash-latest"
