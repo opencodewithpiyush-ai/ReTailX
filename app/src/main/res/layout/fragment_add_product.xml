@@ -61,6 +61,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    android:hint="Select Category"
+                    style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="0dp"
+                    app:boxCornerRadiusBottomEnd="0dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/etProductCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="56dp"
+                        android:inputType="none"
+                        android:importantForAutofill="no"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:hint="Description">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -68,8 +88,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:minHeight="120dp"
-                        android:drawableStart="@drawable/rounded_mail_24"
-                        android:drawablePadding="16dp"
                         android:gravity="top|start"
                         android:inputType="textMultiLine|textCapSentences"
                         android:lines="4"
@@ -82,7 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:cornerRadius="8dp"
-                    android:text="Generate with AI"
+                    android:text="Generate Description with AI"
                     android:layout_gravity="center"
                     android:textAllCaps="false"
                     app:icon="@drawable/ic_retailx"
@@ -205,52 +223,6 @@
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Category Section -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Category"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-                    android:textColor="?attr/colorOnSurface"
-                    android:layout_marginBottom="20dp"/>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Select Category"
-                    style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                    app:boxCornerRadiusTopStart="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusBottomStart="0dp"
-                    app:boxCornerRadiusBottomEnd="0dp">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/etProductCategory"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="56dp"
-                        android:inputType="none"
-                        android:importantForAutofill="no"/>
-                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

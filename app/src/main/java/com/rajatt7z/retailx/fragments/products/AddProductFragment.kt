@@ -18,10 +18,7 @@ import com.rajatt7z.retailx.database.DraftProduct
 import com.rajatt7z.retailx.databinding.FragmentAddProductBinding
 import com.rajatt7z.retailx.models.Product
 import com.rajatt7z.retailx.repository.ProductRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.net.URL
 
 class AddProductFragment : Fragment() {
 
@@ -169,6 +166,8 @@ class AddProductFragment : Fragment() {
 
     private fun generateDescription() {
         val productName = binding.etProductName.text.toString()
+        val category = binding.etProductCategory.text.toString()
+
         if (productName.isBlank()) {
             binding.etProductName.error = "Enter product name first"
             return
@@ -188,7 +187,7 @@ class AddProductFragment : Fragment() {
                     apiKey = apiKey
                 )
 
-                val prompt = "Generate a catchy, professional product description for a product named '$productName'. Keep it under 2 sentences."
+                val prompt = "Generate a catchy, professional product description for a '$category' product named '$productName'. Keep it under 2 sentences."
                 val response = generativeModel.generateContent(prompt)
                 
                 response.text?.let {
