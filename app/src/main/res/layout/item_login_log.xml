@@ -34,13 +34,10 @@
             android:background="@drawable/bg_role_badge"
             android:paddingHorizontal="8dp"
             android:paddingVertical="4dp"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="?attr/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvEmail"
             app:layout_constraintBottom_toBottomOf="@id/tvEmail"/>
-            
-        <!-- Fallback if bg_role_badge doesn't exist, I'll remove the background attribute locally or handle it in code/create it. 
-             Actually I'll remove the background attribute to be safe and just color the text. -->
 
         <TextView
             android:id="@+id/tvDevice"
