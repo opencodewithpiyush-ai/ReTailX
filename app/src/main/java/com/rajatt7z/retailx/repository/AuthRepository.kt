@@ -80,9 +80,49 @@ class AuthRepository {
     suspend fun loginUser(email: String, password: String): Resource<String> {
         return try {
             auth.signInWithEmailAndPassword(email, password).await()
+            // Fetch user details to log the login
+            val currentUser = auth.currentUser
+            if (currentUser != null) {
+                val userDetailsResult = getUserDetails(currentUser.uid)
+                if (userDetailsResult is Resource.Success) {
+                    val userType = userDetailsResult.data?.get("userType") as? String ?: "Unknown"
+                    val userEmail = userDetailsResult.data?.get("email") as? String ?: email
+                    saveLoginLog(currentUser.uid, userType, userEmail)
+                }
+            }
             Resource.Success("Login Successful")
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Login Failed")
+        }
+    }
+    
+    private suspend fun saveLoginLog(userId: String, userType: String, email: String) {
+        try {
+            val logId = db.collection("login_logs").document().id
+            val log = hashMapOf(
+                "logId" to logId,
+                "userId" to userId,
+                "userType" to userType,
+                "email" to email,
+                "timestamp" to System.currentTimeMillis(),
+                "deviceName" to android.os.Build.MODEL
+            )
+            db.collection("login_logs").document(logId).set(log).await()
+        } catch (e: Exception) {
+            e.printStackTrace() // Log silently, don't fail login
+        }
+    }
+
+    suspend fun getLoginLogs(): Resource<List<com.rajatt7z.retailx.models.LoginLog>> {
+        return try {
+            val snapshot = db.collection("login_logs")
+                .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .get()
+                .await()
+            val logs = snapshot.toObjects(com.rajatt7z.retailx.models.LoginLog::class.java)
+            Resource.Success(logs)
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Failed to fetch logs")
         }
     }
     
