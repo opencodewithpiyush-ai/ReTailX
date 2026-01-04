@@ -56,7 +56,46 @@ class AdminLogin : AppCompatActivity() {
             startActivity(Intent(this, AdminReg::class.java))
         }
 
+        binding.tvForgotPassword.setOnClickListener {
+            val email = binding.etEmail.text.toString().trim()
+            if (email.isNotEmpty()) {
+                viewModel.recoverPasswordAndLogin(email)
+            } else {
+                showForgotPasswordDialog()
+            }
+        }
+
         observeViewModel()
+    }
+
+    private fun showForgotPasswordDialog() {
+        val input = android.widget.EditText(this).apply {
+            hint = "Enter your email"
+            inputType = android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        }
+        
+        val container = android.widget.FrameLayout(this).apply {
+            val params = android.widget.FrameLayout.LayoutParams(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT, 
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            params.setMargins(50, 20, 50, 20)
+            addView(input, params)
+        }
+
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Recover Password")
+            .setView(container)
+            .setPositiveButton("Recover & Login") { _, _ ->
+                val email = input.text.toString().trim()
+                if (email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    viewModel.recoverPasswordAndLogin(email)
+                } else {
+                    Snackbar.make(binding.root, "Please enter a valid email", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun validateInput(email: String, password: String): Boolean {
@@ -130,6 +169,30 @@ class AdminLogin : AppCompatActivity() {
                     } else {
                         Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
                     }
+                }
+            }
+        }
+
+        
+        viewModel.resetPasswordStatus.observe(this) { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                   binding.progressBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    Snackbar.make(binding.root, "Recovery Successful", Snackbar.LENGTH_SHORT).show()
+                    
+                    // Navigate to Dashboard with Flag
+                    val intent = Intent(this, AdminDashboardActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    intent.putExtra("NAVIGATE_TO", "CHANGE_PASSWORD")
+                    startActivity(intent)
+                    finish()
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Snackbar.make(binding.root, resource.message ?: "Recovery failed", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }

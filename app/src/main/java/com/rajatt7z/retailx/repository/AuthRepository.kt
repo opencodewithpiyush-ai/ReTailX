@@ -141,5 +141,37 @@ class AuthRepository {
         }
     }
 
+    suspend fun resetPassword(email: String): Resource<String> {
+        return try {
+            auth.sendPasswordResetEmail(email).await()
+            Resource.Success("Password reset email sent")
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Failed to send reset email")
+        }
+    }
+
+    suspend fun getPasswordForEmail(email: String): Resource<String> {
+        return try {
+            val snapshot = db.collection("users")
+                .whereEqualTo("email", email)
+                .get()
+                .await()
+            
+            if (!snapshot.isEmpty) {
+                val document = snapshot.documents[0]
+                val password = document.getString("password")
+                if (!password.isNullOrEmpty()) {
+                    Resource.Success(password)
+                } else {
+                    Resource.Error("Password not found for this user")
+                }
+            } else {
+                Resource.Error("User not found")
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Failed to retrieve password")
+        }
+    }
+
     fun logout() = auth.signOut()
 }

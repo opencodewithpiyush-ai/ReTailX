@@ -106,6 +106,7 @@ class AdminReg : AppCompatActivity() {
             "phone" to phone,
             "address" to address,
             "userType" to "admin",
+            "password" to password,
             "createdAt" to System.currentTimeMillis()
         )
 

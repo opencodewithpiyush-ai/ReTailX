@@ -1,6 +1,6 @@
 package com.rajatt7z.retailx.fragments.settings
 
-import android.os.Bundle
+import  android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +10,15 @@ import androidx.navigation.fragment.findNavController
 import com.rajatt7z.retailx.databinding.FragmentChangePasswordBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.EmailAuthProvider
+import androidx.fragment.app.viewModels
+import com.rajatt7z.retailx.viewmodel.AuthViewModel
+import com.rajatt7z.retailx.utils.Resource
 
 class ChangePasswordFragment : Fragment() {
 
     private var _binding: FragmentChangePasswordBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,8 +32,35 @@ class ChangePasswordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         
+        loadCurrentPassword()
+        
+        // Check for Reset Mode
+        if (arguments?.getBoolean("IS_RESET_MODE") == true) {
+            binding.etCurrentPassword.visibility = View.GONE
+            binding.etCurrentPassword.isEnabled = false // Logic still needs it populated though
+            binding.toolbar.title = "Reset Password"
+            binding.btnUpdatePassword.text = "Reset Password"
+        }
+        
         binding.btnUpdatePassword.setOnClickListener {
             updatePassword()
+        }
+    }
+
+    private fun loadCurrentPassword() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            viewModel.fetchUserDetails(currentUser.uid)
+        }
+        
+        viewModel.userDetails.observe(viewLifecycleOwner) { resource ->
+            if (resource is Resource.Success) {
+                val data = resource.data
+                val savedPassword = data?.get("password") as? String
+                if (!savedPassword.isNullOrEmpty()) {
+                    binding.etCurrentPassword.setText(savedPassword)
+                }
+            }
         }
     }
 

@@ -24,5 +24,13 @@ class AdminDashboardActivity : AppCompatActivity() {
         }
         
         // Navigation is handled by NavHostFragment in XML
+        
+        val navigateTo = intent.getStringExtra("NAVIGATE_TO")
+        if (navigateTo == "CHANGE_PASSWORD") {
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            val bundle = Bundle()
+            bundle.putBoolean("IS_RESET_MODE", true)
+            navHostFragment.navController.navigate(R.id.changePasswordFragment, bundle)
+        }
     }
 }
