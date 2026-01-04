@@ -100,6 +100,17 @@ class AuthViewModel : ViewModel() {
         }
     }
 
+    fun updateUserProfile(uid: String, updates: Map<String, Any>) {
+        _authStatus.value = Resource.Loading()
+        viewModelScope.launch {
+            val result = repository.updateUserProfile(uid, updates)
+            _authStatus.value = result
+            if (result is Resource.Success) {
+                fetchUserDetails(uid)
+            }
+        }
+    }
+
     fun deleteEmployee(uid: String) {
         _authStatus.value = Resource.Loading()
         viewModelScope.launch {

@@ -60,6 +60,10 @@ class AdminReg : AppCompatActivity() {
         binding.etAddress.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) binding.tilAddress.error = null
         }
+
+        binding.etPhone.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) binding.tilPhone.error = null
+        }
         
         // Location Picker Trigger
         binding.etAddress.isFocusable = false
@@ -87,10 +91,11 @@ class AdminReg : AppCompatActivity() {
         val businessName = binding.etBusinessName.text.toString().trim()
         val ownerName = binding.etOwnerName.text.toString().trim()
         val email = binding.etEmail.text.toString().trim()
+        val phone = binding.etPhone.text.toString().trim()
         val password = binding.etPassword.text.toString().trim()
         val address = binding.etAddress.text.toString().trim()
 
-        if (!validateInput(businessName, ownerName, email, password, address)) {
+        if (!validateInput(businessName, ownerName, email, phone, password, address)) {
             return
         }
 
@@ -98,6 +103,7 @@ class AdminReg : AppCompatActivity() {
             "businessName" to businessName,
             "ownerName" to ownerName,
             "email" to email,
+            "phone" to phone,
             "address" to address,
             "userType" to "admin",
             "createdAt" to System.currentTimeMillis()
@@ -110,6 +116,7 @@ class AdminReg : AppCompatActivity() {
         businessName: String,
         ownerName: String,
         email: String,
+        phone: String,
         password: String,
         address: String
     ): Boolean {
@@ -117,6 +124,7 @@ class AdminReg : AppCompatActivity() {
         binding.tilBusinessName.error = null
         binding.tilOwnerName.error = null
         binding.tilEmail.error = null
+        binding.tilPhone.error = null
         binding.tilPassword.error = null
         binding.tilAddress.error = null
 
@@ -146,6 +154,20 @@ class AdminReg : AppCompatActivity() {
             ownerName.length < 3 -> {
                 binding.tilOwnerName.error = "Owner name must be at least 3 characters"
                 if (isValid) binding.etOwnerName.requestFocus()
+                isValid = false
+            }
+        }
+
+        // Validate phone
+        when {
+            phone.isEmpty() -> {
+                binding.tilPhone.error = "Phone number is required"
+                if (isValid) binding.etPhone.requestFocus()
+                isValid = false
+            }
+            phone.length < 10 -> {
+                binding.tilPhone.error = "Please enter a valid phone number"
+                if (isValid) binding.etPhone.requestFocus()
                 isValid = false
             }
         }
@@ -210,6 +232,7 @@ class AdminReg : AppCompatActivity() {
                     binding.tilBusinessName.error = null
                     binding.tilOwnerName.error = null
                     binding.tilEmail.error = null
+                    binding.tilPhone.error = null
                     binding.tilPassword.error = null
                     binding.tilAddress.error = null
                 }
@@ -239,6 +262,10 @@ class AdminReg : AppCompatActivity() {
                         errorMessage.contains("email", ignoreCase = true) -> {
                             binding.tilEmail.error = errorMessage
                             binding.etEmail.requestFocus()
+                        }
+                        errorMessage.contains("phone", ignoreCase = true) -> {
+                            binding.tilPhone.error = errorMessage
+                            binding.etPhone.requestFocus()
                         }
                         errorMessage.contains("password", ignoreCase = true) -> {
                             binding.tilPassword.error = errorMessage

@@ -123,6 +123,15 @@ class AuthRepository {
         }
     }
 
+    suspend fun updateUserProfile(uid: String, updates: Map<String, Any>): Resource<String> {
+        return try {
+            db.collection("users").document(uid).update(updates).await()
+            Resource.Success("Profile Updated Successfully")
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Failed to update profile")
+        }
+    }
+
     suspend fun deleteEmployee(uid: String): Resource<String> {
         return try {
             db.collection("users").document(uid).delete().await()

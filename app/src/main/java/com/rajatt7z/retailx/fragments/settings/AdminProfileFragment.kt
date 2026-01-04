@@ -32,12 +32,30 @@ class AdminProfileFragment : Fragment() {
         
         setupToolbar()
         loadData()
+        setupObservers()
         setupListeners()
     }
     
     private fun setupToolbar() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setupObservers() {
+        viewModel.authStatus.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Success -> {
+                    Toast.makeText(context, resource.data, Toast.LENGTH_SHORT).show()
+                    findNavController().navigateUp()
+                }
+                is Resource.Error -> {
+                    Toast.makeText(context, resource.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> {
+                    // Optional: Show loading state
+                }
+            }
         }
     }
 
@@ -53,7 +71,9 @@ class AdminProfileFragment : Fragment() {
             if (resource is Resource.Success) {
                 val data = resource.data
                 binding.etBusinessName.setText(data?.get("businessName") as? String ?: "")
+                binding.etOwnerName.setText(data?.get("ownerName") as? String ?: "")
                 binding.etPhone.setText(data?.get("phone") as? String ?: "")
+                binding.etAddress.setText(data?.get("address") as? String ?: "")
             }
         }
     }
@@ -61,15 +81,35 @@ class AdminProfileFragment : Fragment() {
     private fun setupListeners() {
         binding.btnSaveProfile.setOnClickListener {
             val name = binding.etBusinessName.text.toString().trim()
+            val ownerName = binding.etOwnerName.text.toString().trim()
             val phone = binding.etPhone.text.toString().trim()
+            val address = binding.etAddress.text.toString().trim()
             
-            if (name.isNotEmpty()) {
-                // Implement update logic in ViewModel/Repository if needed. 
-                // For now just showing a toast as the updateProfile method might need to be added.
-                Toast.makeText(context, "Profile Updated Locally (Implement DB update)", Toast.LENGTH_SHORT).show()
-                findNavController().navigateUp()
-            } else {
-                Toast.makeText(context, "Business Name cannot be empty", Toast.LENGTH_SHORT).show()
+            when {
+                name.isEmpty() -> {
+                    Toast.makeText(context, "Business Name cannot be empty", Toast.LENGTH_SHORT).show()
+                }
+                ownerName.isEmpty() -> {
+                    Toast.makeText(context, "Owner Name cannot be empty", Toast.LENGTH_SHORT).show()
+                }
+                phone.isEmpty() -> {
+                    Toast.makeText(context, "Phone Number cannot be empty", Toast.LENGTH_SHORT).show()
+                }
+                address.isEmpty() -> {
+                    Toast.makeText(context, "Address cannot be empty", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    val currentUser = FirebaseAuth.getInstance().currentUser
+                    if (currentUser != null) {
+                        val updates = hashMapOf<String, Any>(
+                            "businessName" to name,
+                            "ownerName" to ownerName,
+                            "phone" to phone,
+                            "address" to address
+                        )
+                        viewModel.updateUserProfile(currentUser.uid, updates)
+                    }
+                }
             }
         }
     }
