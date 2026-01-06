@@ -6,7 +6,7 @@
     <string name="product_management_amp_more"><![CDATA[🛠 Product Management & More]]></string>
     <string name="login_as_customer">Login As Employee</string>
     <string name="business_login">Admin Login</string>
-    <string name="customer_login">Customer Login</string>
+    <string name="customer_login">Employee Login</string>
     <string name="don_t_have_an_account_register">Don\'t have an account? Register</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>

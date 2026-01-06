@@ -35,7 +35,18 @@ class EmployeeDashboardFragment : Fragment() {
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
                         val name = document.getString("name") ?: "Employee"
-                        tvWelcome.text = "Welcome, $name!"
+                        
+                        val calendar = java.util.Calendar.getInstance()
+                        val hour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
+                        
+                        val greeting = when (hour) {
+                            in 6..11 -> "Good Morning"
+                            in 12..17 -> "Good Afternoon"
+                            in 18..23 -> "Good Evening"
+                            else -> "Good Night"
+                        }
+                        
+                        tvWelcome.text = "$greeting\n$name !"
                     }
                 }
         }

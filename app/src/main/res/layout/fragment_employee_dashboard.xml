@@ -12,26 +12,27 @@
         android:id="@+id/tvWelcome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Welcome Employee!"
+        android:fontFamily="@font/circular_spotify"
+        android:maxLines="2"
+        android:text="Welcome \nEmployee!"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:fontFamily="@font/circular_spotify"
+        app:layout_constraintEnd_toStartOf="@+id/ivProfile"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ivProfile"
-        app:layout_constraintBottom_toBottomOf="@id/ivProfile"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivProfile"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/round_account_circle_24"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+        android:src="@drawable/round_account_circle_24"
+        app:layout_constraintBottom_toBottomOf="@+id/tvWelcome"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
     <!-- Content Section -->
     <com.google.android.material.card.MaterialCardView
