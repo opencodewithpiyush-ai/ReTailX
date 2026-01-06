@@ -8,7 +8,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import com.rajatt7z.retailx.databinding.ActivityAdminDashboardBinding
 
-class AdminDashboardActivity : AppCompatActivity() {
+import com.rajatt7z.retailx.utils.BaseActivity
+
+class AdminDashboardActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAdminDashboardBinding
 

@@ -10,7 +10,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.rajatt7z.retailx.auth.MainActivity
 
-class EmployeeDashboardActivity : AppCompatActivity() {
+import com.rajatt7z.retailx.utils.BaseActivity
+
+class EmployeeDashboardActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ReTailX</string>
+    <string name="admin_dashboard">Panel de Administración</string>
+    <string name="employee_dashboard">Panel de Empleado</string>
+    <string name="settings">Configuraciones</string>
+    <string name="logout">Cerrar Sesión</string>
+    <string name="welcome">Bienvenido</string>
+    <string name="maintenance_mode">Modo de Mantenimiento</string>
+</resources>

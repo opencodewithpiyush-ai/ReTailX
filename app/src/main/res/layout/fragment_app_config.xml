@@ -1,55 +1,414 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="App Configuration"
-        app:navigationIcon="@drawable/baseline_arrow_back_24"/>
-
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switchMaintenance"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Maintenance Mode"
-        android:fontFamily="@font/circular_spotify"
-        android:padding="16dp"
-        android:layout_margin="16dp"/>
+        android:orientation="vertical"
+        android:paddingBottom="24dp">
 
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switchNewRegistrations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Allow New Customer Registrations"
-        android:fontFamily="@font/circular_spotify"
-        android:padding="16dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp"
-        android:checked="true"/>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="App Configuration"
+            app:navigationIcon="@drawable/baseline_arrow_back_24"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Notifications"
-        android:fontFamily="@font/circular_spotify"
-        android:padding="16dp"
-        android:textColor="?attr/colorPrimary"
-        android:textStyle="bold"/>
+        <!-- GENERAL APP SETTINGS -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="General Settings"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:paddingTop="8dp"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
 
-     <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/switchOrderNotifs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Order Notifications"
-         android:fontFamily="@font/circular_spotify"
-        android:padding="16dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp"
-        android:checked="true"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="12dp"
+            android:hint="App Name"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-</LinearLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAppName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circular_spotify"
+                android:text="My Application"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="12dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:hint="Version Code"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etVersionCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circular_spotify"
+                    android:inputType="number"
+                    android:text="1"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:hint="Version Name"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etVersionName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circular_spotify"
+                    android:text="1.0.0"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="Language"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinnerLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circular_spotify"
+                android:inputType="none"
+                android:text="English"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- MAINTENANCE & REGISTRATIONS -->
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchMaintenance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Maintenance Mode"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchNewRegistrations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Allow New Customer Registrations"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:checked="true"/>
+
+        <!-- UI / DISPLAY SETTINGS -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="UI / Display"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:paddingTop="8dp"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchDarkMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dark Mode"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="12dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="12dp"
+            android:hint="Font Family"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinnerFontFamily"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circular_spotify"
+                android:inputType="none"
+                android:text="Circular Spotify"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:padding="16dp"
+            android:background="@drawable/bg_white_rounded">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Font Size"
+                android:fontFamily="@font/circular_spotify"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderFontSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="12"
+                android:valueTo="24"
+                android:value="16"
+                android:stepSize="2"/>
+        </LinearLayout>
+
+        <!-- PERMISSIONS & SECURITY -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Permissions &amp; Security"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:paddingTop="8dp"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchCameraAccess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Camera Access"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp"
+            android:checked="true"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchStorageAccess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Storage Access"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp"
+            android:checked="true"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchLocationAccess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Location Access"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp"
+            android:checked="true"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchInternetPermission"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Internet Permission"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:checked="true"/>
+
+        <!-- NOTIFICATIONS -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notifications"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:paddingTop="8dp"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchOrderNotifs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Order Notifications"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp"
+            android:checked="true"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchPushNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Push Notifications"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp"
+            android:checked="true"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchEmailNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email Notifications"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp"
+            android:checked="true"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchSound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sound"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp"
+            android:checked="true"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchVibration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vibration"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:checked="true"/>
+
+        <!-- DATA & STORAGE -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Data &amp; Storage"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"
+            android:paddingTop="8dp"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="12dp"
+            android:hint="Database Type"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinnerDatabaseType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circular_spotify"
+                android:inputType="none"
+                android:text="Room Database"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="12dp"
+            android:padding="16dp"
+            android:background="@drawable/bg_white_rounded">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cache Size Limit (MB)"
+                android:fontFamily="@font/circular_spotify"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderCacheSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="50"
+                android:valueTo="500"
+                android:value="100"
+                android:stepSize="50"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnClearCache"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Clear Cache"
+                android:fontFamily="@font/circular_spotify"
+                style="@style/Widget.Material3.Button.OutlinedButton"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnClearData"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Clear Data"
+                android:fontFamily="@font/circular_spotify"
+                style="@style/Widget.Material3.Button.OutlinedButton"/>
+        </LinearLayout>
+
+        <!-- SAVE BUTTON -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveConfiguration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Save Configuration"
+            android:fontFamily="@font/circular_spotify"
+            android:padding="16dp"/>
+
+    </LinearLayout>
+</ScrollView>
