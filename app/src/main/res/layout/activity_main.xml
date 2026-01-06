@@ -403,7 +403,7 @@
                 android:layout_height="64dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="4dp"
                 android:fontFamily="@font/circular_spotify"
                 android:text="@string/business_login"
                 android:textAllCaps="false"

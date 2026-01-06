@@ -32,6 +32,7 @@ class EmployeeProfileFragment : Fragment() {
         val etEmail = view.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etEmail)
         val etPhone = view.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etPhone)
         val chipRole = view.findViewById<com.google.android.material.chip.Chip>(R.id.chipRole)
+        val chipPermission = view.findViewById<com.google.android.material.chip.Chip>(R.id.chipPermission)
         val btnLogout = view.findViewById<Button>(R.id.btnLogout)
 
         toolbar.setNavigationOnClickListener {
@@ -45,14 +46,30 @@ class EmployeeProfileFragment : Fragment() {
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
                         val email = document.getString("email") ?: ""
-                        val userType = document.getString("userType") ?: "Employee"
                         val name = document.getString("name") ?: ""
                         val phone = document.getString("phone") ?: ""
+                        // Fetch generic role (Store Manager, etc.) and permission (Viewer, Editor)
+                        val role = document.getString("role")
+                        val permission = document.getString("permissions")
 
                         etName.setText(name)
                         etEmail.setText(email)
                         etPhone.setText(phone)
-                        chipRole.text = userType
+                        
+                        // Set text or hide if empty
+                        if (!role.isNullOrEmpty()) {
+                            chipRole.text = role
+                            chipRole.visibility = View.VISIBLE
+                        } else {
+                            chipRole.visibility = View.GONE
+                        }
+
+                        if (!permission.isNullOrEmpty()) {
+                            chipPermission.text = permission
+                            chipPermission.visibility = View.VISIBLE
+                        } else {
+                            chipPermission.visibility = View.GONE
+                        }
                     }
                 }
                 .addOnFailureListener {
@@ -62,11 +79,18 @@ class EmployeeProfileFragment : Fragment() {
         }
 
         btnLogout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            requireActivity().finish()
+            com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Yes") { _, _ ->
+                    FirebaseAuth.getInstance().signOut()
+                    val intent = Intent(requireContext(), MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    requireActivity().finish()
+                }
+                .setNegativeButton("No", null)
+                .show()
         }
     }
 }

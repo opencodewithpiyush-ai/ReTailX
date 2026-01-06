@@ -99,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Assigned Role"
+            android:text="Roles &amp; Permissions"
             android:textAppearance="?attr/textAppearanceTitleMedium"
             app:layout_constraintStart_toStartOf="@id/tilPhone"
             app:layout_constraintTop_toBottomOf="@id/tilPhone" />
@@ -118,7 +118,14 @@
                 style="@style/Widget.Material3.Chip.Assist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Employee" />
+                android:text="Role" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPermission"
+                style="@style/Widget.Material3.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Permission" />
         </com.google.android.material.chip.ChipGroup>
 
         <com.google.android.material.button.MaterialButton
