@@ -301,7 +301,7 @@
             android:textColor="#D32F2F"
             app:iconTint="#D32F2F"
             style="@style/Widget.Material3.Button.TextButton"
-            app:strokeWidth="1dp"
+            app:strokeWidth="4dp"
             app:strokeColor="#FFCDD2"/>
 
     </LinearLayout>

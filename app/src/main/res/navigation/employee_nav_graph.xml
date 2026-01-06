@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/employee_nav_graph"
+    app:startDestination="@id/employeeDashboardFragment">
+
+    <fragment
+        android:id="@+id/employeeDashboardFragment"
+        android:name="com.rajatt7z.retailx.fragments.EmployeeDashboardFragment"
+        android:label="Employee Dashboard"
+        tools:layout="@layout/fragment_employee_dashboard">
+        <action
+            android:id="@+id/action_dashboard_to_profile"
+            app:destination="@id/employeeProfileFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_bottom" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/employeeProfileFragment"
+        android:name="com.rajatt7z.retailx.fragments.settings.EmployeeProfileFragment"
+        android:label="Employee Profile"
+        tools:layout="@layout/fragment_employee_profile" />
+</navigation>
