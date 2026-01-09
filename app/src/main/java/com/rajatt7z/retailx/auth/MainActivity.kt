@@ -181,7 +181,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
-        binding.appInfo.setOnClickListener {
+        binding.cardInfo.setOnClickListener {
             MaterialAlertDialogBuilder(this)
                 .setTitle("App Information")
                 .setMessage(
