@@ -379,7 +379,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:indeterminate="true"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/loginBusinessBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
