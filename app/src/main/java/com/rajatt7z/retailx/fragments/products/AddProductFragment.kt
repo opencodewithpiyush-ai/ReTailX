@@ -42,17 +42,17 @@ class AddProductFragment : Fragment() {
 
     private fun setupCategoryDropdown() {
         val categories = listOf(
-            "Electronics",
-            "Clothing",
-            "Home & Living",
-            "Beauty & Personal Care",
-            "Sports & Outdoors",
-            "Toys & Games",
-            "Books & Stationery",
-            "Automotive",
-            "Groceries",
-            "Health & Wellness",
-            "Others"
+            "🔌 Electronics",
+            "👗 Clothing",
+            "🏡 Home & Living",
+            "💅 Beauty & Personal Care",
+            "🏅 Sports & Outdoors",
+            "🧸 Toys & Games",
+            "📚 Books & Stationery",
+            "🚗 Automotive",
+            "🛒 Groceries",
+            "👨‍⚕️ Health & Wellness",
+            "🧱 Others"
         )
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories)
         binding.etProductCategory.setAdapter(adapter)
@@ -173,11 +173,19 @@ class AddProductFragment : Fragment() {
             return
         }
 
+        val apiKey = BuildConfig.API_KEY
+        if (apiKey.isNullOrBlank() || apiKey == "null") {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Missing API Key")
+                .setMessage("To use AI features, please add your Gemini API Key to local.properties:\n\nAPI_KEY=your_key_here\n\nRestart the app after adding the key.")
+                .setPositiveButton("OK", null)
+                .show()
+            return
+        }
+
         lifecycleScope.launch {
             try {
                 setLoading(true)
-                // TODO: Replace with your actual valid API Key
-                val apiKey = BuildConfig.API_KEY
                 
                 // "gemini-flash-latest" points to the current stable Flash model (often 1.5 or 2.0)
                 val modelName = "gemini-flash-latest"
