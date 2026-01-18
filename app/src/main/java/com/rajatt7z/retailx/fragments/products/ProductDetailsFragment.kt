@@ -56,7 +56,7 @@ class ProductDetailsFragment : Fragment() {
                 binding.tvProductStock.text = "Stock: ${product.stock}"
                 binding.tvProductCategory.text = "Category: ${product.category}"
                 binding.tvProductDescription.text = product.description
-                
+
                 val items = if (product.imageUrls.isNotEmpty()) {
                     product.imageUrls.map { ImageItem.Remote(it) }
                 } else {
@@ -68,11 +68,11 @@ class ProductDetailsFragment : Fragment() {
                         ImageItem.Placeholder(Color.parseColor("#BAE1FF"))  // Pastel Blue
                     )
                 }
-                
+
                 val adapter = ProductImageAdapter(items)
                 binding.vpProductImages.adapter = adapter
                 // Optional: add PageTransformer for more "Google Photos" feel if requested, but default is fine for now.
-                
+
             } else {
                 Toast.makeText(context, "Product unavailable", Toast.LENGTH_SHORT).show()
             }
