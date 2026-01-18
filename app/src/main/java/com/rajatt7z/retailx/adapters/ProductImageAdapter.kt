@@ -14,8 +14,7 @@ sealed class ImageItem {
 }
 
 class ProductImageAdapter(
-    private val items: List<ImageItem>,
-    private val isCarousel: Boolean = true
+    private val items: List<ImageItem>
 ) :
     RecyclerView.Adapter<ProductImageAdapter.ImageViewHolder>() {
 
@@ -33,10 +32,9 @@ class ProductImageAdapter(
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         if (items.isEmpty()) return
-        val actualPosition = position % items.size
-        when (val item = items[actualPosition]) {
+        when (items[position]) {
             is ImageItem.Remote -> {
-                holder.binding.imgProduct.load(item.url) {
+                holder.binding.imgProduct.load((items[position] as ImageItem.Remote).url) {
                     crossfade(true)
                     placeholder(R.mipmap.ic_launcher)
                 }
@@ -44,7 +42,7 @@ class ProductImageAdapter(
                 holder.binding.imgProduct.setPadding(0, 0, 0, 0)
             }
             is ImageItem.Local -> {
-                holder.binding.imgProduct.load(item.uri) {
+                holder.binding.imgProduct.load((items[position] as ImageItem.Local).uri) {
                     crossfade(true)
                     placeholder(R.mipmap.ic_launcher)
                 }
@@ -52,6 +50,7 @@ class ProductImageAdapter(
                 holder.binding.imgProduct.setPadding(0, 0, 0, 0)
             }
             is ImageItem.Placeholder -> {
+                val item = items[position] as ImageItem.Placeholder
                 holder.binding.imgProduct.setImageResource(R.mipmap.ic_launcher)
                 // Use a padding for the icon so it doesn't fill the whole space like a photo
                 holder.binding.imgProduct.setPadding(100, 100, 100, 100) 
@@ -60,5 +59,5 @@ class ProductImageAdapter(
         }
     }
 
-    override fun getItemCount(): Int = if (isCarousel) (if (items.isEmpty()) 0 else items.size * 500) else items.size
+    override fun getItemCount(): Int = items.size
 }

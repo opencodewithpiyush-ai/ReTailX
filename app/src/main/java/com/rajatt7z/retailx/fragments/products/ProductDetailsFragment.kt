@@ -1,7 +1,7 @@
 package com.rajatt7z.retailx.fragments.products
 
 import android.graphics.Color
-import com.google.android.material.carousel.CarouselLayoutManager
+
 import com.rajatt7z.retailx.adapters.ImageItem
 import com.rajatt7z.retailx.adapters.ProductImageAdapter
 
@@ -70,15 +70,9 @@ class ProductDetailsFragment : Fragment() {
                 }
                 
                 val adapter = ProductImageAdapter(items)
-                binding.rvProductImages.adapter = adapter
-                binding.rvProductImages.layoutManager = CarouselLayoutManager()
+                binding.vpProductImages.adapter = adapter
+                // Optional: add PageTransformer for more "Google Photos" feel if requested, but default is fine for now.
                 
-                // Start in the middle for infinite scrolling effect
-                // Using a large finite number (e.g. items.size * 500) prevents OOM in CarouselLayoutManager
-                val totalItems = adapter.itemCount
-                val middle = totalItems / 2
-                val startPosition = middle - (middle % items.size)
-                binding.rvProductImages.scrollToPosition(startPosition)
             } else {
                 Toast.makeText(context, "Product unavailable", Toast.LENGTH_SHORT).show()
             }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -16,9 +17,9 @@
             android:id="@+id/imgProductThumbnailCV"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +30,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
-                android:src="@android:drawable/ic_menu_gallery" />
+                android:src="@drawable/rounded_deployed_code_24" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -38,13 +39,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:text="Product Name"
+            android:fontFamily="@font/circular_spotify"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/imgProductThumbnailCV"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/imgProductThumbnailCV" />
 
         <TextView
             android:id="@+id/tvProductPrice"
@@ -52,9 +53,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
+            android:fontFamily="@font/circular_spotify"
             android:text="$99.99"
             android:textColor="@android:color/holo_green_dark"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/imgProductThumbnailCV"
             app:layout_constraintTop_toBottomOf="@id/tvProductName" />
 
@@ -64,9 +67,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
+            android:fontFamily="@font/montserrat_regular"
             android:text="Stock: 10"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@id/imgProductThumbnailCV"
+            app:layout_constraintBottom_toBottomOf="@+id/imgProductThumbnailCV"
+            app:layout_constraintStart_toEndOf="@+id/imgProductThumbnailCV"
             app:layout_constraintTop_toBottomOf="@id/tvProductPrice" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
