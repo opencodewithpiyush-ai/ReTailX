@@ -66,8 +66,10 @@ class ProductImageUploadFragment : Fragment() {
     }
 
     private fun updateImagesList() {
+        android.util.Log.d("ProductImageUpload", "updateImagesList called with ${selectedImages.size} images")
         val adapter = LocalImageAdapter(selectedImages)
         binding.recyclerViewImages.adapter = adapter
+        android.util.Log.d("ProductImageUpload", "Adapter set to RecyclerView")
     }
 
     private fun uploadImages() {

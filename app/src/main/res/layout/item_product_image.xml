@@ -17,8 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/rounded_deployed_code_history_24" />
+            android:src="@mipmap/ic_launcher" />
 
     </com.google.android.material.card.MaterialCardView>
 
 </com.google.android.material.carousel.MaskableFrameLayout>
+

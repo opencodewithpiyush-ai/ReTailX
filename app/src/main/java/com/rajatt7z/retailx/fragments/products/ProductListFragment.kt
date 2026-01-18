@@ -92,9 +92,6 @@ class ProductListFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
-                //Fake Delay
-                delay(3000)
-
                 // Parallel fetching if possible, but sequential is fine
                 allProducts = repository.getAllProducts()
 
