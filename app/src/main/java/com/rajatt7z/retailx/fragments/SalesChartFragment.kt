@@ -33,59 +33,61 @@ class SalesChartFragment : Fragment() {
     }
 
     private fun setupChart() {
-        val chart = binding.lineChart
-        chart.description.isEnabled = false
-        chart.setTouchEnabled(true)
-        chart.isDragEnabled = true
-        chart.setScaleEnabled(true)
-        chart.setPinchZoom(true)
+        // Bar Chart Setup
+        binding.barChart.description.isEnabled = false
+        binding.barChart.setTouchEnabled(true)
+        binding.barChart.legend.isEnabled = true
         
-        val xAxis = chart.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.setDrawGridLines(false)
-        
-        chart.axisLeft.setDrawGridLines(true)
-        chart.axisRight.isEnabled = false
-        chart.legend.isEnabled = true
+        // Pie Chart Setup
+        binding.pieChart.description.isEnabled = false
+        binding.pieChart.isDrawHoleEnabled = true
+        binding.pieChart.setHoleColor(Color.WHITE)
+        binding.pieChart.transparentCircleRadius = 61f
     }
 
     private fun setupToggleListeners() {
+        // Keeping this if we want to switch timeframes for BarChart in future
+        // For now, it just reloads default data
         binding.toggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
-                when (checkedId) {
-                    binding.btnDaily.id -> loadChartData(24) // 24 Hours
-                    binding.btnWeekly.id -> loadChartData(7) // 7 Days
-                    binding.btnMonthly.id -> loadChartData(30) // 30 Days
-                }
+                loadChartData(10) // Just reload random data
             }
         }
     }
 
     private fun loadChartData(count: Int) {
-        val entries = ArrayList<Entry>()
-        
-        // Mock Data Generation
-        for (i in 0 until count) {
-            val value = (Math.random() * 100).toFloat() + 50
-            entries.add(Entry(i.toFloat(), value))
+        // Mock Data for Bar Chart
+        val barEntries = ArrayList<com.github.mikephil.charting.data.BarEntry>()
+        for (i in 0 until 7) {
+             val value = (Math.random() * 50).toFloat() + 10
+             barEntries.add(com.github.mikephil.charting.data.BarEntry(i.toFloat(), value))
         }
+        val barDataSet = com.github.mikephil.charting.data.BarDataSet(barEntries, "Daily Sales")
+        barDataSet.colors = com.github.mikephil.charting.utils.ColorTemplate.MATERIAL_COLORS.toList()
+        barDataSet.valueTextColor = Color.BLACK
+        barDataSet.valueTextSize = 12f
+        
+        val barData = com.github.mikephil.charting.data.BarData(barDataSet)
+        binding.barChart.data = barData
+        binding.barChart.invalidate()
+        binding.barChart.animateY(1000)
 
-        val dataSet = LineDataSet(entries, "Sales ($)")
-        dataSet.color = Color.BLUE
-        dataSet.valueTextColor = Color.BLACK
-        dataSet.lineWidth = 2f
-        dataSet.circleRadius = 4f
-        dataSet.setCircleColor(Color.BLUE)
-        dataSet.setDrawValues(false)
-        dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
-        dataSet.setDrawFilled(true)
-        dataSet.fillColor = Color.CYAN
-        dataSet.fillAlpha = 50
+        // Mock Data for Pie Chart
+        val pieEntries = ArrayList<com.github.mikephil.charting.data.PieEntry>()
+        pieEntries.add(com.github.mikephil.charting.data.PieEntry(40f, "Electronics"))
+        pieEntries.add(com.github.mikephil.charting.data.PieEntry(30f, "Clothing"))
+        pieEntries.add(com.github.mikephil.charting.data.PieEntry(20f, "Groceries"))
+        pieEntries.add(com.github.mikephil.charting.data.PieEntry(10f, "Others"))
 
-        val lineData = LineData(dataSet)
-        binding.lineChart.data = lineData
-        binding.lineChart.invalidate() // Refresh chart
-        binding.lineChart.animateX(1000)
+        val pieDataSet = com.github.mikephil.charting.data.PieDataSet(pieEntries, "")
+        pieDataSet.colors = com.github.mikephil.charting.utils.ColorTemplate.JOYFUL_COLORS.toList()
+        pieDataSet.valueTextColor = Color.WHITE
+        pieDataSet.valueTextSize = 14f
+
+        val pieData = com.github.mikephil.charting.data.PieData(pieDataSet)
+        binding.pieChart.data = pieData
+        binding.pieChart.invalidate()
+        binding.pieChart.animateXY(1000, 1000)
     }
 
     override fun onDestroyView() {

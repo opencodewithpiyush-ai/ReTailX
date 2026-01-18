@@ -144,6 +144,10 @@
         android:name="com.rajatt7z.retailx.fragments.products.ProductListFragment"
         android:label="Products"
         tools:layout="@layout/fragment_product_list">
+        <argument
+            android:name="canEdit"
+            app:argType="boolean"
+            android:defaultValue="true" />
         <action
             android:id="@+id/action_productListFragment_to_addProductFragment"
             app:destination="@id/addProductFragment" />

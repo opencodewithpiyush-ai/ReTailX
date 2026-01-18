@@ -22,11 +22,20 @@ class EmployeeDashboardFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_employee_dashboard, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val tvWelcome = view.findViewById<TextView>(R.id.tvWelcome)
         val ivProfile = view.findViewById<View>(R.id.ivProfile)
+        
+        // Buttons
+        val btnViewProducts = view.findViewById<Button>(R.id.btnViewProducts)
+        val btnManageProducts = view.findViewById<Button>(R.id.btnManageProducts)
+        val btnViewOrders = view.findViewById<Button>(R.id.btnViewOrders)
+        val btnManageOrders = view.findViewById<Button>(R.id.btnManageOrders)
+        val btnCreateOrder = view.findViewById<Button>(R.id.btnCreateOrder)
+        val btnSalesPerformance = view.findViewById<Button>(R.id.btnSalesPerformance)
 
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
@@ -35,18 +44,25 @@ class EmployeeDashboardFragment : Fragment() {
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
                         val name = document.getString("name") ?: "Employee"
-                        
+                        // Handle greeting
                         val calendar = java.util.Calendar.getInstance()
                         val hour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
-                        
                         val greeting = when (hour) {
                             in 6..11 -> "Good Morning"
                             in 12..17 -> "Good Afternoon"
                             in 18..23 -> "Good Evening"
                             else -> "Good Night"
                         }
-                        
                         tvWelcome.text = "$greeting\n$name !"
+
+                        // Role & Permission Logic
+                        val role = document.getString("role") ?: ""
+                        val permissions = document.getString("permissions") ?: "" // "Editor", "Viewer"
+                        
+                        setupDashboardForRole(role, permissions, 
+                            btnViewProducts, btnManageProducts, 
+                            btnViewOrders, btnManageOrders, 
+                            btnCreateOrder, btnSalesPerformance)
                     }
                 }
         }
@@ -54,5 +70,87 @@ class EmployeeDashboardFragment : Fragment() {
         ivProfile.setOnClickListener {
             findNavController().navigate(R.id.action_dashboard_to_profile)
         }
+    }
+
+    private fun setupDashboardForRole(
+        role: String, permissions: String,
+        btnViewProducts: Button, btnManageProducts: Button,
+        btnViewOrders: Button, btnManageOrders: Button,
+        btnCreateOrder: Button, btnSalesPerformance: Button
+    ) {
+        val isEditor = permissions.equals("Editor", ignoreCase = true)
+
+        // Reset visibility
+        btnViewProducts.visibility = View.GONE
+        btnManageProducts.visibility = View.GONE
+        btnViewOrders.visibility = View.GONE
+        btnManageOrders.visibility = View.GONE
+        btnCreateOrder.visibility = View.GONE
+        btnSalesPerformance.visibility = View.GONE
+
+        when (role) {
+            "Store Manager" -> {
+                if (isEditor) {
+                    btnManageProducts.visibility = View.VISIBLE
+                    btnManageProducts.setOnClickListener {
+                        navigateToProductList(canEdit = true)
+                    }
+                } else {
+                    btnViewProducts.visibility = View.VISIBLE
+                    btnViewProducts.setOnClickListener {
+                        navigateToProductList(canEdit = false)
+                    }
+                }
+            }
+            "Inventory Manager" -> {
+                // Products
+                 if (isEditor) {
+                    btnManageProducts.visibility = View.VISIBLE
+                    btnManageProducts.setOnClickListener { navigateToProductList(true) }
+                    
+                    btnManageOrders.visibility = View.VISIBLE
+                    btnManageOrders.setOnClickListener { navigateToOrders(canEdit = true) }
+                } else {
+                    btnViewProducts.visibility = View.VISIBLE
+                    btnViewProducts.setOnClickListener { navigateToProductList(false) }
+                    
+                    btnViewOrders.visibility = View.VISIBLE
+                    btnViewOrders.setOnClickListener { navigateToOrders(canEdit = false) }
+                }
+            }
+            "Sales Executive" -> {
+                 // Always can view products
+                 btnViewProducts.visibility = View.VISIBLE
+                 btnViewProducts.setOnClickListener { navigateToProductList(canEdit = false) }
+
+                 if (isEditor) {
+                     btnCreateOrder.visibility = View.VISIBLE
+                     btnCreateOrder.setOnClickListener {
+                         // Ensure action exists in nav graph, else crash
+                         try {
+                            findNavController().navigate(R.id.action_employeeDashboardFragment_to_createOrderFragment)
+                         } catch(e: Exception) {
+                            // Fallback if not created yet
+                            android.widget.Toast.makeText(context, "Create Order not implemented yet", android.widget.Toast.LENGTH_SHORT).show()
+                         }
+                     }
+                     
+                     btnSalesPerformance.visibility = View.VISIBLE
+                     btnSalesPerformance.setOnClickListener {
+                         findNavController().navigate(R.id.action_employeeDashboardFragment_to_salesChartFragment)
+                     }
+                 }
+            }
+        }
+    }
+    
+    private fun navigateToProductList(canEdit: Boolean) {
+        val action = EmployeeDashboardFragmentDirections.actionEmployeeDashboardFragmentToProductListFragment(canEdit)
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToOrders(canEdit: Boolean) {
+         val action = EmployeeDashboardFragmentDirections.actionEmployeeDashboardFragmentToRecentOrdersFragment(canEdit)
+         findNavController().navigate(action)
     }
 }

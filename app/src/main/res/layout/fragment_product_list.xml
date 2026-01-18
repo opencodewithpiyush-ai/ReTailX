@@ -52,7 +52,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Enhanced Tab Layout with Material 3 expressive design -->
-    <!-- Enhanced Tab Layout with Material 3 expressive design -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/tabCard"
         android:layout_width="0dp"
@@ -60,8 +59,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
-        app:cardBackgroundColor="?attr/colorControlHighlight"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="4dp"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,18 +72,20 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:elevation="0dp"
-            android:padding="8dp"
+
             app:tabGravity="fill"
+            app:tabIndicator="@drawable/tab_indicator_rounded"
             app:tabIndicatorAnimationMode="elastic"
-            app:tabIndicatorColor="?attr/colorOnPrimary"
+            app:tabIndicatorColor="@null"
             app:tabIndicatorFullWidth="true"
             app:tabIndicatorGravity="stretch"
-            app:tabIndicatorHeight="48dp"
+            app:tabIndicatorHeight="40dp"
             app:tabMode="fixed"
-            app:tabPaddingStart="16dp"
-            app:tabPaddingEnd="16dp"
-            app:tabSelectedTextColor="?attr/colorPrimary"
-            app:tabIconTint="?attr/colorPrimary">
+            app:tabPadding="8dp"
+            app:tabSelectedTextColor="@color/selector_tab_content"
+            app:tabTextColor="@color/selector_tab_content"
+            app:tabIconTint="@color/selector_tab_content"
+            app:tabRippleColor="@android:color/transparent">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"

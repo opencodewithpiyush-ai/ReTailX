@@ -59,11 +59,21 @@ class ProductListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
+        val canEdit = arguments?.getBoolean("canEdit") ?: false
+        
+        binding.fabAddProduct.visibility = if (canEdit) View.VISIBLE else View.GONE
+        
         adapter = ProductAdapter(emptyList()) { product ->
-             if (product.isDraft) {
-                 android.widget.Toast.makeText(context, "Editing draft is not implemented yet", android.widget.Toast.LENGTH_SHORT).show()
-                 // Future: navigate to AddProductFragment with product details
+             if (canEdit) {
+                 if (product.isDraft) {
+                     android.widget.Toast.makeText(context, "Editing draft is not implemented yet", android.widget.Toast.LENGTH_SHORT).show()
+                 } else {
+                     val action = ProductListFragmentDirections.actionProductListFragmentToProductDetailsFragment(product.id)
+                     findNavController().navigate(action)
+                 }
              } else {
+                 // View Only Mode - Maybe open details but read-only? 
+                 // For now, let's open details as it usually just shows info.
                  val action = ProductListFragmentDirections.actionProductListFragmentToProductDetailsFragment(product.id)
                  findNavController().navigate(action)
              }

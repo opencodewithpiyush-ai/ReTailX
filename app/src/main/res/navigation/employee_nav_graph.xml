@@ -11,6 +11,18 @@
         android:label="Employee Dashboard"
         tools:layout="@layout/fragment_employee_dashboard">
         <action
+            android:id="@+id/action_employeeDashboardFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
+        <action
+            android:id="@+id/action_employeeDashboardFragment_to_recentOrdersFragment"
+            app:destination="@id/recentOrdersFragment" />
+        <action
+             android:id="@+id/action_employeeDashboardFragment_to_createOrderFragment"
+             app:destination="@id/createOrderFragment" />
+        <action
+             android:id="@+id/action_employeeDashboardFragment_to_salesChartFragment"
+             app:destination="@id/salesChartFragment" />
+        <action
             android:id="@+id/action_dashboard_to_profile"
             app:destination="@id/employeeProfileFragment"
             app:enterAnim="@anim/slide_in_bottom"
@@ -24,4 +36,79 @@
         android:name="com.rajatt7z.retailx.fragments.settings.EmployeeProfileFragment"
         android:label="Employee Profile"
         tools:layout="@layout/fragment_employee_profile" />
+
+    <fragment
+        android:id="@+id/productListFragment"
+        android:name="com.rajatt7z.retailx.fragments.products.ProductListFragment"
+        android:label="Products"
+        tools:layout="@layout/fragment_product_list">
+        <argument
+            android:name="canEdit"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+             android:id="@+id/action_productListFragment_to_productDetailsFragment"
+             app:destination="@id/productDetailsFragment" />
+        <action
+             android:id="@+id/action_productListFragment_to_addProductFragment"
+             app:destination="@id/addProductFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.rajatt7z.retailx.fragments.products.ProductDetailsFragment"
+        android:label="Product Details"
+        tools:layout="@layout/fragment_product_details">
+        <argument
+            android:name="productId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addProductFragment"
+        android:name="com.rajatt7z.retailx.fragments.products.AddProductFragment"
+        android:label="Add Product"
+        tools:layout="@layout/fragment_add_product">
+        <action
+             android:id="@+id/action_addProductFragment_to_productImageUploadFragment"
+             app:destination="@id/productImageUploadFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/productImageUploadFragment"
+        android:name="com.rajatt7z.retailx.fragments.products.ProductImageUploadFragment"
+        android:label="Upload Images"
+        tools:layout="@layout/fragment_product_image_upload">
+        <argument
+            android:name="productId"
+            app:argType="string" />
+        <action
+             android:id="@+id/action_productImageUploadFragment_to_productListFragment"
+             app:destination="@id/productListFragment"
+             app:popUpTo="@id/productListFragment"
+             app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/recentOrdersFragment"
+        android:name="com.rajatt7z.retailx.fragments.RecentOrdersFragment"
+        android:label="Recent Orders"
+        tools:layout="@layout/fragment_recent_orders">
+        <argument
+            android:name="canEdit"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createOrderFragment"
+        android:name="com.rajatt7z.retailx.fragments.orders.CreateOrderFragment"
+        android:label="Create Order"
+        tools:layout="@layout/fragment_create_order" />
+
+    <fragment
+        android:id="@+id/salesChartFragment"
+        android:name="com.rajatt7z.retailx.fragments.SalesChartFragment"
+        android:label="Sales Performance"
+        tools:layout="@layout/fragment_sales_chart" />
 </navigation>
