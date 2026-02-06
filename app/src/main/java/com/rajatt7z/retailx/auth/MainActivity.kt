@@ -2,40 +2,29 @@ package com.rajatt7z.retailx.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.view.View
-import android.widget.Toast
-import androidx.activity.viewModels
-import com.rajatt7z.retailx.utils.Resource
-import com.rajatt7z.retailx.viewmodel.AuthViewModel
+import androidx.viewpager2.widget.ViewPager2
+import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.rajatt7z.retailx.AdminDashboardActivity
 import com.rajatt7z.retailx.EmployeeDashboardActivity
 import com.rajatt7z.retailx.R
 import com.rajatt7z.retailx.databinding.ActivityMainBinding
-import android.os.Handler
-import android.os.Looper
-import android.animation.ObjectAnimator
-import android.animation.AnimatorSet
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.HorizontalScrollView
-import androidx.core.animation.doOnEnd
+import com.rajatt7z.retailx.utils.Resource
+import com.rajatt7z.retailx.viewmodel.AuthViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: AuthViewModel by viewModels()
-
-    // Auto-scroll variables
-    private val autoScrollHandler = Handler(Looper.getMainLooper())
-    private var currentPage = 0
-    private val totalPages = 4
-    private val scrollDelay = 3000L // 3 seconds per card
-    private var isAutoScrolling = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,136 +37,65 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        setupViewPager()
         setupButtons()
         observeViewModel()
         checkUserSession()
-        setupFeatureCardsAnimation()
     }
 
-    private fun setupFeatureCardsAnimation() {
-        // Initial card entrance animations
-        animateCardsEntrance()
-
-        // Setup auto-scroll
-        binding.featureCardsScrollView.post {
-            startAutoScroll()
-        }
-
-        // Stop auto-scroll when user manually scrolls
-        binding.featureCardsScrollView.setOnTouchListener { _, _ ->
-            isAutoScrolling = false
-            autoScrollHandler.removeCallbacksAndMessages(null)
-            // Resume after 5 seconds of inactivity
-            autoScrollHandler.postDelayed({
-                isAutoScrolling = true
-                startAutoScroll()
-            }, 2500)
-            false
-        }
-
-        // Setup card click listeners
-        setupCardClickListeners()
-    }
-
-    private fun animateCardsEntrance() {
-        val cards = listOf(
-            binding.cardAI,
-            binding.cardInventory,
-            binding.cardSync,
-            binding.cardDesign
+    private fun setupViewPager() {
+        val onboardingItems = listOf(
+            OnboardingItem(
+                title = "Inventory Control At One Place",
+                description = "Manage your stock efficiently and effortlessly",
+                animationRes = R.raw.inventory
+            ),
+            OnboardingItem(
+                title = "Cloud Sync",
+                description = "Real-time backup with Firebase & RoomDB",
+                animationRes = R.raw.sync
+            ),
+            OnboardingItem(
+                title = "Material 3",
+                description = "Modern, expressive, and beautiful UI design",
+                animationRes = R.raw.material
+            ),
+            OnboardingItem(
+                title = "Get Started",
+                description = "Login below to access your dashboard",
+                animationRes = R.raw.retailx
+            )
         )
 
-        val icons = listOf(
-            binding.iconAI,
-            binding.iconInventory,
-            binding.iconSync,
-            binding.iconDesign
-        )
+        val adapter = OnboardingAdapter(onboardingItems)
+        binding.viewPager.adapter = adapter
+        binding.viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        cards.forEachIndexed { index, card ->
-            card.alpha = 0f
-            card.scaleX = 0.8f
-            card.scaleY = 0.8f
-            card.translationY = 100f
+        // Attach TabLayout (Dots)
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, _ ->
+            tab.icon = ContextCompat.getDrawable(this, R.drawable.tab_pager_selector)
+        }.attach()
 
-            card.animate()
-                .alpha(1f)
-                .scaleX(1f)
-                .scaleY(1f)
-                .translationY(0f)
-                .setDuration(600)
-                .setStartDelay((index * 150).toLong())
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .start()
-        }
-    }
-
-    private fun startAutoScroll() {
-        if (!isAutoScrolling) return
-
-        autoScrollHandler.postDelayed({
-            if (!isAutoScrolling) return@postDelayed
-
-            currentPage = (currentPage + 1) % totalPages
-
-            val scrollView = binding.featureCardsScrollView
-            val cardWidth = 280 + 16 // card width + margin
-            val targetScroll = (currentPage * cardWidth * resources.displayMetrics.density).toInt()
-
-            // Smooth scroll animation
-            ObjectAnimator.ofInt(scrollView, "scrollX", scrollView.scrollX, targetScroll).apply {
-                duration = 500
-                interpolator = AccelerateDecelerateInterpolator()
-                start()
-            }
-
-            // Continue auto-scrolling
-            startAutoScroll()
-        }, scrollDelay)
-    }
-
-    private fun setupCardClickListeners() {
-        val cards = listOf(
-            binding.cardAI,
-            binding.cardInventory,
-            binding.cardSync,
-            binding.cardDesign
-        )
-
-        cards.forEach { card ->
-            card.setOnClickListener { view ->
-                // Pulse animation on click
-                view.animate()
-                    .scaleX(0.95f)
-                    .scaleY(0.95f)
-                    .setDuration(100)
-                    .withEndAction {
-                        view.animate()
-                            .scaleX(1.05f)
-                            .scaleY(1.05f)
-                            .setDuration(100)
-                            .withEndAction {
-                                view.animate()
-                                    .scaleX(1f)
-                                    .scaleY(1f)
-                                    .setDuration(100)
-                                    .start()
-                            }
-                            .start()
-                    }
-                    .start()
-
-                // Show toast for demonstration
-                val cardName = when (view.id) {
-                    R.id.cardAI -> "AI Sales Prediction"
-                    R.id.cardInventory -> "Inventory Control"
-                    R.id.cardSync -> "Firebase Sync"
-                    R.id.cardDesign -> "Material 3 Design"
-                    else -> "Feature"
+        // Page Change Callback for Button Visibility
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if (position == onboardingItems.size - 1) {
+                    // Final Page: Show Buttons
+                    binding.loginBusinessBtn.visibility = View.VISIBLE
+                    binding.loginCustomerBtn.visibility = View.VISIBLE
+                    // Optional: Fade in animation
+                    binding.loginBusinessBtn.alpha = 0f
+                    binding.loginCustomerBtn.alpha = 0f
+                    binding.loginBusinessBtn.animate().alpha(1f).setDuration(300).start()
+                    binding.loginCustomerBtn.animate().alpha(1f).setDuration(300).start()
+                } else {
+                    // Other Pages: Hide Buttons
+                    binding.loginBusinessBtn.visibility = View.GONE
+                    binding.loginCustomerBtn.visibility = View.GONE
                 }
-                Toast.makeText(this, "$cardName feature", Toast.LENGTH_SHORT).show()
             }
-        }
+        })
     }
 
     private fun setupButtons() {
@@ -243,29 +161,13 @@ class MainActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     binding.loginCustomerBtn.isEnabled = true
                     binding.loginBusinessBtn.isEnabled = true
-                    Toast.makeText(this, "Session expired or invalid", Toast.LENGTH_SHORT).show()
-                    FirebaseAuth.getInstance().signOut()
+                    // Only show session expired if we actually tried to check a session
+                    if (FirebaseAuth.getInstance().currentUser != null) {
+                         Toast.makeText(this, "Session expired or invalid", Toast.LENGTH_SHORT).show()
+                         FirebaseAuth.getInstance().signOut()
+                    }
                 }
             }
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        // Stop auto-scroll when activity is not visible
-        isAutoScrolling = false
-        autoScrollHandler.removeCallbacksAndMessages(null)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // Resume auto-scroll when activity becomes visible
-        isAutoScrolling = true
-        startAutoScroll()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        autoScrollHandler.removeCallbacksAndMessages(null)
     }
 }

@@ -86,4 +86,7 @@ dependencies {
 
     // AI
     implementation(libs.generativeai)
+
+    //anim
+    implementation(libs.lottie)
 }

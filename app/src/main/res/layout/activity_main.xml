@@ -8,7 +8,7 @@
     android:background="?attr/colorSurface"
     tools:context=".auth.MainActivity">
 
-    <!-- Top Bar with Info Icon - Refined to IconButton -->
+    <!-- Top Bar with Info Icon -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cardInfo"
         style="@style/Widget.Material3.Button.IconButton"
@@ -21,355 +21,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/scrollView"
+    <!-- App Logo / Header Static (Optional, keeping it clean as per request) --> 
+    <!-- We will let the ViewPager content shine, but we need to ensure the ViewPager 
+         doesn't overlap the Info button or the bottom buttons area. -->
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:scrollbars="none"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardInfo">
+        app:layout_constraintTop_toBottomOf="@+id/cardInfo" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="32dp">
-
-            <!-- App Icon with ShapeAppearance -->
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/cardIcon"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="24dp"
-                android:src="@drawable/ic_retailx"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <!-- App Name - Expressive Typography -->
-            <TextView
-                android:id="@+id/tvAppName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/circular_spotify"
-                android:text="@string/app_name"
-                android:textAppearance="?attr/textAppearanceDisplayMedium"
-                android:textColor="?attr/colorOnSurface"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardIcon" />
-
-            <TextView
-                android:id="@+id/tvAppTagline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:alpha="0.8"
-                android:fontFamily="@font/circular_spotify"
-                android:text="Retail Intelligence"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvAppName" />
-
-            <!-- Feature Cards - Scrollable Poster Style -->
-            <HorizontalScrollView
-                android:id="@+id/featureCardsScrollView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:clipToPadding="false"
-                android:overScrollMode="never"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:scrollbars="none"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvAppTagline">
-
-                <LinearLayout
-                    android:id="@+id/featureCardsContainer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <!-- AI Prediction Card -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardAI"
-                        style="@style/Widget.Material3.CardView.Filled"
-                        android:layout_width="256dp"
-                        android:layout_height="256dp"
-                        android:layout_marginEnd="12dp"
-                        app:cardBackgroundColor="?attr/colorPrimaryContainer">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="24dp">
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/iconAI"
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                app:cardBackgroundColor="?attr/colorPrimary"
-                                app:cardCornerRadius="32dp"
-                                app:cardElevation="0dp"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:strokeWidth="0dp">
-
-                                <ImageView
-                                    android:layout_width="32dp"
-                                    android:layout_height="32dp"
-                                    android:layout_gravity="center"
-                                    android:importantForAccessibility="no"
-                                    android:src="@drawable/baseline_person_24"
-                                    app:tint="?attr/colorOnPrimary" />
-
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <TextView
-                                android:id="@+id/tvAITitle"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="24dp"
-                                android:fontFamily="@font/circular_spotify"
-                                android:text="@string/ai_sales_prediction"
-                                android:textAppearance="?attr/textAppearanceHeadlineSmall"
-                                android:textColor="?attr/colorOnPrimaryContainer"
-                                android:textStyle="bold"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/iconAI" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:alpha="0.8"
-                                android:fontFamily="@font/circular_spotify"
-                                android:text="Predict future sales with our advanced AI engine."
-                                android:textAppearance="?attr/textAppearanceBodyMedium"
-                                android:textColor="?attr/colorOnPrimaryContainer"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tvAITitle" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Inventory Card -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardInventory"
-                        style="@style/Widget.Material3.CardView.Filled"
-                        android:layout_width="256dp"
-                        android:layout_height="256dp"
-                        android:layout_marginEnd="12dp"
-                        app:cardBackgroundColor="?attr/colorSecondaryContainer">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="24dp">
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/iconInventory"
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                app:cardBackgroundColor="?attr/colorSecondary"
-                                app:cardCornerRadius="32dp"
-                                app:cardElevation="0dp"
-                                app:strokeWidth="0dp"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <ImageView
-                                    android:layout_width="32dp"
-                                    android:layout_height="32dp"
-                                    android:layout_gravity="center"
-                                    android:importantForAccessibility="no"
-                                    android:src="@drawable/baseline_inventory_2_24"
-                                    app:tint="?attr/colorOnSecondary" />
-
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <TextView
-                                android:id="@+id/tvInventoryTitle"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="24dp"
-                                android:fontFamily="@font/circular_spotify"
-                                android:text="@string/inventory_control"
-                                android:textAppearance="?attr/textAppearanceHeadlineSmall"
-                                android:textColor="?attr/colorOnSecondaryContainer"
-                                android:textStyle="bold"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/iconInventory" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:alpha="0.8"
-                                android:fontFamily="@font/circular_spotify"
-                                android:text="Manage your stock efficiently and effortlessly."
-                                android:textAppearance="?attr/textAppearanceBodyMedium"
-                                android:textColor="?attr/colorOnSecondaryContainer"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tvInventoryTitle" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Sync Card -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardSync"
-                        style="@style/Widget.Material3.CardView.Filled"
-                        android:layout_width="256dp"
-                        android:layout_height="256dp"
-                        android:layout_marginEnd="12dp"
-                        app:cardBackgroundColor="?attr/colorTertiaryContainer">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="24dp">
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/iconSync"
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                app:cardBackgroundColor="?attr/colorTertiary"
-                                app:cardCornerRadius="32dp"
-                                app:cardElevation="0dp"
-                                app:strokeWidth="0dp"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <ImageView
-                                    android:layout_width="32dp"
-                                    android:layout_height="32dp"
-                                    android:layout_gravity="center"
-                                    android:importantForAccessibility="no"
-                                    android:src="@drawable/round_sync_24"
-                                    app:tint="?attr/colorOnTertiary" />
-
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <TextView
-                                android:id="@+id/tvSyncTitle"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="24dp"
-                                android:fontFamily="@font/circular_spotify"
-                                android:text="Cloud Sync"
-                                android:textAppearance="?attr/textAppearanceHeadlineSmall"
-                                android:textColor="?attr/colorOnTertiaryContainer"
-                                android:textStyle="bold"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/iconSync" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:alpha="0.8"
-                                android:fontFamily="@font/circular_spotify"
-                                android:text="Real-time backup with Firebase &amp; RoomDB."
-                                android:textAppearance="?attr/textAppearanceBodyMedium"
-                                android:textColor="?attr/colorOnTertiaryContainer"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tvSyncTitle" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Design Card -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardDesign"
-                        style="@style/Widget.Material3.CardView.Filled"
-                        android:layout_width="256dp"
-                        android:layout_height="256dp"
-                        app:cardBackgroundColor="?attr/colorErrorContainer">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="24dp">
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/iconDesign"
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                app:cardBackgroundColor="?attr/colorError"
-                                app:cardCornerRadius="32dp"
-                                app:cardElevation="0dp"
-                                app:strokeWidth="0dp"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <ImageView
-                                    android:layout_width="32dp"
-                                    android:layout_height="32dp"
-                                    android:layout_gravity="center"
-                                    android:importantForAccessibility="no"
-                                    android:src="@drawable/rounded_palette_24"
-                                    app:tint="?attr/colorOnError" />
-
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <TextView
-                                android:id="@+id/tvDesignTitle"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="24dp"
-                                android:fontFamily="@font/circular_spotify"
-                                android:text="Material 3"
-                                android:textAppearance="?attr/textAppearanceHeadlineSmall"
-                                android:textColor="?attr/colorOnErrorContainer"
-                                android:textStyle="bold"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/iconDesign" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:alpha="0.8"
-                                android:fontFamily="@font/circular_spotify"
-                                android:text="Modern, expressive, and beautiful UI design."
-                                android:textAppearance="?attr/textAppearanceBodyMedium"
-                                android:textColor="?attr/colorOnErrorContainer"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tvDesignTitle" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/transparent"
+        app:tabBackground="@android:color/transparent"
+        app:tabRippleColor="@null"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"
+        app:tabMinWidth="0dp"
+        app:tabPaddingStart="8dp"
+        app:tabPaddingEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/loginBusinessBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Progress Bar -->
     <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -384,7 +64,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Business Login Button - Expressive Sizing -->
+    <!-- Business Login Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/loginBusinessBtn"
         style="@style/Widget.Material3.Button.TonalButton"
@@ -398,6 +78,7 @@
         android:textAllCaps="false"
         android:textAppearance="?attr/textAppearanceTitleMedium"
         android:textStyle="bold"
+        android:visibility="gone"
         app:cornerRadius="8dp"
         app:icon="@drawable/baseline_business_24"
         app:iconGravity="textStart"
@@ -407,7 +88,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Customer Login Button - Expressive Sizing -->
+    <!-- Customer Login Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/loginCustomerBtn"
         style="@style/Widget.Material3.Button.OutlinedButton"
@@ -421,6 +102,7 @@
         android:textAllCaps="false"
         android:textAppearance="?attr/textAppearanceTitleMedium"
         android:textStyle="bold"
+        android:visibility="gone"
         app:cornerRadius="8dp"
         app:icon="@drawable/baseline_person_24"
         app:iconGravity="textStart"
