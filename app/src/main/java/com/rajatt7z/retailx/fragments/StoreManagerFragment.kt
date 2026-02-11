@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rajatt7z.retailx.R
-import com.rajatt7z.retailx.adapters.ProductAdapter
+import com.rajatt7z.retailx.adapters.StoreProductAdapter
 import com.rajatt7z.retailx.databinding.FragmentStoreManagerBinding
 import com.rajatt7z.retailx.repository.ProductRepository
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ class StoreManagerFragment : Fragment() {
     private var _binding: FragmentStoreManagerBinding? = null
     private val binding get() = _binding!!
     private val repository = ProductRepository()
-    private lateinit var adapter: ProductAdapter
+    private lateinit var adapter: StoreProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,8 +77,8 @@ class StoreManagerFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        // Reusing ProductAdapter but maybe with a grid layout manager
-        adapter = ProductAdapter(emptyList()) { product ->
+        // Using new StoreProductAdapter with vertical card layout
+        adapter = StoreProductAdapter(emptyList()) { product ->
             // Open for editing since this is Store Manager
              val action = StoreManagerFragmentDirections.actionStoreManagerFragmentToProductDetailsFragment(product.id)
              findNavController().navigate(action)
