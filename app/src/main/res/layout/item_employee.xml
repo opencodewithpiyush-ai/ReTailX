@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:tint="@color/design_default_color_primary" />
+            app:tint="?attr/colorControlActivated" />
 
         <TextView
             android:id="@+id/tvEmployeeName"
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/baseline_delete_24"
-            app:tint="@color/design_default_color_error"
+            app:tint="?attr/colorControlActivated"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

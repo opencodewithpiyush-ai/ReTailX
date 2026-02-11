@@ -24,4 +24,10 @@
     <string name="forecast_trends_with_99_accuracy">Forecast trends with 99% accuracy.</string>
     <string name="inventory_control">Inventory Control At One Place</string>
     <string name="real_time_stock_tracking">Real-time stock tracking.</string>
+    <string name="employee_dashboard">Employee Dashboard</string>
+    <string name="admin_dashboard">Admin Dashboard</string>
+    <string name="logout">Logout</string>
+    <string name="maintenance_mode">Maintenance Mode</string>
+    <string name="settings">Settings</string>
+    <string name="welcome">Welcome</string>
 </resources>

@@ -29,6 +29,21 @@
             app:exitAnim="@anim/slide_out_bottom"
             app:popEnterAnim="@anim/slide_in_bottom"
             app:popExitAnim="@anim/slide_out_bottom" />
+        <action
+            android:id="@+id/action_employeeDashboardFragment_to_storeManagerFragment"
+            app:destination="@id/storeManagerFragment"
+            app:popUpTo="@id/employeeDashboardFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_employeeDashboardFragment_to_inventoryManagerFragment"
+            app:destination="@id/inventoryManagerFragment"
+            app:popUpTo="@id/employeeDashboardFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_employeeDashboardFragment_to_salesExecutiveFragment"
+            app:destination="@id/salesExecutiveFragment"
+            app:popUpTo="@id/employeeDashboardFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -111,4 +126,48 @@
         android:name="com.rajatt7z.retailx.fragments.SalesChartFragment"
         android:label="Sales Performance"
         tools:layout="@layout/fragment_sales_chart" />
+    <fragment
+        android:id="@+id/storeManagerFragment"
+        android:name="com.rajatt7z.retailx.fragments.StoreManagerFragment"
+        android:label="Store Dashboard"
+        tools:layout="@layout/fragment_store_manager">
+        <action
+            android:id="@+id/action_storeManagerFragment_to_addProductFragment"
+            app:destination="@id/addProductFragment" />
+        <action
+            android:id="@+id/action_storeManagerFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+             android:id="@+id/action_storeManagerFragment_to_profile"
+             app:destination="@id/employeeProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/inventoryManagerFragment"
+        android:name="com.rajatt7z.retailx.fragments.InventoryManagerFragment"
+        android:label="Inventory Dashboard"
+        tools:layout="@layout/fragment_inventory_manager">
+         <action
+             android:id="@+id/action_inventoryManagerFragment_to_profile"
+             app:destination="@id/employeeProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/salesExecutiveFragment"
+        android:name="com.rajatt7z.retailx.fragments.SalesExecutiveFragment"
+        android:label="Sales Dashboard"
+        tools:layout="@layout/fragment_sales_executive">
+        <action
+            android:id="@+id/action_salesExecutiveFragment_to_createOrderFragment"
+            app:destination="@id/createOrderFragment" />
+        <action
+            android:id="@+id/action_salesExecutiveFragment_to_salesChartFragment"
+            app:destination="@id/salesChartFragment" />
+         <action
+            android:id="@+id/action_salesExecutiveFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
+         <action
+             android:id="@+id/action_salesExecutiveFragment_to_profile"
+             app:destination="@id/employeeProfileFragment" />
+    </fragment>
 </navigation>

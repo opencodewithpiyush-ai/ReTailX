@@ -90,56 +90,21 @@ class EmployeeDashboardFragment : Fragment() {
 
         when (role) {
             "Store Manager" -> {
-                if (isEditor) {
-                    btnManageProducts.visibility = View.VISIBLE
-                    btnManageProducts.setOnClickListener {
-                        navigateToProductList(canEdit = true)
-                    }
-                } else {
-                    btnViewProducts.visibility = View.VISIBLE
-                    btnViewProducts.setOnClickListener {
-                        navigateToProductList(canEdit = false)
-                    }
-                }
+                findNavController().navigate(R.id.action_employeeDashboardFragment_to_storeManagerFragment)
             }
             "Inventory Manager" -> {
-                // Products
-                 if (isEditor) {
-                    btnManageProducts.visibility = View.VISIBLE
-                    btnManageProducts.setOnClickListener { navigateToProductList(true) }
-                    
-                    btnManageOrders.visibility = View.VISIBLE
-                    btnManageOrders.setOnClickListener { navigateToOrders(canEdit = true) }
-                } else {
-                    btnViewProducts.visibility = View.VISIBLE
-                    btnViewProducts.setOnClickListener { navigateToProductList(false) }
-                    
-                    btnViewOrders.visibility = View.VISIBLE
-                    btnViewOrders.setOnClickListener { navigateToOrders(canEdit = false) }
-                }
+                findNavController().navigate(R.id.action_employeeDashboardFragment_to_inventoryManagerFragment)
             }
             "Sales Executive" -> {
-                 // Always can view products
+                findNavController().navigate(R.id.action_employeeDashboardFragment_to_salesExecutiveFragment)
+            }
+            else -> {
+                // Fallback or Unknown Role
+                android.widget.Toast.makeText(context, "Unknown Role: $role", android.widget.Toast.LENGTH_SHORT).show()
+                // Maybe stay on this screen but show minimal options or logout?
+                // For now, let's just leave the old logic for fallback or just do nothing
                  btnViewProducts.visibility = View.VISIBLE
                  btnViewProducts.setOnClickListener { navigateToProductList(canEdit = false) }
-
-                 if (isEditor) {
-                     btnCreateOrder.visibility = View.VISIBLE
-                     btnCreateOrder.setOnClickListener {
-                         // Ensure action exists in nav graph, else crash
-                         try {
-                            findNavController().navigate(R.id.action_employeeDashboardFragment_to_createOrderFragment)
-                         } catch(e: Exception) {
-                            // Fallback if not created yet
-                            android.widget.Toast.makeText(context, "Create Order not implemented yet", android.widget.Toast.LENGTH_SHORT).show()
-                         }
-                     }
-                     
-                     btnSalesPerformance.visibility = View.VISIBLE
-                     btnSalesPerformance.setOnClickListener {
-                         findNavController().navigate(R.id.action_employeeDashboardFragment_to_salesChartFragment)
-                     }
-                 }
             }
         }
     }
