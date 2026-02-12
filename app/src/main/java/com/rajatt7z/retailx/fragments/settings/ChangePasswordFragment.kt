@@ -32,35 +32,16 @@ class ChangePasswordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         
-        loadCurrentPassword()
-        
         // Check for Reset Mode
         if (arguments?.getBoolean("IS_RESET_MODE") == true) {
             binding.etCurrentPassword.visibility = View.GONE
-            binding.etCurrentPassword.isEnabled = false // Logic still needs it populated though
+            binding.etCurrentPassword.isEnabled = false
             binding.toolbar.title = "Reset Password"
             binding.btnUpdatePassword.text = "Reset Password"
         }
         
         binding.btnUpdatePassword.setOnClickListener {
             updatePassword()
-        }
-    }
-
-    private fun loadCurrentPassword() {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        if (currentUser != null) {
-            viewModel.fetchUserDetails(currentUser.uid)
-        }
-        
-        viewModel.userDetails.observe(viewLifecycleOwner) { resource ->
-            if (resource is Resource.Success) {
-                val data = resource.data
-                val savedPassword = data?.get("password") as? String
-                if (!savedPassword.isNullOrEmpty()) {
-                    binding.etCurrentPassword.setText(savedPassword)
-                }
-            }
         }
     }
 

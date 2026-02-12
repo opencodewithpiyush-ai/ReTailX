@@ -188,7 +188,27 @@ class AppConfigFragment : Fragment() {
         }
 
         binding.btnClearData.setOnClickListener {
-             Toast.makeText(requireContext(), "Clear Data requires app restart (Not implemented safely here)", Toast.LENGTH_LONG).show()
+            com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Clear Local Data")
+                .setMessage("This will clear all local preferences, cache, and the local database. Cloud data (Firestore) will NOT be affected.\n\nAre you sure?")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Clear") { _, _ ->
+                    try {
+                        // Clear SharedPreferences
+                        sharedPreferences.edit { clear() }
+                        
+                        // Clear cache
+                        clearAppCache()
+                        
+                        // Delete Room database
+                        requireContext().deleteDatabase("retailx_database")
+                        
+                        Toast.makeText(requireContext(), "Local data cleared! Restart the app for changes to take effect.", Toast.LENGTH_LONG).show()
+                    } catch (e: Exception) {
+                        Toast.makeText(requireContext(), "Failed to clear data: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .show()
         }
 
         // Real Permission Toggles

@@ -66,7 +66,16 @@ class ProductListFragment : Fragment() {
         adapter = ProductAdapter(emptyList()) { product ->
              if (canEdit) {
                  if (product.isDraft) {
-                     android.widget.Toast.makeText(context, "Editing draft is not implemented yet", android.widget.Toast.LENGTH_SHORT).show()
+                     // Navigate to AddProductFragment with draft data for editing
+                     val bundle = android.os.Bundle().apply {
+                         putString("draft_name", product.name)
+                         putString("draft_description", product.description)
+                         putDouble("draft_price", product.price)
+                         putInt("draft_stock", product.stock)
+                         putString("draft_category", product.category)
+                         putBoolean("is_draft_edit", true)
+                     }
+                     findNavController().navigate(R.id.action_productListFragment_to_addProductFragment, bundle)
                  } else {
                      val action = ProductListFragmentDirections.actionProductListFragmentToProductDetailsFragment(product.id)
                      findNavController().navigate(action)

@@ -36,6 +36,12 @@ class ProductRepository {
             .get().await().toObjects(Product::class.java)
     }
 
+    suspend fun decrementStock(productId: String, quantity: Int) {
+        productsCollection.document(productId)
+            .update("stock", com.google.firebase.firestore.FieldValue.increment(-quantity.toLong()))
+            .await()
+    }
+
     private val imgBBService: ImgBBService by lazy {
         retrofit2.Retrofit.Builder()
             .baseUrl("https://api.imgbb.com/")
@@ -53,7 +59,7 @@ class ProductRepository {
             val requestBody = okhttp3.RequestBody.create("image/jpeg".toMediaTypeOrNull(), byteArray)
             val body = okhttp3.MultipartBody.Part.createFormData("image", "image.jpg", requestBody)
 
-            val response = imgBBService.uploadImage("2014858c52b15c2bec7584982b061739", body)
+            val response = imgBBService.uploadImage(com.rajatt7z.retailx.BuildConfig.IMGBB_API_KEY, body)
             if (response.success && response.data != null) {
                 response.data.url
             } else {

@@ -72,6 +72,12 @@ class CreateOrderFragment : Fragment() {
                  return@setOnClickListener
             }
 
+            // Validate stock availability
+            if (quantity > selectedProduct!!.stock) {
+                Toast.makeText(context, "Insufficient stock. Available: ${selectedProduct!!.stock}", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             // Create Order
             val employeeId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
             val order = Order(
@@ -86,6 +92,12 @@ class CreateOrderFragment : Fragment() {
             lifecycleScope.launch {
                 val success = orderRepository.createOrder(order)
                 if (success) {
+                    // Decrement product stock
+                    try {
+                        productRepository.decrementStock(selectedProduct!!.id, quantity)
+                    } catch (e: Exception) {
+                        android.util.Log.e("CreateOrderFragment", "Failed to update stock", e)
+                    }
                     Toast.makeText(context, "Order Created Successfully", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
                 } else {

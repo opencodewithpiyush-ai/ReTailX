@@ -110,7 +110,8 @@ class SalesExecutiveFragment : Fragment() {
                 binding.tvTotalSales.text = String.format("$%.2f", revenue)
                 
             } catch (e: Exception) {
-                // Ignore error
+                android.util.Log.e("SalesExecFragment", "Failed to load stats", e)
+                android.widget.Toast.makeText(context, "Failed to load stats", android.widget.Toast.LENGTH_SHORT).show()
             }
         }
     }

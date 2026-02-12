@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.lifecycle.lifecycleScope
 import com.rajatt7z.retailx.databinding.FragmentRecentOrdersBinding
+import kotlinx.coroutines.launch
 
 class RecentOrdersFragment : Fragment() {
 
@@ -43,21 +44,22 @@ class RecentOrdersFragment : Fragment() {
     }
 
     private fun loadOrders() {
-        lifecycleScope.launchWhenResumed {
+        lifecycleScope.launch {
             val orders = repository.getAllOrders()
             // In a real app we might filter by role (e.g. Sales Exec sees only their orders), 
              // but Inventory Manager sees all. Let's assume this fragment is generic.
             adapter.updateList(orders)
             
              if (orders.isEmpty()) {
-                 // Show Empty state if view exists
-                 // binding.tvEmpty.visibility = View.VISIBLE 
+                 binding.tvEmpty.visibility = View.VISIBLE
+             } else {
+                 binding.tvEmpty.visibility = View.GONE
              }
         }
     }
     
     private fun markOrderCompleted(order: com.rajatt7z.retailx.models.Order) {
-        lifecycleScope.launchWhenResumed {
+        lifecycleScope.launch {
             val success = repository.updateOrderStatus(order.id, "Completed")
             if (success) {
                 android.widget.Toast.makeText(context, "Order Completed", android.widget.Toast.LENGTH_SHORT).show()
@@ -66,5 +68,10 @@ class RecentOrdersFragment : Fragment() {
                 android.widget.Toast.makeText(context, "Failed to update", android.widget.Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

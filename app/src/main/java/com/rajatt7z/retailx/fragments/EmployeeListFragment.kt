@@ -18,7 +18,6 @@ import com.rajatt7z.retailx.viewmodel.AuthViewModel
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.delay
 
 class EmployeeListFragment : Fragment() {
 
@@ -42,18 +41,13 @@ class EmployeeListFragment : Fragment() {
         setupListeners()
         setupObservers()
         
-        setupObservers()
+        // Show shimmer while loading
+        binding.shimmerViewContainer.visibility = View.VISIBLE
+        binding.shimmerViewContainer.startShimmer()
+        binding.rvEmployeeList.visibility = View.GONE
+        binding.tvEmptyState.visibility = View.GONE
         
-        lifecycleScope.launch {
-            // Fake delay for testing shimmer
-            binding.shimmerViewContainer.visibility = View.VISIBLE
-            binding.shimmerViewContainer.startShimmer()
-            binding.rvEmployeeList.visibility = View.GONE
-            binding.tvEmptyState.visibility = View.GONE
-            
-            delay(3000)
-            viewModel.fetchEmployees()
-        }
+        viewModel.fetchEmployees()
     }
 
     private fun setupRecyclerView() {
@@ -254,10 +248,7 @@ class EmployeeListFragment : Fragment() {
                             "permissions" to permission
                         )
 
-                        // Only include password if user typed something
-                        if (password.isNotEmpty()) {
-                            updates["password"] = password
-                        }
+                        // Password changes are handled through Firebase Auth, not Firestore
 
                         viewModel.updateEmployee(employee.uid, updates)
                         dialog.dismiss()

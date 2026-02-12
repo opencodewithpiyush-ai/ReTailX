@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.rajatt7z.retailx.databinding.FragmentSalesChartBinding
+import kotlinx.coroutines.launch
 
 class SalesChartFragment : Fragment() {
 
@@ -27,7 +28,7 @@ class SalesChartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupChart()
         setupToggleListeners()
-        loadChartData(7) // Default to weekly (7 days)
+        loadChartData(1) // Default to daily (matches checked btnDaily)
     }
 
     private fun setupChart() {
@@ -44,11 +45,15 @@ class SalesChartFragment : Fragment() {
     }
 
     private fun setupToggleListeners() {
-        // Keeping this if we want to switch timeframes for BarChart in future
-        // For now, it just reloads default data
         binding.toggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
-                loadChartData(10) // Just reload random data
+                val days = when (checkedId) {
+                    com.rajatt7z.retailx.R.id.btnDaily -> 1
+                    com.rajatt7z.retailx.R.id.btnWeekly -> 7
+                    com.rajatt7z.retailx.R.id.btnMonthly -> 30
+                    else -> 7
+                }
+                loadChartData(days)
             }
         }
     }
@@ -56,17 +61,28 @@ class SalesChartFragment : Fragment() {
     private fun loadChartData(days: Int) {
         val userId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: return
         val repository = com.rajatt7z.retailx.repository.OrderRepository()
+        val showAllOrders = arguments?.getBoolean("showAllOrders") ?: false
         
-        lifecycleScope.launchWhenResumed {
-            val orders = repository.getOrdersByEmployee(userId)
-            // Group orders by day vs amount
-            // This requires some date manipulation. 
-            // For simplicity, let's just group by day of month for the last 7 days? 
-            // Or just map all existing orders to dates.
+        lifecycleScope.launch {
+            val allOrders = if (showAllOrders) {
+                repository.getAllOrders()
+            } else {
+                repository.getOrdersByEmployee(userId)
+            }
             
-            val salesMap = java.util.TreeMap<String, Float>()
-            val dateFormat = java.text.SimpleDateFormat("dd", java.util.Locale.getDefault())
-
+            // Filter orders within the selected time period
+            val cutoffTime = System.currentTimeMillis() - (days.toLong() * 24 * 60 * 60 * 1000)
+            val orders = allOrders.filter { it.timestamp >= cutoffTime }
+            
+            // Choose date format based on period
+            val datePattern = when {
+                days <= 1 -> "HH:00"   // Hourly for daily
+                days <= 7 -> "EEE"      // Day name for weekly
+                else -> "dd MMM"        // Day+month for monthly
+            }
+            val dateFormat = java.text.SimpleDateFormat(datePattern, java.util.Locale.getDefault())
+            
+            val salesMap = java.util.LinkedHashMap<String, Float>()
             orders.forEach { order ->
                 val day = dateFormat.format(java.util.Date(order.timestamp))
                 val current = salesMap.getOrDefault(day, 0f)
@@ -74,23 +90,36 @@ class SalesChartFragment : Fragment() {
             }
             
             val barEntries = ArrayList<com.github.mikephil.charting.data.BarEntry>()
+            val labels = ArrayList<String>()
             var index = 0f
-            salesMap.forEach { (_, value) ->
+            salesMap.forEach { (key, value) ->
                 barEntries.add(com.github.mikephil.charting.data.BarEntry(index, value))
+                labels.add(key)
                 index++
             }
             
-             // Bar Chart Update
+            if (_binding == null) return@launch
+            
+            // Bar Chart Update
             if (barEntries.isNotEmpty()) {
-                val barDataSet = com.github.mikephil.charting.data.BarDataSet(barEntries, "Daily Sales")
+                val periodLabel = when {
+                    days <= 1 -> "Hourly Sales"
+                    days <= 7 -> "Daily Sales"
+                    else -> "Sales by Date"
+                }
+                val barDataSet = com.github.mikephil.charting.data.BarDataSet(barEntries, periodLabel)
                 barDataSet.colors = com.github.mikephil.charting.utils.ColorTemplate.MATERIAL_COLORS.toList()
                 barDataSet.valueTextColor = Color.BLACK
                 barDataSet.valueTextSize = 12f
                 
+                binding.barChart.xAxis.valueFormatter = com.github.mikephil.charting.formatter.IndexAxisValueFormatter(labels)
+                binding.barChart.xAxis.granularity = 1f
                 val barData = com.github.mikephil.charting.data.BarData(barDataSet)
                 binding.barChart.data = barData
                 binding.barChart.invalidate()
                 binding.barChart.animateY(1000)
+            } else {
+                binding.barChart.clear()
             }
             
             // Pie Chart - Sales by Product Name (Top 5)
@@ -115,6 +144,8 @@ class SalesChartFragment : Fragment() {
                 binding.pieChart.data = pieData
                 binding.pieChart.invalidate()
                 binding.pieChart.animateXY(1000, 1000)
+            } else {
+                binding.pieChart.clear()
             }
         }
     }

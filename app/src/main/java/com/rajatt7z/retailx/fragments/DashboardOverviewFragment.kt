@@ -17,6 +17,8 @@ import com.rajatt7z.retailx.databinding.FragmentDashboardOverviewBinding
 import com.rajatt7z.retailx.viewmodel.AuthViewModel
 import com.rajatt7z.retailx.utils.Resource
 import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class DashboardOverviewFragment : Fragment() {
 
@@ -43,7 +45,10 @@ class DashboardOverviewFragment : Fragment() {
 
     private fun setupNavigation() {
         binding.btnViewSales.setOnClickListener {
-            findNavController().navigate(R.id.action_overview_to_sales)
+            val bundle = android.os.Bundle().apply {
+                putBoolean("showAllOrders", true)
+            }
+            findNavController().navigate(R.id.action_overview_to_sales, bundle)
         }
         binding.btnLowStock.setOnClickListener {
             findNavController().navigate(R.id.action_overview_to_lowStock)
@@ -59,12 +64,7 @@ class DashboardOverviewFragment : Fragment() {
         }
     }
 
-    private fun navigateToMain() {
-        val intent = android.content.Intent(requireActivity(), com.rajatt7z.retailx.auth.MainActivity::class.java)
-        intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        requireActivity().finish()
-    }
+
 
     private fun setupListeners() {
         binding.btnAddEmployee.setOnClickListener {
@@ -81,11 +81,39 @@ class DashboardOverviewFragment : Fragment() {
         if (currentUser != null) {
             viewModel.fetchUserDetails(currentUser.uid)
         }
-        // Mock stats for now
-        binding.tvTotalSales.text = "$12,450"
-        binding.tvTotalProducts.text = "45" // Mock
-        binding.tvTotalEmployees.text = "3" // Mock
-        binding.tvTotalOrders.text = "128" // Mock
+        
+        // Show loading placeholders
+        binding.tvTotalSales.text = "..."
+        binding.tvTotalProducts.text = "..."
+        binding.tvTotalEmployees.text = "..."
+        binding.tvTotalOrders.text = "..."
+        
+        // Fetch real stats from Firestore
+        lifecycleScope.launch {
+            try {
+                val productRepo = com.rajatt7z.retailx.repository.ProductRepository()
+                val orderRepo = com.rajatt7z.retailx.repository.OrderRepository()
+                val authRepo = com.rajatt7z.retailx.repository.AuthRepository()
+                
+                val products = productRepo.getAllProducts()
+                val orders = orderRepo.getAllOrders()
+                val employeesResult = authRepo.getEmployees()
+                
+                if (_binding != null) {
+                    binding.tvTotalProducts.text = products.size.toString()
+                    binding.tvTotalOrders.text = orders.size.toString()
+                    
+                    val totalSales = orders.sumOf { it.totalPrice }
+                    binding.tvTotalSales.text = String.format("$%,.2f", totalSales)
+                    
+                    if (employeesResult is Resource.Success) {
+                        binding.tvTotalEmployees.text = (employeesResult.data?.size ?: 0).toString()
+                    }
+                }
+            } catch (e: Exception) {
+                android.util.Log.e("DashboardOverview", "Failed to load stats", e)
+            }
+        }
     }
     
     private fun setupObservers() {

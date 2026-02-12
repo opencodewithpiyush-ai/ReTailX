@@ -101,20 +101,12 @@ class StoreManagerFragment : Fragment() {
                 // If not available in generic Product model, we might need to adjust or cast
                 // For now, let's just use what's available or map if needed.
                 // Checking Product model...
-                 val lowStockCount = products.count { 
-                     // Simple check if property exists or try-catch
-                     try {
-                         // Reflection or if we know the field. 
-                         // Let's assume standard Product model has 'stock' or 'quantity'
-                         // Using inspection from previous `view_file` might be needed if compilation fails.
-                         // I recall `Product` model. Let's assume it has quantity.
-                         it.stock < 10 
-                     } catch(e: Exception) { false }
-                 }
+                 val lowStockCount = products.count { it.stock < 10 }
                  binding.tvLowStock.text = lowStockCount.toString()
 
             } catch (e: Exception) {
-                // Handle error
+                android.util.Log.e("StoreManagerFragment", "Failed to load products", e)
+                android.widget.Toast.makeText(context, "Failed to load products", android.widget.Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -59,7 +59,7 @@ class AdminLogin : AppCompatActivity() {
         binding.tvForgotPassword.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             if (email.isNotEmpty()) {
-                viewModel.recoverPasswordAndLogin(email)
+                viewModel.sendResetEmail(email)
             } else {
                 showForgotPasswordDialog()
             }
@@ -84,12 +84,12 @@ class AdminLogin : AppCompatActivity() {
         }
 
         androidx.appcompat.app.AlertDialog.Builder(this)
-            .setTitle("Recover Password")
+            .setTitle("Reset Password")
             .setView(container)
-            .setPositiveButton("Recover & Login") { _, _ ->
+            .setPositiveButton("Send Reset Link") { _, _ ->
                 val email = input.text.toString().trim()
                 if (email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    viewModel.recoverPasswordAndLogin(email)
+                    viewModel.sendResetEmail(email)
                 } else {
                     Snackbar.make(binding.root, "Please enter a valid email", Snackbar.LENGTH_SHORT).show()
                 }
@@ -181,18 +181,11 @@ class AdminLogin : AppCompatActivity() {
                 }
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    Snackbar.make(binding.root, "Recovery Successful", Snackbar.LENGTH_SHORT).show()
-                    
-                    // Navigate to Dashboard with Flag
-                    val intent = Intent(this, AdminDashboardActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    intent.putExtra("NAVIGATE_TO", "CHANGE_PASSWORD")
-                    startActivity(intent)
-                    finish()
+                    Snackbar.make(binding.root, "Password reset email sent. Check your inbox.", Snackbar.LENGTH_LONG).show()
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    Snackbar.make(binding.root, resource.message ?: "Recovery failed", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, resource.message ?: "Failed to send reset email", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }

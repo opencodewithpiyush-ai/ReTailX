@@ -133,24 +133,11 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun recoverPasswordAndLogin(email: String) {
+    fun sendResetEmail(email: String) {
         _resetPasswordStatus.value = Resource.Loading()
         viewModelScope.launch {
-            // 1. Get Password
-            val passwordResult = repository.getPasswordForEmail(email)
-            if (passwordResult is Resource.Success && passwordResult.data != null) {
-                val password = passwordResult.data
-                // 2. Login
-                val loginResult = repository.loginUser(email, password)
-                if (loginResult is Resource.Success) {
-                    // 3. Signal Success for Navigation
-                    _resetPasswordStatus.value = Resource.Success("Recovery Successful")
-                } else {
-                    _resetPasswordStatus.value = Resource.Error("Recovery Login Failed: ${loginResult.message}")
-                }
-            } else {
-                _resetPasswordStatus.value = Resource.Error(passwordResult.message ?: "Failed to recover password")
-            }
+            val result = repository.resetPassword(email)
+            _resetPasswordStatus.value = result
         }
     }
 

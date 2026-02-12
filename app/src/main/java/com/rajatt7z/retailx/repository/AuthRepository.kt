@@ -80,11 +80,16 @@ class AuthRepository {
     suspend fun loginUser(email: String, password: String): Resource<String> {
         return try {
             auth.signInWithEmailAndPassword(email, password).await()
-            // Fetch user details to log the login
             val currentUser = auth.currentUser
             if (currentUser != null) {
+                // Check if user is disabled
                 val userDetailsResult = getUserDetails(currentUser.uid)
                 if (userDetailsResult is Resource.Success) {
+                    val disabled = userDetailsResult.data?.get("disabled") as? Boolean ?: false
+                    if (disabled) {
+                        auth.signOut()
+                        return Resource.Error("This account has been disabled. Contact your administrator.")
+                    }
                     val userType = userDetailsResult.data?.get("userType") as? String ?: "Unknown"
                     val userEmail = userDetailsResult.data?.get("email") as? String ?: email
                     saveLoginLog(currentUser.uid, userType, userEmail)
@@ -174,7 +179,21 @@ class AuthRepository {
 
     suspend fun deleteEmployee(uid: String): Resource<String> {
         return try {
+            // Mark user as disabled before deletion so they can't log in
+            // even if Firestore delete succeeds but Auth delete isn't possible from client
+            db.collection("users").document(uid)
+                .update("disabled", true).await()
+            
+            // Delete the Firestore user document
             db.collection("users").document(uid).delete().await()
+            
+            // NOTE: Firebase Auth account cannot be deleted from the client SDK
+            // for another user. To fully remove the Auth account, deploy a
+            // Cloud Function triggered on Firestore document deletion:
+            //   exports.onUserDeleted = functions.firestore
+            //     .document('users/{uid}')
+            //     .onDelete((snap, context) => admin.auth().deleteUser(context.params.uid));
+            
             Resource.Success("Employee deleted successfully")
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Failed to delete employee")
@@ -190,28 +209,7 @@ class AuthRepository {
         }
     }
 
-    suspend fun getPasswordForEmail(email: String): Resource<String> {
-        return try {
-            val snapshot = db.collection("users")
-                .whereEqualTo("email", email)
-                .get()
-                .await()
-            
-            if (!snapshot.isEmpty) {
-                val document = snapshot.documents[0]
-                val password = document.getString("password")
-                if (!password.isNullOrEmpty()) {
-                    Resource.Success(password)
-                } else {
-                    Resource.Error("Password not found for this user")
-                }
-            } else {
-                Resource.Error("User not found")
-            }
-        } catch (e: Exception) {
-            Resource.Error(e.message ?: "Failed to retrieve password")
-        }
-    }
+
 
     fun logout() = auth.signOut()
 }

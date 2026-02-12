@@ -38,6 +38,19 @@ class AddProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupCategoryDropdown()
         setupClickListeners()
+        prefillFromDraft()
+    }
+
+    private fun prefillFromDraft() {
+        if (arguments?.getBoolean("is_draft_edit") == true) {
+            binding.etProductName.setText(arguments?.getString("draft_name", "") ?: "")
+            binding.etProductDescription.setText(arguments?.getString("draft_description", "") ?: "")
+            val price = arguments?.getDouble("draft_price", 0.0) ?: 0.0
+            if (price > 0) binding.etProductPrice.setText(String.format("%.2f", price))
+            val stock = arguments?.getInt("draft_stock", 0) ?: 0
+            if (stock > 0) binding.etProductStock.setText(stock.toString())
+            binding.etProductCategory.setText(arguments?.getString("draft_category", "") ?: "", false)
+        }
     }
 
     private fun setupCategoryDropdown() {

@@ -43,7 +43,14 @@ class ProductDetailsFragment : Fragment() {
         }
 
         binding.btnDelete.setOnClickListener {
-            deleteProduct()
+            com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Delete Product")
+                .setMessage("Are you sure you want to delete this product? This action cannot be undone.")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Delete") { _, _ ->
+                    deleteProduct()
+                }
+                .show()
         }
     }
 
