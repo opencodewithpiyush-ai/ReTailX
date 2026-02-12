@@ -49,6 +49,30 @@ class EmployeeProfileFragment : Fragment() {
                         binding.etEmail.setText(email)
                         binding.etPhone.setText(phone)
                         
+                        // Assuming 'data' here refers to the document snapshot itself or a map derived from it.
+                        // For consistency with existing code, using 'document' directly.
+                        
+                        // We already set these above:
+                        // binding.etName.setText(name)
+                        // binding.etEmail.setText(email)
+                        // binding.etPhone.setText(phone)
+                        
+                        // So we don't need to set them again using these incorrect IDs.
+                        // However, we DO need to make sure role is displayed.
+                        // The layout uses chips for role/permission.
+                        // Let's remove the incorrect lines and rely on the chip logic below.
+                
+                        val profileImageUrl = document.getString("profileImageUrl")
+                        if (!profileImageUrl.isNullOrEmpty()) {
+                            coil.ImageLoader(requireContext()).enqueue(
+                                coil.request.ImageRequest.Builder(requireContext())
+                                    .data(profileImageUrl)
+                                    .target(binding.ivProfile)
+                                    .placeholder(com.rajatt7z.retailx.R.drawable.round_account_circle_24)
+                                    .error(com.rajatt7z.retailx.R.drawable.round_account_circle_24)
+                                    .build()
+                            )
+                        }                     
                         if (!role.isNullOrEmpty()) {
                             binding.chipRole.text = role
                             binding.chipRole.visibility = View.VISIBLE

@@ -25,14 +25,14 @@
         android:id="@+id/ivProfile"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/round_account_circle_24"
         app:layout_constraintBottom_toBottomOf="@+id/tvWelcome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Circle" />
 
     <!-- Content Section -->
     <ScrollView

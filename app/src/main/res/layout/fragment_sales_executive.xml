@@ -36,6 +36,7 @@
                 android:id="@+id/ivProfile"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:scaleType="centerCrop"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
@@ -43,7 +44,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvHeader"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvHeader"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Circle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

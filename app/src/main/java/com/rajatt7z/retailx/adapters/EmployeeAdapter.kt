@@ -39,6 +39,24 @@ class EmployeeAdapter(
             tvEmployeeRole.text = employee.role
             tvEmployeePhone.text = employee.phone
             
+            // Clear tint to show actual image colors
+            ivAvatar.imageTintList = null
+            
+            if (employee.profileImageUrl.isNotEmpty()) {
+                coil.ImageLoader(root.context).enqueue(
+                    coil.request.ImageRequest.Builder(root.context)
+                        .data(employee.profileImageUrl)
+                        .target(ivAvatar)
+                        .placeholder(com.rajatt7z.retailx.R.drawable.baseline_person_24)
+                        .error(com.rajatt7z.retailx.R.drawable.baseline_person_24)
+                        .build()
+                )
+            } else {
+                 ivAvatar.setImageResource(com.rajatt7z.retailx.R.drawable.baseline_person_24)
+                 // Re-apply tint for default icon if desired, or just leave it
+                 ivAvatar.setColorFilter(android.graphics.Color.GRAY, android.graphics.PorterDuff.Mode.SRC_IN)
+            }
+            
             root.setOnClickListener {
                 onEmployeeClick(employee)
             }

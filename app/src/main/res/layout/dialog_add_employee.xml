@@ -61,6 +61,35 @@
                         android:textColor="?attr/colorOnSurface"
                         android:layout_marginBottom="20dp"/>
 
+                    <RelativeLayout
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="24dp">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/ivEmployeeProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/round_account_circle_24"
+                            android:scaleType="centerCrop"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Circle"
+                            app:strokeColor="?attr/colorPrimary"
+                            app:strokeWidth="2dp"/>
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/baseline_camera_alt_24"
+                            android:background="?attr/colorPrimary"
+                            android:padding="5dp"
+                            app:tint="?attr/colorOnPrimary"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Circle"/>
+
+                    </RelativeLayout>
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

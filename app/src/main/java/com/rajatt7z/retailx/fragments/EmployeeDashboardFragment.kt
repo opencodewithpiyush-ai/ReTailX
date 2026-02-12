@@ -46,6 +46,17 @@ class EmployeeDashboardFragment : Fragment() {
                         }
                         binding.tvWelcome.text = "$greeting\n$name !"
 
+                        val profileImageUrl = document.getString("profileImageUrl")
+                        if (!profileImageUrl.isNullOrEmpty()) {
+                            coil.ImageLoader(requireContext()).enqueue(
+                                coil.request.ImageRequest.Builder(requireContext())
+                                    .data(profileImageUrl)
+                                    .target(binding.ivProfile)
+                                    .placeholder(com.rajatt7z.retailx.R.drawable.round_account_circle_24)
+                                    .error(com.rajatt7z.retailx.R.drawable.round_account_circle_24)
+                                    .build()
+                            )
+                        }
                         // Role & Permission Logic
                         val role = document.getString("role") ?: ""
                         setupDashboardForRole(role)

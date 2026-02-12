@@ -135,6 +135,27 @@ class EmployeeListFragment : Fragment() {
         }
     }
 
+    private lateinit var imageUploadHelper: com.rajatt7z.retailx.utils.ImageUploadHelper
+    private var currentDialogImageView: android.widget.ImageView? = null
+    private var currentUploadedImageUrl: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        imageUploadHelper = com.rajatt7z.retailx.utils.ImageUploadHelper(this, lifecycleScope) { url ->
+            currentUploadedImageUrl = url
+            currentDialogImageView?.let { imageView ->
+                coil.ImageLoader(requireContext()).enqueue(
+                    coil.request.ImageRequest.Builder(requireContext())
+                        .data(url)
+                        .target(imageView)
+                        .placeholder(com.rajatt7z.retailx.R.drawable.round_account_circle_24)
+                        .error(com.rajatt7z.retailx.R.drawable.round_account_circle_24)
+                        .build()
+                )
+            }
+        }
+    }
+
     private fun showAddEmployeeDialog() {
         val dialog = android.app.Dialog(requireContext(), R.style.Theme_ReTailX_FullScreenDialog)
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
@@ -146,6 +167,15 @@ class EmployeeListFragment : Fragment() {
 
         dialogBinding.toolbar.title = "Add New Employee"
         dialogBinding.toolbar.setNavigationOnClickListener { dialog.dismiss() }
+
+        // RESET state for new employee
+        currentUploadedImageUrl = null
+        currentDialogImageView = dialogBinding.ivEmployeeProfile
+        
+        // Setup Image Picker
+        dialogBinding.ivEmployeeProfile.setOnClickListener {
+            imageUploadHelper.showImagePicker()
+        }
 
         // Setup Spinner
         val roles = arrayOf("Store Manager", "Inventory Manager", "Sales Executive")
@@ -173,7 +203,8 @@ class EmployeeListFragment : Fragment() {
                             "userType" to "employee",
                             "role" to role,
                             "permissions" to permission,
-                            "createdAt" to System.currentTimeMillis()
+                            "createdAt" to System.currentTimeMillis(),
+                            "profileImageUrl" to (currentUploadedImageUrl ?: "")
                         )
 
                         viewModel.createEmployee(email, password, userMap)
@@ -201,6 +232,27 @@ class EmployeeListFragment : Fragment() {
 
         dialogBinding.toolbar.title = "Edit Employee"
         dialogBinding.toolbar.setNavigationOnClickListener { dialog.dismiss() }
+        
+        // SETUP state for existing employee
+        currentUploadedImageUrl = employee.profileImageUrl
+        currentDialogImageView = dialogBinding.ivEmployeeProfile
+        
+        // Load existing image if available
+        if (currentUploadedImageUrl.isNullOrEmpty() == false) {
+             coil.ImageLoader(requireContext()).enqueue(
+                coil.request.ImageRequest.Builder(requireContext())
+                    .data(currentUploadedImageUrl)
+                    .target(dialogBinding.ivEmployeeProfile)
+                    .placeholder(com.rajatt7z.retailx.R.drawable.round_account_circle_24)
+                    .error(com.rajatt7z.retailx.R.drawable.round_account_circle_24)
+                    .build()
+            )
+        }
+        
+        // Setup Image Picker
+        dialogBinding.ivEmployeeProfile.setOnClickListener {
+            imageUploadHelper.showImagePicker()
+        }
 
         // Setup Spinner
         val roles = arrayOf("Store Manager", "Inventory Manager", "Sales Executive")
@@ -247,6 +299,10 @@ class EmployeeListFragment : Fragment() {
                             "role" to role,
                             "permissions" to permission
                         )
+                        
+                        if (currentUploadedImageUrl != null) {
+                            updates["profileImageUrl"] = currentUploadedImageUrl!!
+                        }
 
                         // Password changes are handled through Firebase Auth, not Firestore
 

@@ -67,6 +67,18 @@ class InventoryManagerFragment : Fragment() {
                     if (document != null && document.exists()) {
                         val name = document.getString("name") ?: roleTitle
                         headerView.text = "$greeting\n$name"
+                        
+                        val profileImageUrl = document.getString("profileImageUrl")
+                        if (!profileImageUrl.isNullOrEmpty()) {
+                            coil.ImageLoader(requireContext()).enqueue(
+                                coil.request.ImageRequest.Builder(requireContext())
+                                    .data(profileImageUrl)
+                                    .target(profileView)
+                                    .placeholder(com.rajatt7z.retailx.R.drawable.round_account_circle_24)
+                                    .error(com.rajatt7z.retailx.R.drawable.round_account_circle_24)
+                                    .build()
+                            )
+                        }
                     }
                 }
         }

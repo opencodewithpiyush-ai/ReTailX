@@ -8,5 +8,6 @@ data class Employee(
     val role: String = "", // Store Manager, Inventory Manager, Sales Executive
     val permissions: String = "", // Viewer, Editor
     val userType: String = "employee",
+    val profileImageUrl: String = "",
     val createdAt: Long = 0L
 )

@@ -122,6 +122,18 @@ class DashboardOverviewFragment : Fragment() {
                  val data = resource.data
                  val businessName = data?.get("businessName") as? String ?: "Admin"
                  binding.tvGreeting.text = "Welcome To $businessName"
+                 
+                 val profileImageUrl = data?.get("profileImageUrl") as? String
+                 if (!profileImageUrl.isNullOrEmpty()) {
+                    coil.ImageLoader(requireContext()).enqueue(
+                        coil.request.ImageRequest.Builder(requireContext())
+                            .data(profileImageUrl)
+                            .target(binding.ivAdminProfile)
+                            .placeholder(com.rajatt7z.retailx.R.drawable.round_account_circle_24)
+                            .error(com.rajatt7z.retailx.R.drawable.round_account_circle_24)
+                            .build()
+                    )
+                 }
             }
         }
         

@@ -31,11 +31,12 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
+        android:scaleType="centerCrop"
         android:src="@drawable/round_account_circle_24"
         app:layout_constraintBottom_toBottomOf="@+id/tvHeader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvHeader"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.App.Circle" />
     
     <TextView
          android:id="@+id/tvSubHeader"
