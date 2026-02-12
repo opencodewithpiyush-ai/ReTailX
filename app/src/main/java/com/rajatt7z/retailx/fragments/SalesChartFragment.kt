@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.color.MaterialColors
 import com.rajatt7z.retailx.databinding.FragmentSalesChartBinding
 import kotlinx.coroutines.launch
 
@@ -40,7 +41,7 @@ class SalesChartFragment : Fragment() {
         // Pie Chart Setup
         binding.pieChart.description.isEnabled = false
         binding.pieChart.isDrawHoleEnabled = true
-        binding.pieChart.setHoleColor(Color.WHITE)
+        // binding.pieChart.setHoleColor(Color.WHITE) // Set dynamically in loadChartData
         binding.pieChart.transparentCircleRadius = 61f
     }
 
@@ -100,6 +101,10 @@ class SalesChartFragment : Fragment() {
             
             if (_binding == null) return@launch
             
+            // Resolve Theme Colors
+            val colorOnSurface = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorOnSurface)
+            val colorSurface = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurface)
+
             // Bar Chart Update
             if (barEntries.isNotEmpty()) {
                 val periodLabel = when {
@@ -109,11 +114,19 @@ class SalesChartFragment : Fragment() {
                 }
                 val barDataSet = com.github.mikephil.charting.data.BarDataSet(barEntries, periodLabel)
                 barDataSet.colors = com.github.mikephil.charting.utils.ColorTemplate.MATERIAL_COLORS.toList()
-                barDataSet.valueTextColor = Color.BLACK
+                barDataSet.valueTextColor = colorOnSurface
                 barDataSet.valueTextSize = 12f
                 
                 binding.barChart.xAxis.valueFormatter = com.github.mikephil.charting.formatter.IndexAxisValueFormatter(labels)
                 binding.barChart.xAxis.granularity = 1f
+                
+                // Theme Styling for Bar Chart
+                binding.barChart.xAxis.textColor = colorOnSurface
+                binding.barChart.axisLeft.textColor = colorOnSurface
+                binding.barChart.axisRight.textColor = colorOnSurface
+                binding.barChart.legend.textColor = colorOnSurface
+                binding.barChart.description.textColor = colorOnSurface
+                
                 val barData = com.github.mikephil.charting.data.BarData(barDataSet)
                 binding.barChart.data = barData
                 binding.barChart.invalidate()
@@ -137,9 +150,15 @@ class SalesChartFragment : Fragment() {
             if (pieEntries.isNotEmpty()) {
                 val pieDataSet = com.github.mikephil.charting.data.PieDataSet(pieEntries, "Top Products")
                 pieDataSet.colors = com.github.mikephil.charting.utils.ColorTemplate.JOYFUL_COLORS.toList()
-                pieDataSet.valueTextColor = Color.WHITE
+                pieDataSet.valueTextColor = Color.WHITE // Inside chart slices, white usually looks best with colors
                 pieDataSet.valueTextSize = 14f
     
+                // Theme Styling for Pie Chart
+                binding.pieChart.setHoleColor(colorSurface)
+                binding.pieChart.setEntryLabelColor(Color.WHITE) // Inside slices
+                binding.pieChart.legend.textColor = colorOnSurface
+                binding.pieChart.description.textColor = colorOnSurface
+
                 val pieData = com.github.mikephil.charting.data.PieData(pieDataSet)
                 binding.pieChart.data = pieData
                 binding.pieChart.invalidate()

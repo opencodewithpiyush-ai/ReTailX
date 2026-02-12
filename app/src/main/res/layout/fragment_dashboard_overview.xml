@@ -44,6 +44,7 @@
                 android:src="@drawable/round_account_circle_24"
                 android:clickable="true"
                 android:focusable="true"
+                android:scaleType="centerCrop"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
                 app:layout_constraintEnd_toEndOf="parent"
