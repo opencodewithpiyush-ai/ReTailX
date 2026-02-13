@@ -7,49 +7,30 @@
     android:background="?android:attr/colorBackground"
     tools:context=".fragments.products.ProductListFragment">
 
-    <!-- Headline Text -->
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvHeadline"
+    <com.google.android.material.search.SearchBar
+        android:id="@+id/search_bar"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/circular_spotify"
-        android:letterSpacing="0.01"
-        android:text="Search &amp; Add Product"
-        android:textColor="?attr/colorOnBackground"
-        android:textSize="28sp"
-        android:textStyle="bold"
+        android:layout_height="0dp"
+        android:hint="@string/search_hint"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Enhanced Search Bar with Material 3 styling -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/searchInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Search products..."
-        app:endIconMode="clear_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHeadline">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/searchBar"
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/search_hint"
+        app:layout_anchor="@id/search_bar">
+        <!-- Search Results -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_search_results"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:maxLines="1"
-            android:drawableEnd="@drawable/search_24"
-            android:drawablePadding="16dp"
-            android:imeOptions="actionSearch" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="16dp" />
+    </com.google.android.material.search.SearchView>
 
     <!-- Enhanced Tab Layout with Material 3 expressive design -->
     <com.google.android.material.card.MaterialCardView
@@ -57,13 +38,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchInputLayout"
+        app:layout_constraintTop_toTopOf="parent"
         app:strokeWidth="0dp">
 
         <com.google.android.material.tabs.TabLayout
@@ -74,6 +55,7 @@
             android:elevation="0dp"
 
             app:tabGravity="fill"
+            app:tabIconTint="@color/selector_tab_content"
             app:tabIndicator="@drawable/tab_indicator_rounded"
             app:tabIndicatorAnimationMode="elastic"
             app:tabIndicatorColor="@null"
@@ -82,10 +64,9 @@
             app:tabIndicatorHeight="40dp"
             app:tabMode="fixed"
             app:tabPadding="8dp"
+            app:tabRippleColor="@android:color/transparent"
             app:tabSelectedTextColor="@color/selector_tab_content"
-            app:tabTextColor="@color/selector_tab_content"
-            app:tabIconTint="@color/selector_tab_content"
-            app:tabRippleColor="@android:color/transparent">
+            app:tabTextColor="@color/selector_tab_content">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -150,6 +131,17 @@
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/search_desc"
+        android:src="@drawable/search_24"
+        app:layout_constraintBottom_toTopOf="@id/fabAddProduct"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Extended FAB with Material 3 expressive design -->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

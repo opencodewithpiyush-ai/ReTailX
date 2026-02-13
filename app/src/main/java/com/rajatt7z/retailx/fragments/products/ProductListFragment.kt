@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
+
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +26,7 @@ class ProductListFragment : Fragment() {
     private val binding get() = _binding!!
     private val repository = ProductRepository()
     private lateinit var adapter: ProductAdapter
+    private lateinit var searchAdapter: ProductAdapter
     private var allProducts = listOf<Product>()
     private var draftProducts = listOf<Product>()
     private var currentTab = 0
@@ -89,6 +90,34 @@ class ProductListFragment : Fragment() {
         }
         binding.recyclerViewProducts.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewProducts.adapter = adapter
+        
+        // Setup Search Results RecyclerView
+        searchAdapter = ProductAdapter(emptyList()) { product ->
+             // Reusing the same click logic
+             if (canEdit) {
+                 if (product.isDraft) {
+                     val bundle = android.os.Bundle().apply {
+                         putString("draft_name", product.name)
+                         putString("draft_description", product.description)
+                         putDouble("draft_price", product.price)
+                         putInt("draft_stock", product.stock)
+                         putString("draft_category", product.category)
+                         putBoolean("is_draft_edit", true)
+                     }
+                     findNavController().navigate(R.id.action_productListFragment_to_addProductFragment, bundle)
+                 } else {
+                     val action = ProductListFragmentDirections.actionProductListFragmentToProductDetailsFragment(product.id)
+                     findNavController().navigate(action)
+                 }
+             } else {
+                 val action = ProductListFragmentDirections.actionProductListFragmentToProductDetailsFragment(product.id)
+                 findNavController().navigate(action)
+             }
+             // Close search view on click if needed, or let navigation handle it
+             binding.searchView.hide()
+        }
+        binding.recyclerViewSearchResults.layoutManager = LinearLayoutManager(context)
+        binding.recyclerViewSearchResults.adapter = searchAdapter
     }
 
     private fun setupTabs() {
@@ -136,9 +165,20 @@ class ProductListFragment : Fragment() {
     }
 
     private fun setupSearch() {
-        binding.searchBar.addTextChangedListener { editable ->
+        binding.fabSearch.setOnClickListener {
+            binding.searchView.show()
+        }
+        
+        binding.searchView.editText.addTextChangedListener { editable ->
             currentSearchQuery = editable?.toString() ?: ""
             filterList()
+        }
+        
+        binding.searchView.addTransitionListener { searchView, previousState, newState ->
+             if (newState == com.google.android.material.search.SearchView.TransitionState.SHOWN) {
+                 // Initialize search results
+                 filterList()
+             }
         }
     }
 
@@ -154,15 +194,27 @@ class ProductListFragment : Fragment() {
             }
         }
 
+        // Update main list adapter regardless (in case search view closes)
         adapter.updateList(filtered)
+        
+        // Update search results adapter
+        searchAdapter.updateList(filtered)
 
-        // Show empty state if list is empty
+        // Show empty state if list is empty (handle visibility for both views)
+        // Note: SearchView handles its own empty state UI if needed, but for now we rely on the list.
         if (filtered.isEmpty()) {
             binding.recyclerViewProducts.visibility = View.GONE
-            binding.tvEmptyState.visibility = View.VISIBLE
+            // If in search mode, maybe show empty state inside search view? 
+            // We can toggle visibility of recyclerViewSearchResults but currently no empty view inside.
         } else {
             binding.recyclerViewProducts.visibility = View.VISIBLE
-            binding.tvEmptyState.visibility = View.GONE
+        }
+        
+        // Main empty state logic
+        if (filtered.isEmpty() && !binding.searchView.isShowing) {
+             binding.tvEmptyState.visibility = View.VISIBLE
+        } else {
+             binding.tvEmptyState.visibility = View.GONE
         }
     }
 
