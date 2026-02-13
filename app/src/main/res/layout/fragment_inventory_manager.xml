@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F2F5"
     tools:context=".fragments.InventoryManagerFragment">
 
     <!-- Header Section -->
@@ -16,7 +15,7 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/circular_spotify"
         android:text="Good Morning\nInventory Manager"
-        android:textColor="@android:color/black"
+        android:textColor="?attr/colorControlActivated"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/ivProfile"
@@ -45,7 +44,7 @@
          android:text="Track and manage orders in real-time"
          android:layout_marginStart="24dp"
          android:layout_marginTop="4dp"
-         android:textColor="#666666"
+         android:textColor="?attr/colorSecondary"
          app:layout_constraintTop_toBottomOf="@+id/tvHeader"
          app:layout_constraintStart_toStartOf="parent"/>
 

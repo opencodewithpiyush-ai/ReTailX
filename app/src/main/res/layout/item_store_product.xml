@@ -30,14 +30,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"
             android:ellipsize="end"
             android:fontFamily="@font/circular_spotify"
             android:maxLines="2"
-            android:textColor="@android:color/black"
+            android:textColor="?attr/colorPrimary"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imgProductThumbnail"
             tools:text="Apple generic name" />
@@ -46,25 +44,25 @@
             android:id="@+id/tvProductPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginEnd="12dp"
             android:fontFamily="@font/circular_spotify"
             android:textColor="@android:color/holo_green_dark"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/tvProductName"
-            app:layout_constraintTop_toBottomOf="@id/tvProductName"
+            app:layout_constraintBottom_toBottomOf="@+id/tvProductStock"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvProductName"
             tools:text="$5.0" />
 
         <TextView
             android:id="@+id/tvProductStock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:fontFamily="@font/montserrat_regular"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="?attr/colorSecondary"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@+id/tvProductName"
-            app:layout_constraintTop_toBottomOf="@id/tvProductPrice"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductName"
             tools:text="Stock: 10" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

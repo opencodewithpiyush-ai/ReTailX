@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
     tools:context=".fragments.StoreManagerFragment">
 
     <!-- Header Section -->
@@ -16,7 +15,7 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/circular_spotify"
         android:text="Good Morning\nStore Manager"
-        android:textColor="@android:color/black"
+        android:textColor="?attr/colorControlActivated"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/ivProfile"
@@ -45,7 +44,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/circular_spotify"
         android:text="Manage your inventory &amp; products"
-        android:textColor="#757575"
+        android:textColor="?attr/colorSecondary"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/tvHeader"
         app:layout_constraintTop_toBottomOf="@+id/tvHeader" />
@@ -56,9 +55,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="24dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="8dp"
+        style="@style/Widget.Material3.CardView.Filled"
+        app:cardBackgroundColor="?attr/colorPrimaryContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSubHeader">
@@ -81,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-"
-                    android:textColor="@android:color/black"
+                    android:textColor="?attr/colorPrimary"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -89,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total Products"
-                    android:textColor="#757575"
+                    android:textColor="?attr/colorSecondary"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -118,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Low Stock"
-                    android:textColor="#757575"
+                    android:textColor="?attr/colorSecondary"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -133,7 +132,7 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/circular_spotify"
         android:text="All Products"
-        android:textColor="@android:color/black"
+        android:textColor="?attr/colorControlActivated"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +150,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvProductsTitle"
-        tools:listitem="@layout/item_product" />
+        tools:listitem="@layout/item_store_product" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabAddProduct"
@@ -160,10 +159,9 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:text="Add Product"
-        android:textColor="@android:color/white"
-        app:backgroundTint="@color/design_default_color_primary"
-        app:icon="@drawable/ic_add"
-        app:iconTint="@android:color/white"
+        android:fontFamily="@font/circular_spotify"
+        app:backgroundTint="?attr/colorPrimaryContainer"
+        app:icon="@drawable/round_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
