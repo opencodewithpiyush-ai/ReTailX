@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="8dp"
-    app:cardElevation="2dp"
+    style="@style/Widget.Material3.CardView.Filled"
     android:layout_margin="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,6 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Product Name"
+            android:fontFamily="@font/circular_spotify"
             android:textStyle="bold"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,6 +30,7 @@
             android:layout_height="wrap_content"
             android:text="12 Oct, 10:00 AM"
             android:textSize="12sp"
+            android:fontFamily="@font/roboto_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -37,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Qty: 5"
+            android:fontFamily="@font/montserrat_regular"
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvProductName"/>
@@ -47,6 +50,7 @@
             android:layout_height="wrap_content"
             android:text="Pending"
             android:textStyle="bold"
+            android:fontFamily="@font/circular_spotify"
             android:textColor="@android:color/holo_orange_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDate"

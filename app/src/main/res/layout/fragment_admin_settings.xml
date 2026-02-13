@@ -28,6 +28,7 @@
             android:layout_marginBottom="16dp"
             app:cardElevation="2dp"
             app:cardCornerRadius="12dp"
+            style="@style/Widget.Material3.CardView.Filled"
             android:clickable="true"
             android:focusable="true">
 
@@ -64,12 +65,12 @@
                         android:text="Manage personal details"
                         android:textSize="14sp"/>
                 </LinearLayout>
-                
+
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_arrow_forward_ios_24"
-                    app:tint="#BDBDBD"/>
+                    app:tint="?attr/colorPrimary" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -82,7 +83,8 @@
             app:cardElevation="2dp"
             app:cardCornerRadius="12dp"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            style="@style/Widget.Material3.CardView.Filled">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -122,7 +124,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_arrow_forward_ios_24"
-                    app:tint="#BDBDBD"/>
+                    app:tint="?attr/colorPrimary"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -135,7 +137,8 @@
             app:cardElevation="2dp"
             app:cardCornerRadius="12dp"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            style="@style/Widget.Material3.CardView.Filled">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -175,7 +178,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_arrow_forward_ios_24"
-                    app:tint="#BDBDBD"/>
+                    app:tint="?attr/colorPrimary"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -188,7 +191,8 @@
             app:cardElevation="2dp"
             app:cardCornerRadius="12dp"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            style="@style/Widget.Material3.CardView.Filled">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -228,7 +232,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_arrow_forward_ios_24"
-                    app:tint="#BDBDBD"/>
+                    app:tint="?attr/colorPrimary"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -241,7 +245,8 @@
             app:cardElevation="2dp"
             app:cardCornerRadius="12dp"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            style="@style/Widget.Material3.CardView.Filled">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -281,7 +286,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_arrow_forward_ios_24"
-                    app:tint="#BDBDBD"/>
+                    app:tint="?attr/colorPrimary"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

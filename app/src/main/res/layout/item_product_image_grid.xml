@@ -5,7 +5,7 @@
     android:layout_height="128dp"
     android:layout_margin="4dp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    style="@style/Widget.Material3.CardView.Filled">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgProduct"

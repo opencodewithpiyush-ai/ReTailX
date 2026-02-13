@@ -6,9 +6,7 @@
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    app:strokeWidth="1dp"
-    app:strokeColor="?attr/colorControlHighlight">
+    style="@style/Widget.Material3.CardView.Filled">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date"
+            android:fontFamily="@font/circular_std"
             android:textColor="?attr/colorTertiary"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Product Name"
+            android:fontFamily="@font/circular_spotify"
             android:textColor="?attr/colorPrimary"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -54,6 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pending"
+            android:fontFamily="@font/circular_spotify"
             android:textColor="@android:color/white"
             app:chipBackgroundColor="@android:color/holo_orange_light"
             app:chipCornerRadius="8dp"
@@ -77,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Qty: 5"
+                android:fontFamily="@font/montserrat_regular"
                 android:textColor="?attr/colorSecondary" />
 
             <TextView
@@ -85,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="Sold by: John Doe"
                 android:textColor="?attr/colorTertiary" />
         </LinearLayout>
@@ -94,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="12dp"
-            android:background="#EEEEEE"
+            android:background="?attr/colorPrimary"
             app:layout_constraintTop_toBottomOf="@+id/llDetails" />
 
         <com.google.android.material.button.MaterialButton
