@@ -22,6 +22,16 @@ class UpdateProductFragment : Fragment() {
     private val args: UpdateProductFragmentArgs by navArgs()
     private lateinit var currentProduct: Product
 
+    private lateinit var imageAdapter: com.rajatt7z.retailx.adapters.EditableImageAdapter
+    private val selectedImages = mutableListOf<com.rajatt7z.retailx.adapters.EditableImage>()
+
+    private val pickImageLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.GetContent()) { uri: android.net.Uri? ->
+        uri?.let {
+            val image = com.rajatt7z.retailx.adapters.EditableImage.Local(it)
+            imageAdapter.addImage(image)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,11 +42,24 @@ class UpdateProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        setupRecyclerView()
         loadProduct(args.productId)
+
+        binding.btnAddImage.setOnClickListener {
+            pickImageLauncher.launch("image/*")
+        }
 
         binding.btnUpdate.setOnClickListener {
             updateProduct()
         }
+    }
+
+    private fun setupRecyclerView() {
+        imageAdapter = com.rajatt7z.retailx.adapters.EditableImageAdapter(selectedImages) { image ->
+            imageAdapter.removeImage(image)
+        }
+        binding.rvEventListeners.adapter = imageAdapter
     }
 
     private fun loadProduct(id: String) {
@@ -58,24 +81,64 @@ class UpdateProductFragment : Fragment() {
         binding.etProductPrice.setText(product.price.toString())
         binding.etProductStock.setText(product.stock.toString())
         binding.etProductCategory.setText(product.category)
+
+        selectedImages.clear()
+        if (product.imageUrls.isNotEmpty()) {
+            selectedImages.addAll(product.imageUrls.map { com.rajatt7z.retailx.adapters.EditableImage.Remote(it) })
+            imageAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun updateProduct() {
         if (!::currentProduct.isInitialized) return
 
-        currentProduct.name = binding.etProductName.text.toString()
-        currentProduct.description = binding.etProductDescription.text.toString()
-        currentProduct.price = binding.etProductPrice.text.toString().toDoubleOrNull() ?: 0.0
-        currentProduct.stock = binding.etProductStock.text.toString().toIntOrNull() ?: 0
-        currentProduct.category = binding.etProductCategory.text.toString()
+        val name = binding.etProductName.text.toString()
+        val description = binding.etProductDescription.text.toString()
+        val price = binding.etProductPrice.text.toString().toDoubleOrNull() ?: 0.0
+        val stock = binding.etProductStock.text.toString().toIntOrNull() ?: 0
+        val category = binding.etProductCategory.text.toString()
+
+        if (name.isEmpty() || description.isEmpty() || category.isEmpty()) {
+            Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        binding.progressBar.visibility = View.VISIBLE
+        binding.btnUpdate.isEnabled = false
 
         lifecycleScope.launch {
             try {
+                // Handle Images
+                val finalImageUrls = mutableListOf<String>()
+                val currentImages = imageAdapter.getImages()
+
+                for (image in currentImages) {
+                    when (image) {
+                        is com.rajatt7z.retailx.adapters.EditableImage.Remote -> {
+                            finalImageUrls.add(image.url)
+                        }
+                        is com.rajatt7z.retailx.adapters.EditableImage.Local -> {
+                            val url = repository.uploadImage(requireContext(), image.uri)
+                            finalImageUrls.add(url)
+                        }
+                    }
+                }
+
+                currentProduct.name = name
+                currentProduct.description = description
+                currentProduct.price = price
+                currentProduct.stock = stock
+                currentProduct.category = category
+                currentProduct.imageUrls = finalImageUrls
+
                 repository.updateProduct(currentProduct)
                 Toast.makeText(context, "Product updated", Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack()
             } catch (e: Exception) {
                 Toast.makeText(context, "Update failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            } finally {
+                binding.progressBar.visibility = View.GONE
+                binding.btnUpdate.isEnabled = true
             }
         }
     }

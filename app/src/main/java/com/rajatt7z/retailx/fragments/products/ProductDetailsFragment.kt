@@ -37,9 +37,15 @@ class ProductDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         loadProduct(args.productId)
 
+        checkUserRole()
+
         binding.btnEdit.setOnClickListener {
-            val action = ProductDetailsFragmentDirections.actionProductDetailsFragmentToUpdateProductFragment(args.productId)
-            findNavController().navigate(action)
+            try {
+                val action = ProductDetailsFragmentDirections.actionProductDetailsFragmentToUpdateProductFragment(args.productId)
+                findNavController().navigate(action)
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Navigation path not found for this user role", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.btnDelete.setOnClickListener {
@@ -51,6 +57,27 @@ class ProductDetailsFragment : Fragment() {
                     deleteProduct()
                 }
                 .show()
+        }
+    }
+
+    private fun checkUserRole() {
+        lifecycleScope.launch {
+            val authRepository = com.rajatt7z.retailx.repository.AuthRepository()
+            val currentUser = authRepository.getCurrentUser()
+            if (currentUser != null) {
+                val result = authRepository.getUserDetails(currentUser.uid)
+                if (result is com.rajatt7z.retailx.utils.Resource.Success) {
+                    val role = result.data?.get("role") as? String
+                    // Allow only Admin and Store Manager to edit/delete
+                    if (role == "Admin" || role == "Store Manager") {
+                        binding.btnEdit.visibility = View.VISIBLE
+                        binding.btnDelete.visibility = View.VISIBLE
+                    } else {
+                        binding.btnEdit.visibility = View.GONE
+                        binding.btnDelete.visibility = View.GONE
+                    }
+                }
+            }
         }
     }
 

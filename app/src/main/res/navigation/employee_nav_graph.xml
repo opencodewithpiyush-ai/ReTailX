@@ -77,6 +77,9 @@
         <argument
             android:name="productId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_updateProductFragment"
+            app:destination="@id/updateProductFragment" />
     </fragment>
 
     <fragment
@@ -169,5 +172,15 @@
          <action
              android:id="@+id/action_salesExecutiveFragment_to_profile"
              app:destination="@id/employeeProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/updateProductFragment"
+        android:name="com.rajatt7z.retailx.fragments.products.UpdateProductFragment"
+        android:label="Update Product"
+        tools:layout="@layout/fragment_update_product">
+        <argument
+            android:name="productId"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -103,6 +103,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/circular_spotify"
                     android:text="Edit"
+                    android:visibility="gone"
                     app:cornerRadius="8dp" />
 
                 <View
@@ -118,6 +119,7 @@
                     android:fontFamily="@font/circular_spotify"
                     android:text="Delete"
                     android:textColor="?attr/colorOnError"
+                    android:visibility="gone"
                     app:cornerRadius="8dp" />
 
             </LinearLayout>
