@@ -54,6 +54,7 @@
                     android:padding="24dp">
 
                     <TextView
+                        android:fontFamily="@font/circular_spotify"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Personal Information"
@@ -158,6 +159,7 @@
                     android:padding="24dp">
 
                     <TextView
+                        android:fontFamily="@font/circular_spotify"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Role &amp; Permissions"
@@ -191,6 +193,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Access Level"
+                        android:fontFamily="@font/circular_spotify"
                         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         android:layout_marginBottom="12dp"/>
@@ -250,6 +253,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Security"
+                        android:fontFamily="@font/circular_spotify"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="?attr/colorOnSurface"
                         android:layout_marginBottom="20dp"/>

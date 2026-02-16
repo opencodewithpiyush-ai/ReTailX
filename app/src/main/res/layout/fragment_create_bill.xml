@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="?attr/colorSurface">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -73,7 +73,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
-                style="@style/Widget.Material3.CardView.Filled"
                 android:layout_marginBottom="24dp">
 
                 <LinearLayout
@@ -132,6 +131,7 @@
                             android:layout_height="wrap_content"
                             app:cornerRadius="8dp"
                             android:text="Add"
+                            style="@style/Widget.Material3.Button.TonalButton"
                             android:fontFamily="@font/circular_spotify"
                             android:layout_gravity="center_vertical"/>
                         
@@ -168,36 +168,38 @@
         android:id="@+id/footerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        android:elevation="16dp"
         android:orientation="vertical"
         android:padding="16dp"
-        android:background="@color/white"
-        android:elevation="16dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Total Amount:"
                 android:fontFamily="@font/circular_spotify"
+                android:text="Total Amount:"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvTotalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$0.00"
                 android:fontFamily="@font/circular_spotify"
+                android:text="$0.00"
+                android:textColor="#598C58"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#598C58"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -208,22 +210,22 @@
 
             <Button
                 android:id="@+id/btnPreview"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:text="Preview"
                 android:fontFamily="@font/circular_spotify"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_marginEnd="8dp"/>
+                android:text="Preview" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnGenerateBill"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                app:cornerRadius="8dp"
-                android:fontFamily="@font/circular_spotify"
                 android:layout_weight="1"
-                android:text="Generate Bill"/>
+                android:fontFamily="@font/circular_spotify"
+                android:text="Generate Bill"
+                app:cornerRadius="8dp" />
 
         </LinearLayout>
 
