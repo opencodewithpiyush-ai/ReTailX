@@ -35,6 +35,34 @@
             app:exitAnim="@anim/slide_out_bottom"
             app:popEnterAnim="@anim/slide_in_bottom"
             app:popExitAnim="@anim/slide_out_bottom" />
+        <action
+            android:id="@+id/action_overview_to_salesOverview"
+            app:destination="@id/salesOverviewFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_bottom" />
+        <action
+            android:id="@+id/action_overview_to_products"
+            app:destination="@id/productsFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_bottom" />
+        <action
+            android:id="@+id/action_overview_to_employeeGrid"
+            app:destination="@id/employeeGridFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_bottom" />
+        <action
+            android:id="@+id/action_overview_to_orders"
+            app:destination="@id/ordersFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_bottom" />
     </fragment>
 
     <fragment
@@ -203,4 +231,39 @@
             app:popUpTo="@id/productListFragment"
             app:popUpToInclusive="true" />
     </fragment>
+
+    <fragment
+        android:id="@+id/salesOverviewFragment"
+        android:name="com.rajatt7z.retailx.fragments.SalesOverviewFragment"
+        android:label="Sales Overview"
+        tools:layout="@layout/fragment_sales_overview" />
+
+    <fragment
+        android:id="@+id/productsFragment"
+        android:name="com.rajatt7z.retailx.fragments.ProductsFragment"
+        android:label="Products"
+        tools:layout="@layout/fragment_products">
+         <action
+            android:id="@+id/action_productsFragment_to_addProductFragment"
+            app:destination="@id/addProductFragment" />
+         <action
+            android:id="@+id/action_productsFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/employeeGridFragment"
+        android:name="com.rajatt7z.retailx.fragments.EmployeeGridFragment"
+        android:label="Employees"
+        tools:layout="@layout/fragment_employee_grid">
+        <action
+            android:id="@+id/action_employeeGridFragment_to_addEmployeeFragment"
+            app:destination="@id/employeeListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.rajatt7z.retailx.fragments.OrdersFragment"
+        android:label="Orders"
+        tools:layout="@layout/fragment_orders" />
 </navigation>

@@ -62,6 +62,20 @@ class DashboardOverviewFragment : Fragment() {
         binding.btnManageProducts.setOnClickListener {
             findNavController().navigate(R.id.action_overview_to_productList)
         }
+        
+        // New Card Click Listeners
+        binding.cardSales.setOnClickListener {
+            findNavController().navigate(R.id.action_overview_to_salesOverview)
+        }
+        binding.cardProducts.setOnClickListener {
+            findNavController().navigate(R.id.action_overview_to_products)
+        }
+        binding.cardEmployees.setOnClickListener {
+             findNavController().navigate(R.id.action_overview_to_employeeGrid)
+        }
+        binding.cardOrders.setOnClickListener {
+            findNavController().navigate(R.id.action_overview_to_orders)
+        }
     }
 
 

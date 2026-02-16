@@ -9,5 +9,6 @@ data class Order(
     val timestamp: Long = 0L,
     val status: String = "Pending", // Pending, Completed, Cancelled
     val soldBy: String = "", // Employee ID
-    val customerName: String = ""
+    val customerName: String = "",
+    val customerPhone: String = ""
 )

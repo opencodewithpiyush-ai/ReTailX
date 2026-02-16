@@ -67,11 +67,15 @@
 
                 <!-- Total Sales Card -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardSales"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardElevation="0dp"
                     app:cardCornerRadius="20dp"
                     app:strokeWidth="0dp"
@@ -118,11 +122,15 @@
 
                 <!-- Total Products Card -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardProducts"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardElevation="0dp"
                     app:cardCornerRadius="20dp"
                     app:strokeWidth="0dp"
@@ -169,11 +177,15 @@
 
                 <!-- Total Employees Card -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardEmployees"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardElevation="0dp"
                     app:cardCornerRadius="20dp"
                     app:strokeWidth="0dp"
@@ -220,11 +232,15 @@
 
                 <!-- Total Orders Card -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardOrders"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardElevation="0dp"
                     app:cardCornerRadius="20dp"
                     app:strokeWidth="0dp"

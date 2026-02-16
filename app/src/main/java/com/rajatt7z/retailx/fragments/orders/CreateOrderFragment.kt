@@ -56,6 +56,8 @@ class CreateOrderFragment : Fragment() {
     private fun setupListeners() {
         binding.btnSubmitOrder.setOnClickListener {
             val quantityStr = binding.etQuantity.text.toString()
+            val customerName = binding.etCustomerName.text.toString()
+            val customerPhone = binding.etCustomerPhone.text.toString()
             
             if (selectedProduct == null) {
                 Toast.makeText(context, "Please select a product", Toast.LENGTH_SHORT).show()
@@ -86,7 +88,9 @@ class CreateOrderFragment : Fragment() {
                 quantity = quantity,
                 totalPrice = selectedProduct!!.price * quantity,
                 soldBy = employeeId,
-                status = "Pending"
+                status = "Pending",
+                customerName = customerName.ifEmpty { "Walk-in Customer" },
+                customerPhone = customerPhone
             )
 
             lifecycleScope.launch {
