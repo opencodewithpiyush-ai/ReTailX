@@ -74,24 +74,39 @@ class AdminLogin : com.rajatt7z.retailx.utils.BaseActivity() {
     }
 
     private fun showForgotPasswordDialog() {
-        val input = android.widget.EditText(this).apply {
-            hint = "Enter your email"
-            inputType = android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-        }
-        
-        val container = android.widget.FrameLayout(this).apply {
+        // Create a programmatic TextInputLayout and TextInputEditText for a Material look
+        val context = this
+        val textInputLayout = com.google.android.material.textfield.TextInputLayout(context).apply {
+            hint = "Email Address"
+            boxBackgroundMode = com.google.android.material.textfield.TextInputLayout.BOX_BACKGROUND_OUTLINE
+            setPadding(0, 0, 0, 0)
             val params = android.widget.FrameLayout.LayoutParams(
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT, 
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT
             )
-            params.setMargins(50, 20, 50, 20)
-            addView(input, params)
+            params.setMargins(60, 0, 60, 0)
+            layoutParams = params
+            
+            // Add start icon
+            setStartIconDrawable(com.rajatt7z.retailx.R.drawable.rounded_lock_24)
         }
 
-        androidx.appcompat.app.AlertDialog.Builder(this)
-            .setTitle("Reset Password")
+        val input = com.google.android.material.textfield.TextInputEditText(textInputLayout.context).apply {
+            inputType = android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            setSingleLine()
+        }
+        textInputLayout.addView(input)
+
+        val container = android.widget.FrameLayout(context).apply {
+            addView(textInputLayout)
+        }
+
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(context)
+            .setIcon(com.rajatt7z.retailx.R.drawable.rounded_lock_24)
+            .setTitle("Forgot Password?")
+            .setMessage("Enter your registered email address. We will send you a link to reset your password. \n\nCheck Spam Folder Too , It Should Be There...\n")
             .setView(container)
-            .setPositiveButton("Send Reset Link") { _, _ ->
+            .setPositiveButton("Send Link") { _, _ ->
                 val email = input.text.toString().trim()
                 if (email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     viewModel.sendResetEmail(email)

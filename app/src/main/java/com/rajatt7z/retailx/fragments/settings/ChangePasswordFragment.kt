@@ -46,11 +46,17 @@ class ChangePasswordFragment : Fragment() {
     }
 
     private fun updatePassword() {
+        val isResetMode = arguments?.getBoolean("IS_RESET_MODE") == true
         val currentPw = binding.etCurrentPassword.text.toString().trim()
         val newPw = binding.etNewPassword.text.toString().trim()
         val confirmPw = binding.etConfirmPassword.text.toString().trim()
 
-        if (currentPw.isEmpty() || newPw.isEmpty() || confirmPw.isEmpty()) {
+        if (!isResetMode && currentPw.isEmpty()) {
+            Toast.makeText(context, "Please enter current password", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (newPw.isEmpty() || confirmPw.isEmpty()) {
             Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
@@ -66,22 +72,42 @@ class ChangePasswordFragment : Fragment() {
         }
 
         val user = FirebaseAuth.getInstance().currentUser
-        if (user != null && user.email != null) {
-            val credential = EmailAuthProvider.getCredential(user.email!!, currentPw)
-            
-            // Re-authenticate first
-            user.reauthenticate(credential).addOnCompleteListener { reauthTask ->
-                if (reauthTask.isSuccessful) {
-                    user.updatePassword(newPw).addOnCompleteListener { updateTask ->
-                        if (updateTask.isSuccessful) {
-                            Toast.makeText(context, "Password updated successfully", Toast.LENGTH_SHORT).show()
-                            findNavController().navigateUp()
+        if (user != null) {
+            if (isResetMode) {
+                // Directly update password without re-authentication for reset mode
+                // Note: This requires a recent login session. If the session is old, it will fail.
+                user.updatePassword(newPw).addOnCompleteListener { updateTask ->
+                    if (updateTask.isSuccessful) {
+                        Toast.makeText(context, "Password reset successfully", Toast.LENGTH_SHORT).show()
+                        findNavController().navigateUp()
+                    } else {
+                        val exception = updateTask.exception
+                        if (exception is com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException) {
+                            Toast.makeText(context, "Please logout and login again to reset password", Toast.LENGTH_LONG).show()
                         } else {
-                            Toast.makeText(context, "AndUpdate failed: ${updateTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Reset failed: ${exception?.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
-                } else {
-                    Toast.makeText(context, "Authentication failed: Incorrect current password", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                // Standard flow with re-authentication
+                if (user.email != null) {
+                    val credential = EmailAuthProvider.getCredential(user.email!!, currentPw)
+                    
+                    user.reauthenticate(credential).addOnCompleteListener { reauthTask ->
+                        if (reauthTask.isSuccessful) {
+                            user.updatePassword(newPw).addOnCompleteListener { updateTask ->
+                                if (updateTask.isSuccessful) {
+                                    Toast.makeText(context, "Password updated successfully", Toast.LENGTH_SHORT).show()
+                                    findNavController().navigateUp()
+                                } else {
+                                    Toast.makeText(context, "Update failed: ${updateTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        } else {
+                            Toast.makeText(context, "Authentication failed: Incorrect current password", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
         }
