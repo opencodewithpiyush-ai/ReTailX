@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rajatt7z.retailx.adapters.DetailedOrderAdapter
 import com.rajatt7z.retailx.databinding.FragmentInventoryManagerBinding
 import com.rajatt7z.retailx.repository.OrderRepository
+import com.rajatt7z.retailx.repository.AuthRepository
 import kotlinx.coroutines.launch
 
 class InventoryManagerFragment : Fragment() {
@@ -19,6 +20,7 @@ class InventoryManagerFragment : Fragment() {
     private var _binding: FragmentInventoryManagerBinding? = null
     private val binding get() = _binding!!
     private val repository = OrderRepository()
+    private val authRepository = AuthRepository()
     private lateinit var adapter: DetailedOrderAdapter
 
     override fun onCreateView(
@@ -96,6 +98,13 @@ class InventoryManagerFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 val orders = repository.getAllOrders()
+                val employeesResult = authRepository.getEmployees()
+                
+                if (employeesResult is com.rajatt7z.retailx.utils.Resource.Success) {
+                    val employeeMap = employeesResult.data?.associate { it.uid to it.name } ?: emptyMap()
+                    adapter.updateEmployeeMap(employeeMap)
+                }
+                
                 adapter.updateList(orders)
             } catch (e: Exception) {
                 Toast.makeText(context, "Failed to load orders", Toast.LENGTH_SHORT).show()

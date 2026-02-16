@@ -15,6 +15,7 @@ import java.util.Locale
 
 class DetailedOrderAdapter(
     private var orders: List<Order>,
+    private var employeeNameMap: Map<String, String> = emptyMap(),
     private val onActionClick: (Order) -> Unit
 ) : RecyclerView.Adapter<DetailedOrderAdapter.DetailedViewHolder>() {
 
@@ -35,8 +36,9 @@ class DetailedOrderAdapter(
             tvProductName.text = order.productName
             tvStatus.text = order.status
             tvQuantity.text = "Quantity: ${order.quantity}"
-            // order.soldBy is likely an ID, in a real app we'd fetch the name or it might be stored
-            tvSoldBy.text = "Sold By: ${order.soldBy}" 
+            
+            val employeeName = employeeNameMap[order.soldBy] ?: order.soldBy
+            tvSoldBy.text = "Sold By: $employeeName"
 
             if (order.status == "Pending") {
                 btnAction.visibility = View.VISIBLE
@@ -63,6 +65,11 @@ class DetailedOrderAdapter(
 
     fun updateList(newOrders: List<Order>) {
         orders = newOrders
+        notifyDataSetChanged()
+    }
+
+    fun updateEmployeeMap(newMap: Map<String, String>) {
+        employeeNameMap = newMap
         notifyDataSetChanged()
     }
 }
