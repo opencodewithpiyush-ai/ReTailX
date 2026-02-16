@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
@@ -20,8 +21,9 @@ import com.rajatt7z.retailx.R
 import com.rajatt7z.retailx.databinding.ActivityMainBinding
 import com.rajatt7z.retailx.utils.Resource
 import com.rajatt7z.retailx.viewmodel.AuthViewModel
+import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : com.rajatt7z.retailx.utils.BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: AuthViewModel by viewModels()
@@ -43,44 +45,58 @@ class MainActivity : AppCompatActivity() {
         checkUserSession()
     }
 
+    override fun handleNetworkStatus(status: com.rajatt7z.retailx.utils.ConnectivityObserver.Status) {
+        super.handleNetworkStatus(status)
+        if (status == com.rajatt7z.retailx.utils.ConnectivityObserver.Status.Available) {
+            // Auto-retry session check
+            checkUserSession()
+        }
+    }
+
     private fun setupViewPager() {
-        val onboardingItems = listOf(
-            OnboardingItem(
-                title = "Inventory Control At One Place",
-                description = "Manage your stock efficiently and effortlessly",
-                animationRes = R.raw.inventory
-            ),
-            OnboardingItem(
-                title = "Cloud Sync",
-                description = "Real-time backup with Firebase & RoomDB",
-                animationRes = R.raw.sync
-            ),
-            OnboardingItem(
-                title = "Material 3",
-                description = "Modern, expressive, and beautiful UI design",
-                animationRes = R.raw.material
-            ),
-            OnboardingItem(
-                title = "Get Started",
-                description = "Login below to access your dashboard",
-                animationRes = R.raw.retailx
-            )
+        val onboardingData = listOf(
+            Triple("Inventory Control At One Place", "Manage your stock efficiently and effortlessly", R.raw.inventory),
+            Triple("Cloud Sync", "Real-time backup with Firebase & RoomDB", R.raw.sync),
+            Triple("Material 3", "Modern, expressive, and beautiful UI design", R.raw.material),
+            Triple("Get Started", "Login below to access your dashboard", R.raw.retailx)
         )
 
-        val adapter = OnboardingAdapter(onboardingItems)
-        binding.viewPager.adapter = adapter
-        binding.viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        // Initial empty adapter or with placeholders to avoid blocking
+        // Better: Load compositions asynchronously and then set the adapter
+        
+        com.airbnb.lottie.LottieCompositionFactory.clearCache(this) // Optional: Clear cache if needed, but usually not for onboarding
 
-        // Attach TabLayout (Dots)
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, _ ->
-            tab.icon = ContextCompat.getDrawable(this, R.drawable.tab_pager_selector)
-        }.attach()
+        // Use lifecycleScope to load compositions asynchronously on IO thread
+        lifecycleScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            val finalItems = onboardingData.map { (title, description, resId) ->
+                var composition: com.airbnb.lottie.LottieComposition? = null
+                try {
+                    val result = com.airbnb.lottie.LottieCompositionFactory.fromRawResSync(this@MainActivity, resId)
+                    composition = result.value
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                OnboardingItem(title, description, resId, composition)
+            }
+
+            kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                val adapter = OnboardingAdapter(finalItems)
+                binding.viewPager.adapter = adapter
+
+                // Re-attach TabLayoutMediator because adapter is set asynchronously
+                TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, _ ->
+                    tab.icon = ContextCompat.getDrawable(this@MainActivity, R.drawable.tab_pager_selector)
+                }.attach()
+            }
+        }
+
+        binding.viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         // Page Change Callback for Button Visibility
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                if (position == onboardingItems.size - 1) {
+                if (position == onboardingData.size - 1) {
                     // Final Page: Show Buttons
                     binding.loginBusinessBtn.visibility = View.VISIBLE
                     binding.loginCustomerBtn.visibility = View.VISIBLE
@@ -125,6 +141,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkUserSession() {
+        if (!com.rajatt7z.retailx.utils.NetworkUtils.isInternetAvailable(this)) {
+            return
+        }
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             viewModel.fetchUserDetails(user.uid)

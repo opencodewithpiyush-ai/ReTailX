@@ -5,10 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rajatt7z.retailx.databinding.ItemOnboardingPageBinding
 
+import com.airbnb.lottie.LottieComposition
+
 data class OnboardingItem(
     val title: String,
     val description: String,
-    val animationRes: Int
+    val animationRes: Int,
+    val composition: LottieComposition? = null
 )
 
 class OnboardingAdapter(private val items: List<OnboardingItem>) :
@@ -20,7 +23,11 @@ class OnboardingAdapter(private val items: List<OnboardingItem>) :
         fun bind(item: OnboardingItem) {
             binding.tvTitle.text = item.title
             binding.tvDescription.text = item.description
-            binding.imgOnboarding.setAnimation(item.animationRes)
+            if (item.composition != null) {
+                binding.imgOnboarding.setComposition(item.composition!!)
+            } else {
+                binding.imgOnboarding.setAnimation(item.animationRes)
+            }
             binding.imgOnboarding.playAnimation()
         }
     }

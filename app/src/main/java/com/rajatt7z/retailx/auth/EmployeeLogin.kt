@@ -16,7 +16,7 @@ import com.rajatt7z.retailx.databinding.ActivityEmployeeLoginBinding
 import com.rajatt7z.retailx.utils.Resource
 import com.rajatt7z.retailx.viewmodel.AuthViewModel
 
-class EmployeeLogin : AppCompatActivity() {
+class EmployeeLogin : com.rajatt7z.retailx.utils.BaseActivity() {
 
     private lateinit var binding: ActivityEmployeeLoginBinding
     private val viewModel: AuthViewModel by viewModels()
@@ -42,6 +42,11 @@ class EmployeeLogin : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
+            if (!com.rajatt7z.retailx.utils.NetworkUtils.isInternetAvailable(this)) {
+                Snackbar.make(binding.root, "No internet connection", Snackbar.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
 

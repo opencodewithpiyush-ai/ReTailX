@@ -13,6 +13,7 @@
         android:layout_marginBottom="48dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
+        app:lottie_renderMode="hardware"
         app:layout_constraintBottom_toTopOf="@+id/textContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

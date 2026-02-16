@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.rajatt7z.retailx.R
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 open class BaseActivity : AppCompatActivity() {
@@ -55,6 +57,46 @@ open class BaseActivity : AppCompatActivity() {
     override fun setContentView(layoutResID: Int) {
         super.setContentView(layoutResID)
         applyGlobalFont(window.decorView.findViewById(android.R.id.content))
+    }
+
+    private lateinit var connectivityObserver: ConnectivityObserver
+    private var snackbar: com.google.android.material.snackbar.Snackbar? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        connectivityObserver = NetworkConnectivityObserver(applicationContext)
+        
+        // Observe network changes
+        lifecycleScope.launch {
+            connectivityObserver.observe().collect { status ->
+               handleNetworkStatus(status)
+            }
+        }
+    }
+
+    protected open fun handleNetworkStatus(status: ConnectivityObserver.Status) {
+        val rootView = findViewById<View>(android.R.id.content) ?: return
+        
+        when (status) {
+            ConnectivityObserver.Status.Available -> {
+                snackbar?.dismiss()
+                snackbar = null
+            }
+            ConnectivityObserver.Status.Unavailable,
+            ConnectivityObserver.Status.Lost -> {
+                if (snackbar == null || !snackbar!!.isShown) {
+                    snackbar = com.google.android.material.snackbar.Snackbar.make(
+                        rootView,
+                        "No internet connection",
+                        com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE
+                    )
+                    snackbar?.show()
+                }
+            }
+            ConnectivityObserver.Status.Losing -> {
+                // Optional: Show "Connection unstable"
+            }
+        }
     }
 
     private fun applyGlobalFont(rootView: View) {

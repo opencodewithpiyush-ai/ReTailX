@@ -16,7 +16,7 @@ import com.rajatt7z.retailx.databinding.ActivityAdminLoginBinding
 import com.rajatt7z.retailx.utils.Resource
 import com.rajatt7z.retailx.viewmodel.AuthViewModel
 
-class AdminLogin : AppCompatActivity() {
+class AdminLogin : com.rajatt7z.retailx.utils.BaseActivity() {
 
     private lateinit var binding: ActivityAdminLoginBinding
     private val viewModel: AuthViewModel by viewModels()
@@ -42,6 +42,11 @@ class AdminLogin : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
+            if (!com.rajatt7z.retailx.utils.NetworkUtils.isInternetAvailable(this)) {
+                Snackbar.make(binding.root, "No internet connection", Snackbar.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
 

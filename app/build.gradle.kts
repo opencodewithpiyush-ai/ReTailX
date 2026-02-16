@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.firebase.storage)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.osmdroid.android)
     implementation(libs.play.services.location)
