@@ -3,49 +3,57 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingVertical="8dp"
-    android:gravity="center_vertical">
+    android:paddingVertical="12dp"
+    android:gravity="top">
 
     <TextView
         android:id="@+id/tvItemName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1.8"
         android:text="Product Name"
         android:fontFamily="@font/montserrat_regular"
-        android:paddingStart="8dp"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/tvItemPrice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="$10.00"
+        android:layout_weight="0.8"
         android:fontFamily="@font/montserrat_regular"
+        android:text="$10.00"
         android:gravity="end"
         android:paddingEnd="4dp"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/tvItemQty"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.8"
+        android:layout_weight="0.7"
         android:fontFamily="@font/montserrat_regular"
         android:text="2"
         android:gravity="center"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/tvItemTotal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.2"
+        android:layout_weight="1.0"
         android:fontFamily="@font/montserrat_regular"
         android:text="$20.00"
         android:gravity="end"
-        android:paddingEnd="8dp"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="14sp"/>
 
 </LinearLayout>
+<!-- Removed individual price as per receipt style often just shows Qty x Rate = Total or just Qty and Total. 
+     Keeping it simple for now as per plan, but if needed we can add unit price back. 
+     Actually, looking at previous file, it had unit price. Let's add it back if space permits or formatting allows.
+     Wait, the header in dialog_bill_preview.xml has Item, Qty, Total. It does NOT have Unit Price. 
+     So I will stick to Item, Qty, Total to match the header.
+-->

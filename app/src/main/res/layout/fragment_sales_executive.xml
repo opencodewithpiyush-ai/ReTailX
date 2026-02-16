@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/circular_spotify"
                 android:text="Good Morning\nSales Executive"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="32sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/ivProfile"
@@ -54,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Your performance at a glance"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="16sp"
             android:fontFamily="@font/montserrat_regular"
             android:layout_marginStart="24dp"
@@ -75,7 +77,7 @@
                 android:layout_height="128dp"
                 android:layout_marginEnd="8dp"
                 style="@style/Widget.Material3.CardView.Filled"
-                app:cardBackgroundColor="?attr/colorTertiaryContainer"
+                app:cardBackgroundColor="#FFEAE6"
                 android:layout_weight="1"
                 app:cardCornerRadius="16dp">
 
@@ -91,13 +93,14 @@
                         android:src="@drawable/ic_shopping_cart"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="?attr/colorTertiary" />
+                        app:tint="#751400" />
 
                     <TextView
                         android:id="@+id/tvTotalOrders"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
+                        android:textColor="#751400"
                         android:fontFamily="@font/circular_spotify"
                         android:textSize="28sp"
                         android:textStyle="bold"
@@ -109,6 +112,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Orders"
+                        android:textColor="#751400"
                         android:fontFamily="@font/montserrat_regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/tvTotalOrders" />
@@ -143,6 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="$0"
+                        android:textColor="#053305"
                         android:fontFamily="@font/circular_spotify"
                         android:textSize="28sp"
                         android:textStyle="bold"
@@ -154,6 +159,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Revenue"
+                        android:textColor="#053305"
                         android:fontFamily="@font/montserrat_regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/tvTotalSales" />
@@ -168,6 +174,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:text="Quick Actions"
+            android:textColor="?attr/colorOnSurface"
             android:fontFamily="@font/circular_spotify"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -210,6 +217,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Generate Bill"
+                        android:textColor="?attr/colorPrimary"
                         android:fontFamily="@font/circular_spotify"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -217,6 +225,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="?attr/colorPrimary"
                         android:text="Process a new sale &amp; bill"
                         android:textSize="12sp"
                         android:fontFamily="@font/montserrat_regular"/>
@@ -226,7 +235,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_chevron_right_24"
-                    app:tint="#757575" />
+                    app:tint="?attr/colorPrimary" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -266,6 +275,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Browse Products"
+                        android:textColor="?attr/colorSecondary"
                         android:fontFamily="@font/circular_spotify"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -275,6 +285,7 @@
                         android:layout_height="wrap_content"
                         android:text="Check availability &amp; prices"
                         android:textSize="12sp"
+                        android:textColor="?attr/colorSecondary"
                         android:fontFamily="@font/montserrat_regular"/>
                 </LinearLayout>
 
@@ -282,7 +293,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_chevron_right_24"
-                    app:tint="#757575" />
+                    app:tint="?attr/colorSecondary" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -296,7 +307,7 @@
             android:focusable="true"
             app:cardCornerRadius="12dp"
             style="@style/Widget.Material3.CardView.Filled"
-            app:cardBackgroundColor="?attr/colorTertiaryContainer"
+            app:cardBackgroundColor="#FFEAE6"
             app:layout_constraintTop_toBottomOf="@+id/btnViewProducts">
 
             <LinearLayout
@@ -308,8 +319,8 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    app:tint="?attr/colorTertiary"
-                    android:src="@drawable/baseline_show_chart_24" />
+                    android:src="@drawable/baseline_show_chart_24"
+                    app:tint="#751400" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -321,16 +332,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Analytics &amp; Performance"
                         android:fontFamily="@font/circular_spotify"
+                        android:text="Analytics &amp; Performance"
+                        android:textColor="#751400"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View your detailed reports"
                         android:fontFamily="@font/montserrat_regular"
+                        android:text="View your detailed reports"
+                        android:textColor="#751400"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -338,7 +351,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_chevron_right_24"
-                    app:tint="#757575" />
+                    app:tint="#751400" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
