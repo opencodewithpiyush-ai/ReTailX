@@ -131,12 +131,26 @@
         </com.google.android.material.chip.ChipGroup>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBillHistory"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            android:text="My Bill History"
+            app:cornerRadius="8dp"
+            app:icon="@drawable/ic_history"
+            app:iconGravity="textStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chipGroupRole" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogout"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="48dp"
             android:layout_marginBottom="24dp"
             android:backgroundTint="#FFEBEE"
             android:fontFamily="@font/circular_spotify"
@@ -149,8 +163,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/chipGroupRole"
-            app:layout_constraintVertical_bias="1.0"
             app:strokeColor="#FFCDD2"
             app:strokeWidth="1dp" />
 

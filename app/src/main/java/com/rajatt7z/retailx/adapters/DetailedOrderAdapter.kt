@@ -16,7 +16,8 @@ import java.util.Locale
 class DetailedOrderAdapter(
     private var orders: List<Order>,
     private var employeeNameMap: Map<String, String> = emptyMap(),
-    private val onActionClick: (Order) -> Unit
+    private val onActionClick: (Order) -> Unit,
+    private val onDownloadClick: (Order) -> Unit
 ) : RecyclerView.Adapter<DetailedOrderAdapter.DetailedViewHolder>() {
 
     inner class DetailedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -27,6 +28,7 @@ class DetailedOrderAdapter(
         val tvQuantity: TextView = itemView.findViewById(R.id.tvQuantity)
         val tvSoldBy: TextView = itemView.findViewById(R.id.tvSoldBy)
         val btnAction: MaterialButton = itemView.findViewById(R.id.btnAction)
+        val btnDownload: MaterialButton = itemView.findViewById(R.id.btnDownloadBill)
 
         fun bind(order: Order) {
             tvOrderId.text = "#${order.id.takeLast(8).uppercase()}"
@@ -39,6 +41,8 @@ class DetailedOrderAdapter(
             
             val employeeName = employeeNameMap[order.soldBy] ?: order.soldBy
             tvSoldBy.text = "Sold By: $employeeName"
+
+            btnDownload.setOnClickListener { onDownloadClick(order) }
 
             if (order.status == "Pending") {
                 btnAction.visibility = View.VISIBLE

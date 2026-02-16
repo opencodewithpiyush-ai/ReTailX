@@ -23,6 +23,8 @@ class InventoryManagerFragment : Fragment() {
     private val authRepository = AuthRepository()
     private lateinit var adapter: DetailedOrderAdapter
 
+    private var employeeMap = mapOf<String, String>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +42,7 @@ class InventoryManagerFragment : Fragment() {
     }
 
     private fun setupHeader() {
+        // ... (unchanged)
         val headerView = binding.tvHeader
         val profileView = binding.ivProfile
         val roleTitle = "Inventory Manager"
@@ -87,9 +90,15 @@ class InventoryManagerFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = DetailedOrderAdapter(emptyList()) { order ->
-            markOrderProcessed(order)
-        }
+        adapter = DetailedOrderAdapter(emptyList(), emptyMap(), 
+            onActionClick = { order ->
+                markOrderProcessed(order)
+            },
+            onDownloadClick = { order ->
+                val employeeName = employeeMap[order.soldBy] ?: "Store Employee"
+                com.rajatt7z.retailx.utils.PdfGenerator.generateOrderPdf(requireContext(), order, employeeName)
+            }
+        )
         binding.rvOrders.layoutManager = LinearLayoutManager(context)
         binding.rvOrders.adapter = adapter
     }
@@ -101,7 +110,7 @@ class InventoryManagerFragment : Fragment() {
                 val employeesResult = authRepository.getEmployees()
                 
                 if (employeesResult is com.rajatt7z.retailx.utils.Resource.Success) {
-                    val employeeMap = employeesResult.data?.associate { it.uid to it.name } ?: emptyMap()
+                    employeeMap = employeesResult.data?.associate { it.uid to it.name } ?: emptyMap()
                     adapter.updateEmployeeMap(employeeMap)
                 }
                 

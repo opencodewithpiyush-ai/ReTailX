@@ -86,7 +86,7 @@ class SalesExecutiveFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnNewOrder.setOnClickListener {
-             findNavController().navigate(R.id.action_salesExecutiveFragment_to_createOrderFragment)
+             findNavController().navigate(R.id.action_salesExecutiveFragment_to_createBillFragment)
         }
 
         binding.btnViewProducts.setOnClickListener {

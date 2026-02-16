@@ -28,6 +28,17 @@ class MainActivity : com.rajatt7z.retailx.utils.BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: AuthViewModel by viewModels()
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Permission granted
+        } else {
+            // Permission denied
+             Toast.makeText(this, "Notifications are enabled for better experience", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -43,6 +54,20 @@ class MainActivity : com.rajatt7z.retailx.utils.BaseActivity() {
         setupButtons()
         observeViewModel()
         checkUserSession()
+        
+        checkNotificationPermission()
+    }
+    
+    private fun checkNotificationPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
     }
 
     override fun handleNetworkStatus(status: com.rajatt7z.retailx.utils.ConnectivityObserver.Status) {

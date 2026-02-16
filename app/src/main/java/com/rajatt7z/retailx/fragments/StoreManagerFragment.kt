@@ -39,6 +39,10 @@ class StoreManagerFragment : Fragment() {
         binding.fabAddProduct.setOnClickListener {
             findNavController().navigate(R.id.action_storeManagerFragment_to_addProductFragment)
         }
+        
+        binding.fabGenerateBill.setOnClickListener {
+            findNavController().navigate(R.id.action_storeManagerFragment_to_createBillFragment)
+        }
     }
 
     private fun setupHeader() {

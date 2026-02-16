@@ -95,6 +95,10 @@ class EmployeeProfileFragment : Fragment() {
                 }
         }
 
+        binding.btnBillHistory.setOnClickListener {
+             findNavController().navigate(com.rajatt7z.retailx.R.id.action_employeeProfileFragment_to_billHistoryFragment)
+        }
+
         binding.btnLogout.setOnClickListener {
             com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Logout")

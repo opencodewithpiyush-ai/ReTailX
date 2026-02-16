@@ -100,14 +100,31 @@
             android:background="?attr/colorPrimary"
             app:layout_constraintTop_toBottomOf="@+id/llDetails" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAction"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mark as Completed"
+            android:orientation="horizontal"
             android:layout_marginTop="4dp"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
+            app:layout_constraintTop_toBottomOf="@+id/divider">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDownloadBill"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Download Bill"
+                android:textColor="?attr/colorPrimary"
+                app:icon="@drawable/ic_assessment" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAction"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mark as Completed" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -47,10 +47,22 @@
     </fragment>
 
     <fragment
+        android:id="@+id/billHistoryFragment"
+        android:name="com.rajatt7z.retailx.fragments.settings.BillHistoryFragment"
+        android:label="Bill History"
+        tools:layout="@layout/fragment_bill_history" />
+
+    <fragment
         android:id="@+id/employeeProfileFragment"
         android:name="com.rajatt7z.retailx.fragments.settings.EmployeeProfileFragment"
-        android:label="Employee Profile"
-        tools:layout="@layout/fragment_employee_profile" />
+        android:label="My Profile"
+        tools:layout="@layout/fragment_employee_profile">
+        
+        <action
+            android:id="@+id/action_employeeProfileFragment_to_billHistoryFragment"
+            app:destination="@id/billHistoryFragment" />
+            
+    </fragment>
 
     <fragment
         android:id="@+id/productListFragment"
@@ -125,6 +137,12 @@
         tools:layout="@layout/fragment_create_order" />
 
     <fragment
+        android:id="@+id/createBillFragment"
+        android:name="com.rajatt7z.retailx.fragments.orders.CreateBillFragment"
+        android:label="Create Bill"
+        tools:layout="@layout/fragment_create_bill" />
+
+    <fragment
         android:id="@+id/salesChartFragment"
         android:name="com.rajatt7z.retailx.fragments.SalesChartFragment"
         android:label="Sales Performance"
@@ -143,6 +161,9 @@
         <action
              android:id="@+id/action_storeManagerFragment_to_profile"
              app:destination="@id/employeeProfileFragment" />
+        <action
+            android:id="@+id/action_storeManagerFragment_to_createBillFragment"
+            app:destination="@id/createBillFragment" />
     </fragment>
 
     <fragment
@@ -172,6 +193,9 @@
          <action
              android:id="@+id/action_salesExecutiveFragment_to_profile"
              app:destination="@id/employeeProfileFragment" />
+        <action
+            android:id="@+id/action_salesExecutiveFragment_to_createBillFragment"
+            app:destination="@id/createBillFragment" />
     </fragment>
 
     <fragment
