@@ -27,7 +27,8 @@
                 android:text="Create New Bill"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:fontFamily="@font/circular_spotify"
+                android:textColor="?attr/colorPrimary"
                 android:layout_marginBottom="24dp"/>
 
             <!-- Customer Details -->
@@ -35,6 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Customer Details"
+                android:fontFamily="@font/circular_spotify"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
 
@@ -71,9 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="4dp"
-                app:strokeColor="?attr/colorSecondaryContainer"
-                app:strokeWidth="1dp"
+                style="@style/Widget.Material3.CardView.Filled"
                 android:layout_marginBottom="24dp">
 
                 <LinearLayout
@@ -86,6 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Add Item"
+                        android:fontFamily="@font/circular_spotify"
                         android:textStyle="bold"
                         android:textSize="18sp"
                         android:textColor="?attr/colorPrimary"
@@ -125,11 +126,13 @@
                                 android:hint="Qty" />
                         </com.google.android.material.textfield.TextInputLayout>
                         
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnAddItem"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            app:cornerRadius="8dp"
                             android:text="Add"
+                            android:fontFamily="@font/circular_spotify"
                             android:layout_gravity="center_vertical"/>
                         
                     </LinearLayout>
@@ -143,6 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bill Items"
+                android:fontFamily="@font/circular_spotify"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginBottom="8dp"/>
@@ -181,6 +185,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Total Amount:"
+                android:fontFamily="@font/circular_spotify"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
@@ -189,9 +194,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$0.00"
+                android:fontFamily="@font/circular_spotify"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="?attr/colorPrimary"/>
+                android:textColor="#598C58"/>
 
         </LinearLayout>
 
@@ -206,13 +212,16 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:text="Preview"
+                android:fontFamily="@font/circular_spotify"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_marginEnd="8dp"/>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnGenerateBill"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
+                app:cornerRadius="8dp"
+                android:fontFamily="@font/circular_spotify"
                 android:layout_weight="1"
                 android:text="Generate Bill"/>
 

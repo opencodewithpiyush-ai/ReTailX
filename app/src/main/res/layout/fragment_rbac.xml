@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Defined Roles"
+        android:fontFamily="@font/circular_spotify"
         android:padding="16dp"
         android:textStyle="bold"/>
 
@@ -35,13 +36,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Store Manager"
+                android:fontFamily="@font/circular_spotify"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Permissions: Full Access to Inventory, Sales, Employees (Editor)"
-                android:textColor="#757575"/>
+                android:fontFamily="@font/montserrat_regular"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
     
@@ -60,13 +62,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Inventory Manager"
+                android:fontFamily="@font/circular_spotify"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Permissions: Edit Products, View Orders (Editor)"
-                android:textColor="#757575"/>
+                android:fontFamily="@font/montserrat_regular" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -85,13 +88,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sales Executive"
+                android:fontFamily="@font/circular_spotify"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Permissions: View Products, Create Orders (Viewer)"
-                android:textColor="#757575"/>
+                android:fontFamily="@font/montserrat_regular"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sales Report"
+            android:fontFamily="@font/circular_spotify"
             android:textSize="22sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp"/>
@@ -32,6 +33,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Daily"
+                app:cornerRadius="8dp"
+                android:fontFamily="@font/circular_spotify"
                 style="@style/Widget.Material3.Button.OutlinedButton"/>
 
             <com.google.android.material.button.MaterialButton
@@ -39,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Weekly"
+                android:fontFamily="@font/circular_spotify"
                 style="@style/Widget.Material3.Button.OutlinedButton"/>
 
             <com.google.android.material.button.MaterialButton
@@ -46,6 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Monthly"
+                app:cornerRadius="8dp"
+                android:fontFamily="@font/circular_spotify"
                 style="@style/Widget.Material3.Button.OutlinedButton"/>
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -54,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Weekly Sales"
+            android:fontFamily="@font/circular_spotify"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp"/>
@@ -68,6 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Product Distribution"
+            android:fontFamily="@font/circular_spotify"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp"/>

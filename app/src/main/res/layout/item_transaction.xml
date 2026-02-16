@@ -36,6 +36,7 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="Walk-in Customer"
+             android:fontFamily="@font/circular_spotify"
              android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
              android:textStyle="bold"/>
 
@@ -44,6 +45,7 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="10:42 AM"
+             android:fontFamily="@font/montserrat_regular"
              android:textAppearance="@style/TextAppearance.Material3.BodySmall"
              android:textColor="?attr/colorOnSurfaceVariant"/>
     </LinearLayout>
@@ -53,6 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+$42.50"
+        android:fontFamily="@font/circular_spotify"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         android:textStyle="bold"
         android:textColor="@android:color/holo_green_dark"/>

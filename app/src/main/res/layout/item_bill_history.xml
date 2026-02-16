@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="#BILL-ID"
+            android:fontFamily="@font/circular_spotify"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Oct 24, 2023"
+            android:fontFamily="@font/montserrat_regular"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Customer Name"
+            android:fontFamily="@font/circular_spotify"
             app:layout_constraintEnd_toStartOf="@id/tvAmount"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvBillId" />
@@ -45,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="$150.00"
+            android:fontFamily="@font/circular_spotify"
             android:textStyle="bold"
             android:textColor="?attr/colorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/tvCustomer"

@@ -55,6 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Admin Profile"
+                        android:fontFamily="@font/circular_spotify"
                         android:textSize="16sp"
                         android:textStyle="bold"/>
 
@@ -62,6 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Manage personal details"
+                        android:fontFamily="@font/montserrat_regular"
                         android:textSize="14sp"/>
                 </LinearLayout>
 
@@ -108,6 +110,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Change Password"
+                        android:fontFamily="@font/circular_spotify"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -115,6 +118,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Update your login credentials"
+                        android:fontFamily="@font/montserrat_regular"
                         android:textSize="14sp" />
                 </LinearLayout>
                 
@@ -161,6 +165,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="App Configuration"
+                        android:fontFamily="@font/circular_spotify"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -168,8 +173,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="General app settings"
-                        android:textSize="14sp"
-                        android:textColor="#757575"/>
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textSize="14sp"/>
                 </LinearLayout>
                  <ImageView
                     android:layout_width="24dp"
@@ -214,6 +219,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Roles &amp; Permissions"
+                        android:fontFamily="@font/circular_spotify"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -221,8 +227,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Manage access controls"
-                        android:textSize="14sp"
-                        android:textColor="#757575"/>
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textSize="14sp" />
                 </LinearLayout>
                  <ImageView
                     android:layout_width="24dp"
@@ -267,6 +273,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Activity Logs"
+                        android:fontFamily="@font/circular_spotify"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -274,8 +281,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="View login history"
-                        android:textSize="14sp"
-                        android:textColor="#757575"/>
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textSize="14sp"/>
                 </LinearLayout>
                  <ImageView
                     android:layout_width="24dp"

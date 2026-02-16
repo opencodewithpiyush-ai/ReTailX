@@ -36,6 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Product Details"
+                    android:fontFamily="@font/circular_spotify"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                     android:textColor="?attr/colorOnSurface"
                     android:layout_marginBottom="20dp"/>
@@ -100,6 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:cornerRadius="8dp"
+                    android:fontFamily="@font/circular_spotify"
                     android:text="Generate Description with AI"
                     android:layout_gravity="center"
                     android:textAllCaps="false"
@@ -130,6 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pricing &amp; Inventory"
+                    android:fontFamily="@font/circular_spotify"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                     android:textColor="?attr/colorOnSurface"
                     android:layout_marginBottom="20dp"/>
@@ -208,6 +211,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Inventory Tip"
+                                android:fontFamily="@font/circular_spotify"
                                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                                 android:textColor="?attr/colorOnSurface"/>
 
@@ -217,6 +221,7 @@
                                 android:text="Set realistic stock levels to avoid overselling"
                                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                                 android:textColor="?attr/colorOnSurfaceVariant"
+                                android:fontFamily="@font/montserrat_regular"
                                 android:layout_marginTop="2dp"/>
 
                         </LinearLayout>
@@ -236,6 +241,7 @@
             android:textSize="16sp"
             style="@style/Widget.Material3.Button.TonalButton"
             app:cornerRadius="8dp"
+            android:fontFamily="@font/circular_spotify"
             app:icon="@drawable/rounded_local_convenience_store_24"
             app:iconSize="32dp"
             app:iconGravity="end"
@@ -247,6 +253,7 @@
             android:layout_height="64dp"
             android:text="Save as Draft"
             android:textSize="15sp"
+            android:fontFamily="@font/circular_spotify"
             style="@style/Widget.Material3.Button.OutlinedButton"
             app:cornerRadius="8dp"
             android:layout_marginTop="8dp"/>

@@ -55,6 +55,7 @@
             android:layout_marginTop="4dp"
             android:text="Your performance at a glance"
             android:textSize="16sp"
+            android:fontFamily="@font/montserrat_regular"
             android:layout_marginStart="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clHeader" />
@@ -97,6 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
+                        android:fontFamily="@font/circular_spotify"
                         android:textSize="28sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/textView2"
@@ -107,6 +109,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Orders"
+                        android:fontFamily="@font/montserrat_regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/tvTotalOrders" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -140,6 +143,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="$0"
+                        android:fontFamily="@font/circular_spotify"
                         android:textSize="28sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/textView"
@@ -150,6 +154,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Revenue"
+                        android:fontFamily="@font/montserrat_regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/tvTotalSales" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -163,6 +168,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:text="Quick Actions"
+            android:fontFamily="@font/circular_spotify"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -204,6 +210,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Generate Bill"
+                        android:fontFamily="@font/circular_spotify"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -211,7 +218,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Process a new sale &amp; bill"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:fontFamily="@font/montserrat_regular"/>
                 </LinearLayout>
 
                 <ImageView
@@ -258,6 +266,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Browse Products"
+                        android:fontFamily="@font/circular_spotify"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -265,7 +274,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Check availability &amp; prices"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:fontFamily="@font/montserrat_regular"/>
                 </LinearLayout>
 
                 <ImageView
@@ -312,6 +322,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Analytics &amp; Performance"
+                        android:fontFamily="@font/circular_spotify"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -319,6 +330,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="View your detailed reports"
+                        android:fontFamily="@font/montserrat_regular"
                         android:textSize="12sp" />
                 </LinearLayout>
 

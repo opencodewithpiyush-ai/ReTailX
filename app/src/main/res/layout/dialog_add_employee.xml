@@ -211,7 +211,7 @@
                             android:text="Viewer"
                             android:textSize="15sp"
                             style="@style/Widget.Material3.Button.OutlinedButton"
-                            app:cornerRadius="16dp"
+                            app:cornerRadius="8dp"
                             app:strokeWidth="2dp"/>
 
                         <com.google.android.material.button.MaterialButton
@@ -222,7 +222,7 @@
                             android:text="Editor"
                             android:textSize="15sp"
                             style="@style/Widget.Material3.Button.OutlinedButton"
-                            app:cornerRadius="16dp"
+                            app:cornerRadius="8dp"
                             app:strokeWidth="2dp"/>
 
                     </com.google.android.material.button.MaterialButtonToggleGroup>

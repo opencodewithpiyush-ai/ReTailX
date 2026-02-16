@@ -87,6 +87,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Today"
+                            android:fontFamily="@font/circular_spotify"
                             android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
                             android:textColor="?attr/colorOnPrimaryContainer"
                             android:alpha="0.7" />
@@ -96,6 +97,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$1,240"
+                            android:fontFamily="@font/circular_spotify"
                             android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
                             android:textColor="?attr/colorOnPrimaryContainer"
                             android:textStyle="bold" />
@@ -122,6 +124,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="This Week"
+                            android:fontFamily="@font/circular_spotify"
                             android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
                             android:textColor="?attr/colorOnSecondaryContainer"
                             android:alpha="0.7" />
@@ -131,6 +134,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$8,450"
+                            android:fontFamily="@font/circular_spotify"
                             android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
                             android:textColor="?attr/colorOnSecondaryContainer"
                             android:textStyle="bold" />
@@ -143,6 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Recent Transactions"
+                 android:fontFamily="@font/circular_spotify"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                 android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="8dp"/>

@@ -14,6 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create New Order"
+            android:fontFamily="@font/circular_spotify"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginBottom="24dp"/>
@@ -79,6 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="Create Order"
+            android:fontFamily="@font/circular_spotify"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:cornerRadius="8dp"/>
 
     </LinearLayout>

@@ -102,6 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Roles &amp; Permissions"
+            android:fontFamily="@font/circular_spotify"
             android:textAppearance="?attr/textAppearanceTitleMedium"
             app:layout_constraintStart_toStartOf="@id/tilPhone"
             app:layout_constraintTop_toBottomOf="@id/tilPhone" />
@@ -117,6 +118,7 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipRole"
+                android:fontFamily="@font/circular_spotify"
                 style="@style/Widget.Material3.Chip.Assist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,6 +126,7 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipPermission"
+                android:fontFamily="@font/circular_spotify"
                 style="@style/Widget.Material3.Chip.Assist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -139,6 +142,7 @@
             android:layout_marginTop="8dp"
             android:text="My Bill History"
             app:cornerRadius="8dp"
+            android:fontFamily="@font/circular_spotify"
             app:icon="@drawable/ic_history"
             app:iconGravity="textStart"
             app:layout_constraintEnd_toEndOf="parent"

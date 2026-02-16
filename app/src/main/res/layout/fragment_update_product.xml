@@ -100,6 +100,7 @@
             android:layout_marginTop="8dp"
             app:cornerRadius="8dp"
             android:text="Add Image"
+            android:fontFamily="@font/circular_spotify"
             app:icon="@drawable/round_add_24" />
 
         <ProgressBar
