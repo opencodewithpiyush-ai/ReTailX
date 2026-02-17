@@ -123,6 +123,26 @@ class InventoryManagerFragment : Fragment() {
     }
 
     private fun setupSwipeRefresh() {
+        val typedValue = android.util.TypedValue()
+        val theme = requireContext().theme
+        
+        // Resolve colorPrimary for the progress spinner
+        theme.resolveAttribute(com.google.android.material.R.attr.colorTertiary, typedValue, true)
+        val primaryColor = typedValue.data
+        
+        // Resolve colorSurfaceContainer for the background (fallback to colorSurface)
+        // Note: colorSurfaceContainer is available in newer Material versions, checking existence or fallback
+        val backgroundAttr = com.google.android.material.R.attr.colorSurfaceContainer
+        val hasSurfaceContainer = theme.resolveAttribute(backgroundAttr, typedValue, true)
+        
+        if (!hasSurfaceContainer) {
+             theme.resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true)
+        }
+        val backgroundColor = typedValue.data
+
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(backgroundColor)
+        binding.swipeRefreshLayout.setColorSchemeColors(primaryColor)
+
         binding.swipeRefreshLayout.setOnRefreshListener {
             loadOrders()
         }
