@@ -49,6 +49,10 @@ class InventoryManagerFragment : Fragment() {
         setupRecyclerView()
         setupSwipeRefresh()
         
+        binding.btnSmartReorder.setOnClickListener {
+            findNavController().navigate(com.rajatt7z.retailx.R.id.action_inventoryManagerFragment_to_smartReorderFragment)
+        }
+        
         // Configure empty state
         binding.emptyState.tvEmptyTitle.text = "No Orders to Process"
         binding.emptyState.tvEmptySubtitle.text = "Orders requiring processing will appear here"

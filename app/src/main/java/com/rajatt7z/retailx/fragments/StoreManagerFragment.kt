@@ -43,6 +43,17 @@ class StoreManagerFragment : Fragment() {
         binding.fabGenerateBill.setOnClickListener {
             findNavController().navigate(R.id.action_storeManagerFragment_to_createBillFragment)
         }
+        
+        binding.btnChatBot.setOnClickListener {
+             // Assuming action exists or using global action if defined, or id directly if in same graph
+             // It's in employee_nav_graph.xml, so we can navigate via ID or action if created.
+             // I didn't create an action from StoreManager to ChatBot yet in the graph?
+             // Checking graph... I added action_employeeDashboardFragment_to_chatBotFragment.
+             // StoreManager is in employee_nav_graph.
+             // I need to add action from StoreManager to ChatBot in the graph first or use ID.
+             // Navigation by ID is safer if action missing.
+             findNavController().navigate(R.id.chatBotFragment)
+        }
     }
 
     private fun setupHeader() {

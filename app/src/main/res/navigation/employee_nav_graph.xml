@@ -44,6 +44,9 @@
             app:destination="@id/salesExecutiveFragment"
             app:popUpTo="@id/employeeDashboardFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_employeeDashboardFragment_to_chatBotFragment"
+            app:destination="@id/chatBotFragment" />
     </fragment>
 
     <fragment
@@ -174,6 +177,9 @@
          <action
              android:id="@+id/action_inventoryManagerFragment_to_profile"
              app:destination="@id/employeeProfileFragment" />
+         <action
+             android:id="@+id/action_inventoryManagerFragment_to_smartReorderFragment"
+             app:destination="@id/smartReorderFragment" />
     </fragment>
 
     <fragment
@@ -207,4 +213,14 @@
             android:name="productId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/smartReorderFragment"
+        android:name="com.rajatt7z.retailx.fragments.SmartReorderFragment"
+        android:label="Smart Reorder"
+        tools:layout="@layout/fragment_smart_reorder" />
+    <fragment
+        android:id="@+id/chatBotFragment"
+        android:name="com.rajatt7z.retailx.fragments.ChatBotFragment"
+        android:label="ReTailX Assistant"
+        tools:layout="@layout/fragment_chat_bot" />
 </navigation>

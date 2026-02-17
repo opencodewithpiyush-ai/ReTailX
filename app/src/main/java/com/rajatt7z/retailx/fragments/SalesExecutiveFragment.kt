@@ -98,6 +98,10 @@ class SalesExecutiveFragment : Fragment() {
         binding.btnAnalytics.setOnClickListener {
              findNavController().navigate(R.id.action_salesExecutiveFragment_to_salesChartFragment)
         }
+        
+        binding.btnChatBot.setOnClickListener {
+             findNavController().navigate(R.id.chatBotFragment)
+        }
     }
 
     private fun loadStats() {

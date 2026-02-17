@@ -37,6 +37,20 @@
                 android:lines="3" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGenerateAI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cornerRadius="8dp"
+            android:fontFamily="@font/circular_spotify"
+            android:text="Generate Description with AI"
+            android:layout_gravity="end"
+            android:textAllCaps="false"
+            app:icon="@drawable/ic_retailx"
+            app:iconGravity="start"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_marginBottom="4dp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

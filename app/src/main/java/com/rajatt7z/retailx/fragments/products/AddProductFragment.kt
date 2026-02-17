@@ -21,11 +21,15 @@ import com.rajatt7z.retailx.repository.ProductRepository
 import com.rajatt7z.retailx.utils.BarcodeScannerDialog
 import kotlinx.coroutines.launch
 
+@dagger.hilt.android.AndroidEntryPoint
 class AddProductFragment : Fragment() {
 
     private var _binding: FragmentAddProductBinding? = null
     private val binding get() = _binding!!
     private val repository = ProductRepository()
+    
+    @javax.inject.Inject
+    lateinit var geminiHelper: com.rajatt7z.retailx.utils.GeminiHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -195,39 +199,17 @@ class AddProductFragment : Fragment() {
             return
         }
 
-        val apiKey = BuildConfig.API_KEY
-        if (apiKey.isNullOrBlank() || apiKey == "null") {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Missing API Key")
-                .setMessage("To use AI features, please add your Gemini API Key to local.properties:\n\nAPI_KEY=your_key_here\n\nRestart the app after adding the key.")
-                .setPositiveButton("OK", null)
-                .show()
-            return
-        }
-
         lifecycleScope.launch {
             try {
                 setLoading(true)
-                
-                // "gemini-flash-latest" points to the current stable Flash model (often 1.5 or 2.0)
-                val modelName = "gemini-flash-latest"
-                val generativeModel = GenerativeModel(
-                    // Use a model that is available in the desired region/tier
-                    modelName = modelName, 
-                    apiKey = apiKey
-                )
-
-                val prompt = "Generate a catchy, professional product description for a '$category' product named '$productName'. Keep it under 2 sentences."
-                val response = generativeModel.generateContent(prompt)
-                
-                response.text?.let {
-                    binding.etProductDescription.setText(it)
+                geminiHelper.generateProductDescription(productName, category).collect { description ->
+                     binding.etProductDescription.setText(description)
                 }
             } catch (e: Exception) {
                 Log.e("AddProductFragment", "AI Generation Error", e)
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle("AI Generation Failed")
-                    .setMessage("Model: gemini-2.0-flash\n\nError:\n${e.localizedMessage ?: "Unknown error"}")
+                    .setMessage("Error:\n${e.localizedMessage ?: "Unknown error"}")
                     .setPositiveButton("OK", null)
                     .show()
             } finally {

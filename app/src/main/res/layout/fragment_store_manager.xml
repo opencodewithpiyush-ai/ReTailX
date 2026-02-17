@@ -80,6 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-"
+                    android:fontFamily="@font/circular_spotify"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -110,6 +111,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-"
+                    android:fontFamily="@font/circular_spotify"
                     android:textColor="#D32F2F"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -161,23 +163,37 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:fontFamily="@font/circular_spotify"
-        android:text="Generate Bill"
+        android:text="Generate RetailX Bill"
         app:backgroundTint="?attr/colorSecondaryContainer"
         app:icon="@drawable/ic_shopping_cart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabAddProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
         android:contentDescription="TODO"
+        android:text="Add Product"
         android:fontFamily="@font/circular_spotify"
         app:backgroundTint="?attr/colorPrimaryContainer"
-        android:src="@drawable/round_add_24"
+        app:icon="@drawable/round_add_24"
         app:layout_constraintBottom_toTopOf="@+id/fabGenerateBill"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnChatBot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Chat with Assistant"
+        app:backgroundTint="?attr/colorSecondaryContainer"
+        app:layout_constraintBottom_toTopOf="@+id/fabAddProduct"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_retailx"
+        app:tint="?attr/colorOnSecondaryContainer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

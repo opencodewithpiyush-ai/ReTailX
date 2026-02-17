@@ -14,6 +14,7 @@ import com.rajatt7z.retailx.models.Product
 import com.rajatt7z.retailx.repository.ProductRepository
 import kotlinx.coroutines.launch
 
+@dagger.hilt.android.AndroidEntryPoint
 class UpdateProductFragment : Fragment() {
 
     private var _binding: FragmentUpdateProductBinding? = null
@@ -21,6 +22,9 @@ class UpdateProductFragment : Fragment() {
     private val repository = ProductRepository()
     private val args: UpdateProductFragmentArgs by navArgs()
     private lateinit var currentProduct: Product
+    
+    @javax.inject.Inject
+    lateinit var geminiHelper: com.rajatt7z.retailx.utils.GeminiHelper
 
     private lateinit var imageAdapter: com.rajatt7z.retailx.adapters.EditableImageAdapter
     private val selectedImages = mutableListOf<com.rajatt7z.retailx.adapters.EditableImage>()
@@ -52,6 +56,10 @@ class UpdateProductFragment : Fragment() {
 
         binding.btnUpdate.setOnClickListener {
             updateProduct()
+        }
+        
+        binding.btnGenerateAI.setOnClickListener {
+            generateDescription()
         }
     }
 
@@ -86,6 +94,30 @@ class UpdateProductFragment : Fragment() {
         if (product.imageUrls.isNotEmpty()) {
             selectedImages.addAll(product.imageUrls.map { com.rajatt7z.retailx.adapters.EditableImage.Remote(it) })
             imageAdapter.notifyDataSetChanged()
+        }
+    }
+    
+    private fun generateDescription() {
+        val productName = binding.etProductName.text.toString()
+        val category = binding.etProductCategory.text.toString()
+
+        if (productName.isBlank()) {
+            binding.etProductName.error = "Enter product name first"
+            return
+        }
+
+        lifecycleScope.launch {
+            try {
+                binding.btnGenerateAI.isEnabled = false
+                geminiHelper.generateProductDescription(productName, category).collect { description ->
+                     binding.etProductDescription.setText(description)
+                }
+            } catch (e: Exception) {
+                android.util.Log.e("UpdateProductFragment", "AI Generation Error", e)
+                Toast.makeText(requireContext(), "Error generating description: ${e.message}", Toast.LENGTH_SHORT).show()
+            } finally {
+                binding.btnGenerateAI.isEnabled = true
+            }
         }
     }
 
