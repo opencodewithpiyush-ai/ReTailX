@@ -102,4 +102,7 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.4.1")
     implementation("androidx.camera:camera-view:1.4.1")
     implementation("com.google.guava:guava:32.1.3-android")
+
+    // Biometric Authentication
+    implementation("androidx.biometric:biometric:1.1.0")
 }

@@ -113,6 +113,14 @@ class EmployeeLogin : com.rajatt7z.retailx.utils.BaseActivity() {
                     binding.progressBar.visibility = View.GONE
                     binding.btnLogin.isEnabled = true
                     Snackbar.make(binding.root, resource.data ?: "Login successful", Snackbar.LENGTH_SHORT).show()
+                    
+                    val securityPrefs = com.rajatt7z.retailx.utils.SecurityPreferences(this)
+                    securityPrefs.isLocked = false
+                    securityPrefs.resetFailedAttempts()
+                    securityPrefs.recordActivity()
+                    securityPrefs.userName = binding.etEmail.text.toString().substringBefore("@")
+                    securityPrefs.userRole = "employee"
+
                     navigateToHome()
                 }
                 is Resource.Error -> {

@@ -169,6 +169,14 @@ class AdminLogin : com.rajatt7z.retailx.utils.BaseActivity() {
                     binding.btnLogin.isEnabled = true
                     Snackbar.make(binding.root, resource.data ?: "Login successful", Snackbar.LENGTH_SHORT).show()
 
+                    // Clear security state on new login
+                    val securityPrefs = com.rajatt7z.retailx.utils.SecurityPreferences(this)
+                    securityPrefs.isLocked = false
+                    securityPrefs.resetFailedAttempts()
+                    securityPrefs.recordActivity()
+                    securityPrefs.userName = "Admin"
+                    securityPrefs.userRole = "admin"
+
                     val intent = Intent(this, AdminDashboardActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)

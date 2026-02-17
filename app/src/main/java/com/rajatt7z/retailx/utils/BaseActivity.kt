@@ -2,6 +2,7 @@ package com.rajatt7z.retailx.utils
 
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
@@ -11,10 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.rajatt7z.retailx.R
 import androidx.lifecycle.lifecycleScope
+import com.rajatt7z.retailx.auth.LockScreenActivity
 import kotlinx.coroutines.launch
 import java.util.Locale
 
 open class BaseActivity : AppCompatActivity() {
+
+    private val securityPrefs by lazy { SecurityPreferences(this) }
 
     override fun attachBaseContext(newBase: Context) {
         val sharedPreferences = newBase.getSharedPreferences("AppConfig", Context.MODE_PRIVATE)
@@ -35,11 +39,7 @@ open class BaseActivity : AppCompatActivity() {
         config.setLocale(locale)
 
         // 2. Font Scale Logic (1.0f is default)
-        // Slider 12-24 -> Map to 0.85 - 1.15 scale safely
         val fontSize = sharedPreferences.getFloat("font_size", 16f) 
-        // 16sp is standard. 
-        // 12sp -> 0.75
-        // 24sp -> 1.5
         val fontScale = fontSize / 16.0f
         config.fontScale = fontScale
 
@@ -71,6 +71,34 @@ open class BaseActivity : AppCompatActivity() {
             connectivityObserver.observe().collect { status ->
                handleNetworkStatus(status)
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Check if session has timed out
+        if (this !is LockScreenActivity && !LockScreenActivity.isShowingLockScreen) {
+            if (securityPrefs.shouldLock()) {
+                securityPrefs.isLocked = true
+                val intent = Intent(this, LockScreenActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Record last activity timestamp
+        if (this !is LockScreenActivity) {
+            securityPrefs.recordActivity()
+        }
+    }
+
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        // Reset inactivity timer on any user touch
+        if (this !is LockScreenActivity) {
+            securityPrefs.recordActivity()
         }
     }
 

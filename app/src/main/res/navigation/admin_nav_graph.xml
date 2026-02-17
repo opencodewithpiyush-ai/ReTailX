@@ -125,6 +125,13 @@
             app:exitAnim="@anim/slide_out_bottom"
             app:popEnterAnim="@anim/slide_in_bottom"
             app:popExitAnim="@anim/slide_out_bottom" />
+        <action
+            android:id="@+id/action_settings_to_security"
+            app:destination="@id/securitySettingsFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_bottom" />
     </fragment>
 
     <fragment
@@ -138,6 +145,12 @@
         android:name="com.rajatt7z.retailx.fragments.settings.CustomerListFragment"
         android:label="Customers"
         tools:layout="@layout/fragment_customer_list" />
+
+    <fragment
+        android:id="@+id/securitySettingsFragment"
+        android:name="com.rajatt7z.retailx.fragments.settings.SecuritySettingsFragment"
+        android:label="Security"
+        tools:layout="@layout/fragment_security_settings" />
 
     <fragment
         android:id="@+id/adminProfileFragment"
