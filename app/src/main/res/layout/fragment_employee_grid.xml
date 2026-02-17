@@ -40,8 +40,7 @@
                 android:padding="16dp"
                 android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"
-                tools:listitem="@layout/item_employee_grid" />
+                app:spanCount="2" />
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmerViewContainer"

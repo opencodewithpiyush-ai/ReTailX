@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            app:srcCompat="@drawable/ic_arrow_forward"
+            app:srcCompat="@drawable/baseline_arrow_forward_ios_24"
             app:tint="?attr/colorOnPrimary"
             app:backgroundTint="?attr/colorPrimary"/>
 

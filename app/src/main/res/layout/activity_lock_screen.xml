@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Welcome back"
+            android:fontFamily="@font/circular_spotify"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="?attr/colorOnSurface" />
@@ -39,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:fontFamily="@font/montserrat_regular"
             android:text="Enter your PIN to unlock"
             android:textSize="14sp"
             android:textColor="?attr/colorOnSurfaceVariant" />
@@ -107,6 +109,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_margin="4dp"
+                android:fontFamily="@font/circular_spotify"
                 android:text="1"
                 android:textSize="24sp"
                 app:cornerRadius="40dp" />
@@ -118,6 +121,7 @@
                 android:layout_height="80dp"
                 android:layout_margin="4dp"
                 android:text="2"
+                android:fontFamily="@font/circular_spotify"
                 android:textSize="24sp"
                 app:cornerRadius="40dp" />
 
@@ -128,6 +132,7 @@
                 android:layout_height="80dp"
                 android:layout_margin="4dp"
                 android:text="3"
+                android:fontFamily="@font/circular_spotify"
                 android:textSize="24sp"
                 app:cornerRadius="40dp" />
 
@@ -138,6 +143,7 @@
                 android:layout_height="80dp"
                 android:layout_margin="4dp"
                 android:text="4"
+                android:fontFamily="@font/circular_spotify"
                 android:textSize="24sp"
                 app:cornerRadius="40dp" />
 
@@ -148,6 +154,7 @@
                 android:layout_height="80dp"
                 android:layout_margin="4dp"
                 android:text="5"
+                android:fontFamily="@font/circular_spotify"
                 android:textSize="24sp"
                 app:cornerRadius="40dp" />
 
@@ -158,6 +165,7 @@
                 android:layout_height="80dp"
                 android:layout_margin="4dp"
                 android:text="6"
+                android:fontFamily="@font/circular_spotify"
                 android:textSize="24sp"
                 app:cornerRadius="40dp" />
 
@@ -168,6 +176,7 @@
                 android:layout_height="80dp"
                 android:layout_margin="4dp"
                 android:text="7"
+                android:fontFamily="@font/circular_spotify"
                 android:textSize="24sp"
                 app:cornerRadius="40dp" />
 
@@ -178,6 +187,7 @@
                 android:layout_height="80dp"
                 android:layout_margin="4dp"
                 android:text="8"
+                android:fontFamily="@font/circular_spotify"
                 android:textSize="24sp"
                 app:cornerRadius="40dp" />
 
@@ -188,6 +198,7 @@
                 android:layout_height="80dp"
                 android:layout_margin="4dp"
                 android:text="9"
+                android:fontFamily="@font/circular_spotify"
                 android:textSize="24sp"
                 app:cornerRadius="40dp" />
 
@@ -211,6 +222,7 @@
                 android:layout_height="80dp"
                 android:layout_margin="4dp"
                 android:text="0"
+                android:fontFamily="@font/circular_spotify"
                 android:textSize="24sp"
                 app:cornerRadius="40dp" />
 
@@ -236,6 +248,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/circular_spotify"
             android:text="Login with credentials"
             android:textSize="14sp" />
 

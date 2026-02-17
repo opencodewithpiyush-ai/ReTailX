@@ -22,7 +22,7 @@
             android:layout_height="72dp"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-            android:src="@drawable/baseline_person_24"
+            android:src="@drawable/round_account_circle_24"
             android:background="?attr/colorSurface"
             android:padding="2dp"/>
 

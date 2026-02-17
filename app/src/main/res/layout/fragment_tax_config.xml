@@ -28,6 +28,7 @@
             android:layout_marginBottom="24dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
+            style="@style/Widget.Material3.CardView.Filled"
             app:cardBackgroundColor="?attr/colorSurfaceContainer">
 
             <LinearLayout
@@ -50,6 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Enable Tax Calculation"
+                    style="@style/Widget.Material3.CompoundButton.MaterialSwitch"
                     android:fontFamily="@font/circular_spotify"
                     android:layout_marginBottom="16dp"/>
 
@@ -91,6 +93,7 @@
             android:layout_marginBottom="24dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
+            style="@style/Widget.Material3.CardView.Filled"
             app:cardBackgroundColor="?attr/colorSurfaceContainer">
 
             <LinearLayout
@@ -111,7 +114,6 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Currency Symbol"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
                     <AutoCompleteTextView

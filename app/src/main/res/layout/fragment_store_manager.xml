@@ -194,6 +194,6 @@
         app:layout_constraintBottom_toTopOf="@+id/fabAddProduct"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_retailx"
-        app:tint="?attr/colorOnSecondaryContainer" />
+        app:tint="?attr/colorPrimary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

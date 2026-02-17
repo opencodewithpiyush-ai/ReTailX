@@ -44,7 +44,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnScanBarcode"
                 android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_height="match_parent"
                 app:icon="@android:drawable/ic_menu_camera"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"

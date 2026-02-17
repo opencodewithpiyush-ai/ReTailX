@@ -1,59 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:overScrollMode="never">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:hint="Name *"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etDialogName"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="24dp">
+
+        <!-- ── Hero icon + title block ─────────────────────────────────── -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="28dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:hint="Phone *"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etDialogPhone"
+            <!-- Avatar / icon pill (M3 Expressive shape: ShapeAppearance.M3.Corner.Full) -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/round_account_circle_24"/>
+
+            <!-- Dialog title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Contact"
+                android:fontFamily="@font/circular_spotify"
+                android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                android:textColor="?attr/colorOnSurface"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Subtitle / helper -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Fields marked * are required"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+
+        </LinearLayout>
+
+        <!-- ── SECTION LABEL: Identity ─────────────────────────────────── -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:text="IDENTITY"
+            android:textAppearance="?attr/textAppearanceLabelSmall"
+            android:textColor="?attr/colorPrimary"
+            android:letterSpacing="0.12"
+            android:layout_marginBottom="8dp"
+            android:paddingHorizontal="4dp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:hint="Email (optional)"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etDialogEmail"
+        <!-- Name field (M3 Outlined + expressive shape) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDialogName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="12dp"
+            android:hint="Full name"
+            app:helperText="Required"
+            app:helperTextEnabled="true"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Address (optional)"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etDialogAddress"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDialogName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName|textCapWords"
+                android:imeOptions="actionNext"
+                android:autofillHints="name" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ── SECTION LABEL: Contact details ──────────────────────────── -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPostalAddress" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:text="CONTACT DETAILS"
+            android:textAppearance="?attr/textAppearanceLabelSmall"
+            android:textColor="?attr/colorPrimary"
+            android:letterSpacing="0.12"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingHorizontal="4dp" />
 
-</LinearLayout>
+        <!-- Phone field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDialogPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Phone number"
+            app:helperText="Required"
+            app:helperTextEnabled="true"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDialogPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:imeOptions="actionNext"
+                android:autofillHints="phoneNumber" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Email field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDialogEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Email address"
+            app:helperText="Optional"
+            app:helperTextEnabled="true"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDialogEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionNext"
+                android:autofillHints="emailAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ── SECTION LABEL: Location ──────────────────────────────────── -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LOCATION"
+            android:textAppearance="?attr/textAppearanceLabelSmall"
+            android:textColor="?attr/colorPrimary"
+            android:letterSpacing="0.12"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingHorizontal="4dp" />
+
+        <!-- Address field (multiline, expressive larger radius) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDialogAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Street address"
+            app:helperText="Optional"
+            app:helperTextEnabled="true"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDialogAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress|textMultiLine"
+                android:minLines="2"
+                android:maxLines="4"
+                android:gravity="top|start"
+                android:imeOptions="actionDone"
+                android:autofillHints="postalAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+</ScrollView>
