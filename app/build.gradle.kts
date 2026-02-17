@@ -34,12 +34,22 @@ android {
     }
 
     buildTypes {
+        getByName("debug") {
+            ndk {
+                // filter specifically for these ABIs to speed up the build and reduce the apk size
+                // arm64-v8a: Most modern Android phones
+                // x86_64: Most modern Emulators
+                abiFilters.add("arm64-v8a")
+                abiFilters.add("x86_64")
+            }
+        }
         release {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     buildFeatures{
