@@ -96,6 +96,39 @@
                         android:scrollbars="vertical" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Barcode -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center_vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:hint="Barcode (optional)">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etBarcode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnScanBarcode"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        app:icon="@android:drawable/ic_menu_camera"
+                        app:iconGravity="textStart"
+                        app:iconPadding="0dp"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        app:cornerRadius="16dp"/>
+                </LinearLayout>
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnGenerateAI"
                     android:layout_width="wrap_content"

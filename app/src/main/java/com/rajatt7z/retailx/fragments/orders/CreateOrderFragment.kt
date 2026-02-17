@@ -14,6 +14,7 @@ import com.rajatt7z.retailx.models.Order
 import com.rajatt7z.retailx.models.Product
 import com.rajatt7z.retailx.repository.OrderRepository
 import com.rajatt7z.retailx.repository.ProductRepository
+import com.rajatt7z.retailx.utils.BarcodeScannerDialog
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
@@ -48,12 +49,20 @@ class CreateOrderFragment : Fragment() {
             binding.autoCompleteProduct.setAdapter(adapter)
             
             binding.autoCompleteProduct.setOnItemClickListener { _, _, position, _ ->
-                selectedProduct = products[position]
+                val name = adapter.getItem(position).toString()
+                selectedProduct = products.find { it.name == name }
             }
         }
     }
 
     private fun setupListeners() {
+        binding.btnScanBarcode.setOnClickListener {
+            val scanner = BarcodeScannerDialog { barcode ->
+                onBarcodeScanned(barcode)
+            }
+            scanner.show(parentFragmentManager, "BarcodeScanner")
+        }
+
         binding.btnSubmitOrder.setOnClickListener {
             val quantityStr = binding.etQuantity.text.toString()
             val customerName = binding.etCustomerName.text.toString()
@@ -74,13 +83,11 @@ class CreateOrderFragment : Fragment() {
                  return@setOnClickListener
             }
 
-            // Validate stock availability
             if (quantity > selectedProduct!!.stock) {
                 Toast.makeText(context, "Insufficient stock. Available: ${selectedProduct!!.stock}", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Create Order
             val employeeId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
             val order = Order(
                 productId = selectedProduct!!.id,
@@ -96,7 +103,6 @@ class CreateOrderFragment : Fragment() {
             lifecycleScope.launch {
                 val success = orderRepository.createOrder(order)
                 if (success) {
-                    // Decrement product stock
                     try {
                         productRepository.decrementStock(selectedProduct!!.id, quantity)
                     } catch (e: Exception) {
@@ -107,6 +113,19 @@ class CreateOrderFragment : Fragment() {
                 } else {
                     Toast.makeText(context, "Failed to create order", Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+    }
+
+    private fun onBarcodeScanned(barcode: String) {
+        lifecycleScope.launch {
+            val product = productRepository.getProductByBarcode(barcode)
+            if (product != null) {
+                selectedProduct = product
+                binding.autoCompleteProduct.setText(product.name, false)
+                Toast.makeText(context, "Product found: ${product.name}", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "No product found for barcode: $barcode", Toast.LENGTH_SHORT).show()
             }
         }
     }

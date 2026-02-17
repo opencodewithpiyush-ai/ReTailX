@@ -30,6 +30,13 @@ class LowStockFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupSwipeRefresh()
+        
+        // Configure empty state
+        binding.emptyState.tvEmptyTitle.text = "All Stocked Up!"
+        binding.emptyState.tvEmptySubtitle.text = "All products are well-stocked. No alerts at this time."
+        
+        showShimmer()
         loadLowStockProducts()
     }
 
@@ -37,6 +44,24 @@ class LowStockFragment : Fragment() {
         adapter = SimpleProductAdapter(emptyList())
         binding.rvLowStock.layoutManager = LinearLayoutManager(context)
         binding.rvLowStock.adapter = adapter
+    }
+
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            loadLowStockProducts()
+        }
+    }
+
+    private fun showShimmer() {
+        binding.shimmerViewContainer.visibility = View.VISIBLE
+        binding.shimmerViewContainer.startShimmer()
+        binding.rvLowStock.visibility = View.GONE
+        binding.emptyState.emptyStateContainer.visibility = View.GONE
+    }
+
+    private fun hideShimmer() {
+        binding.shimmerViewContainer.stopShimmer()
+        binding.shimmerViewContainer.visibility = View.GONE
     }
 
     private fun loadLowStockProducts() {
@@ -62,14 +87,24 @@ class LowStockFragment : Fragment() {
                 }
 
                 if (_binding != null) {
+                    hideShimmer()
+                    binding.swipeRefreshLayout.isRefreshing = false
                     adapter.updateList(items)
-                    binding.tvEmpty.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
+                    
                     if (items.isEmpty()) {
-                        binding.tvEmpty.text = "All products are well-stocked!"
+                        binding.rvLowStock.visibility = View.GONE
+                        binding.emptyState.emptyStateContainer.visibility = View.VISIBLE
+                    } else {
+                        binding.rvLowStock.visibility = View.VISIBLE
+                        binding.emptyState.emptyStateContainer.visibility = View.GONE
                     }
                 }
             } catch (e: Exception) {
                 android.util.Log.e("LowStockFragment", "Failed to load data", e)
+                if (_binding != null) {
+                    hideShimmer()
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }
             }
         }
     }

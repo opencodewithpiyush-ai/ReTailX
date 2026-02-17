@@ -9,6 +9,7 @@ data class Product(
     var price: Double = 0.0,
     var stock: Int = 0,
     var category: String = "",
+    var barcode: String = "",
     var imageUrls: List<String> = emptyList(),
     var createdAt: Timestamp = Timestamp.now()
 ) {

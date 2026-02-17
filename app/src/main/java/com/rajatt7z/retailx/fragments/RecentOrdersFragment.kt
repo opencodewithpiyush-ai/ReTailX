@@ -29,6 +29,13 @@ class RecentOrdersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupSwipeRefresh()
+        
+        // Configure empty state
+        binding.emptyState.tvEmptyTitle.text = "No Recent Orders"
+        binding.emptyState.tvEmptySubtitle.text = "Orders will appear here once they are placed"
+        
+        showShimmer()
         loadOrders()
     }
 
@@ -43,18 +50,41 @@ class RecentOrdersFragment : Fragment() {
         binding.rvRecentOrders.adapter = adapter
     }
 
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            loadOrders()
+        }
+    }
+
+    private fun showShimmer() {
+        binding.shimmerViewContainer.visibility = View.VISIBLE
+        binding.shimmerViewContainer.startShimmer()
+        binding.rvRecentOrders.visibility = View.GONE
+        binding.emptyState.emptyStateContainer.visibility = View.GONE
+    }
+
+    private fun hideShimmer() {
+        binding.shimmerViewContainer.stopShimmer()
+        binding.shimmerViewContainer.visibility = View.GONE
+    }
+
     private fun loadOrders() {
         lifecycleScope.launch {
             val orders = repository.getAllOrders()
-            // In a real app we might filter by role (e.g. Sales Exec sees only their orders), 
-             // but Inventory Manager sees all. Let's assume this fragment is generic.
-            adapter.updateList(orders)
             
-             if (orders.isEmpty()) {
-                 binding.tvEmpty.visibility = View.VISIBLE
-             } else {
-                 binding.tvEmpty.visibility = View.GONE
-             }
+            if (_binding != null) {
+                hideShimmer()
+                binding.swipeRefreshLayout.isRefreshing = false
+                adapter.updateList(orders)
+                
+                if (orders.isEmpty()) {
+                    binding.rvRecentOrders.visibility = View.GONE
+                    binding.emptyState.emptyStateContainer.visibility = View.VISIBLE
+                } else {
+                    binding.rvRecentOrders.visibility = View.VISIBLE
+                    binding.emptyState.emptyStateContainer.visibility = View.GONE
+                }
+            }
         }
     }
     

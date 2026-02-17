@@ -37,7 +37,13 @@ class OrdersFragment : Fragment() {
         }
 
         setupRecyclerView()
+        setupSwipeRefresh()
+        showShimmer()
         observeData()
+        
+        // Configure empty state text
+        binding.emptyState.tvEmptyTitle.text = "No Orders Yet"
+        binding.emptyState.tvEmptySubtitle.text = "Orders will appear here once sales are made"
     }
 
     private fun setupRecyclerView() {
@@ -50,17 +56,48 @@ class OrdersFragment : Fragment() {
         }
     }
 
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.fetchOrders()
+        }
+    }
+
+    private fun showShimmer() {
+        binding.shimmerViewContainer.visibility = View.VISIBLE
+        binding.shimmerViewContainer.startShimmer()
+        binding.rvOrders.visibility = View.GONE
+        binding.emptyState.emptyStateContainer.visibility = View.GONE
+    }
+
+    private fun hideShimmer() {
+        binding.shimmerViewContainer.stopShimmer()
+        binding.shimmerViewContainer.visibility = View.GONE
+    }
+
     private fun observeData() {
         viewModel.orders.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    ordersAdapter.updateList(resource.data ?: emptyList())
+                    hideShimmer()
+                    binding.swipeRefreshLayout.isRefreshing = false
+                    val list = resource.data ?: emptyList()
+                    ordersAdapter.updateList(list)
+                    
+                    if (list.isEmpty()) {
+                        binding.rvOrders.visibility = View.GONE
+                        binding.emptyState.emptyStateContainer.visibility = View.VISIBLE
+                    } else {
+                        binding.rvOrders.visibility = View.VISIBLE
+                        binding.emptyState.emptyStateContainer.visibility = View.GONE
+                    }
                 }
                 is Resource.Error -> {
+                    hideShimmer()
+                    binding.swipeRefreshLayout.isRefreshing = false
                     Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Loading -> {
-                    // Loading
+                    // Loading handled by shimmer or swipe refresh
                 }
             }
         }

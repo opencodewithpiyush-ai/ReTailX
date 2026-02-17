@@ -38,11 +38,17 @@ class InventoryManagerFragment : Fragment() {
         
         setupHeader()
         setupRecyclerView()
+        setupSwipeRefresh()
+        
+        // Configure empty state
+        binding.emptyState.tvEmptyTitle.text = "No Orders to Process"
+        binding.emptyState.tvEmptySubtitle.text = "Orders requiring processing will appear here"
+        
+        showShimmer()
         loadOrders()
     }
 
     private fun setupHeader() {
-        // ... (unchanged)
         val headerView = binding.tvHeader
         val profileView = binding.ivProfile
         val roleTitle = "Inventory Manager"
@@ -103,6 +109,24 @@ class InventoryManagerFragment : Fragment() {
         binding.rvOrders.adapter = adapter
     }
 
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            loadOrders()
+        }
+    }
+
+    private fun showShimmer() {
+        binding.shimmerViewContainer.visibility = View.VISIBLE
+        binding.shimmerViewContainer.startShimmer()
+        binding.rvOrders.visibility = View.GONE
+        binding.emptyState.emptyStateContainer.visibility = View.GONE
+    }
+
+    private fun hideShimmer() {
+        binding.shimmerViewContainer.stopShimmer()
+        binding.shimmerViewContainer.visibility = View.GONE
+    }
+
     private fun loadOrders() {
         lifecycleScope.launch {
             try {
@@ -114,8 +138,24 @@ class InventoryManagerFragment : Fragment() {
                     adapter.updateEmployeeMap(employeeMap)
                 }
                 
-                adapter.updateList(orders)
+                if (_binding != null) {
+                    hideShimmer()
+                    binding.swipeRefreshLayout.isRefreshing = false
+                    adapter.updateList(orders)
+                    
+                    if (orders.isEmpty()) {
+                        binding.rvOrders.visibility = View.GONE
+                        binding.emptyState.emptyStateContainer.visibility = View.VISIBLE
+                    } else {
+                        binding.rvOrders.visibility = View.VISIBLE
+                        binding.emptyState.emptyStateContainer.visibility = View.GONE
+                    }
+                }
             } catch (e: Exception) {
+                if (_binding != null) {
+                    hideShimmer()
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }
                 Toast.makeText(context, "Failed to load orders", Toast.LENGTH_SHORT).show()
             }
         }

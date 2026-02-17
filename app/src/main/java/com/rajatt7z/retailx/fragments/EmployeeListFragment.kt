@@ -39,13 +39,18 @@ class EmployeeListFragment : Fragment() {
 
         setupRecyclerView()
         setupListeners()
+        setupSwipeRefresh()
         setupObservers()
+        
+        // Configure empty state
+        binding.emptyState.tvEmptyTitle.text = "No Employees"
+        binding.emptyState.tvEmptySubtitle.text = "Tap + to add your first employee"
         
         // Show shimmer while loading
         binding.shimmerViewContainer.visibility = View.VISIBLE
         binding.shimmerViewContainer.startShimmer()
         binding.rvEmployeeList.visibility = View.GONE
-        binding.tvEmptyState.visibility = View.GONE
+        binding.emptyState.emptyStateContainer.visibility = View.GONE
         
         viewModel.fetchEmployees()
     }
@@ -82,6 +87,12 @@ class EmployeeListFragment : Fragment() {
         }
     }
 
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.fetchEmployees()
+        }
+    }
+
     private fun setupObservers() {
         viewModel.employees.observe(viewLifecycleOwner) { resource ->
             when (resource) {
@@ -90,28 +101,30 @@ class EmployeeListFragment : Fragment() {
                     binding.shimmerViewContainer.visibility = View.VISIBLE
                     binding.shimmerViewContainer.startShimmer()
                     binding.rvEmployeeList.visibility = View.GONE
-                    binding.tvEmptyState.visibility = View.GONE
+                    binding.emptyState.emptyStateContainer.visibility = View.GONE
                 }
                 is Resource.Success -> {
                     // Hide shimmer
                     binding.shimmerViewContainer.stopShimmer()
                     binding.shimmerViewContainer.visibility = View.GONE
+                    binding.swipeRefreshLayout.isRefreshing = false
 
                     val list = resource.data ?: emptyList()
                     employeeAdapter.differ.submitList(list)
                     
                     if (list.isEmpty()) {
                         binding.rvEmployeeList.visibility = View.GONE
-                        binding.tvEmptyState.visibility = View.VISIBLE
+                        binding.emptyState.emptyStateContainer.visibility = View.VISIBLE
                     } else {
                         binding.rvEmployeeList.visibility = View.VISIBLE
-                        binding.tvEmptyState.visibility = View.GONE
+                        binding.emptyState.emptyStateContainer.visibility = View.GONE
                     }
                 }
                 is Resource.Error -> {
                     // Hide shimmer
                     binding.shimmerViewContainer.stopShimmer()
                     binding.shimmerViewContainer.visibility = View.GONE
+                    binding.swipeRefreshLayout.isRefreshing = false
                     
                     Toast.makeText(context, resource.message, Toast.LENGTH_SHORT).show()
                 }

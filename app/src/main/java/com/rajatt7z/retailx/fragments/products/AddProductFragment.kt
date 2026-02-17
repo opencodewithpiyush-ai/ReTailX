@@ -18,6 +18,7 @@ import com.rajatt7z.retailx.database.DraftProduct
 import com.rajatt7z.retailx.databinding.FragmentAddProductBinding
 import com.rajatt7z.retailx.models.Product
 import com.rajatt7z.retailx.repository.ProductRepository
+import com.rajatt7z.retailx.utils.BarcodeScannerDialog
 import kotlinx.coroutines.launch
 
 class AddProductFragment : Fragment() {
@@ -83,6 +84,13 @@ class AddProductFragment : Fragment() {
 
             btnGenerateAI.setOnClickListener {
                 generateDescription()
+            }
+
+            btnScanBarcode.setOnClickListener {
+                val scanner = BarcodeScannerDialog { barcode ->
+                    binding.etBarcode.setText(barcode)
+                }
+                scanner.show(parentFragmentManager, "BarcodeScanner")
             }
         }
     }
@@ -172,7 +180,8 @@ class AddProductFragment : Fragment() {
                 description = etProductDescription.text.toString().trim(),
                 price = etProductPrice.text.toString().toDoubleOrNull() ?: 0.0,
                 stock = etProductStock.text.toString().toIntOrNull() ?: 0,
-                category = etProductCategory.text.toString()
+                category = etProductCategory.text.toString(),
+                barcode = etBarcode.text.toString().trim()
             )
         }
     }

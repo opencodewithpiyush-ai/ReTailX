@@ -43,15 +43,15 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCustomerName"
+                    android:id="@+id/etCustomerPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="Customer Name" />
+                    android:inputType="phone"
+                    android:hint="Customer Phone (auto-lookup)" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -61,11 +61,11 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCustomerPhone"
+                    android:id="@+id/etCustomerName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:hint="Customer Phone" />
+                    android:inputType="textPersonName"
+                    android:hint="Customer Name" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Product Selection -->
@@ -91,26 +91,48 @@
                         android:textColor="?attr/colorPrimary"
                         android:layout_marginBottom="16dp"/>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/autoCompleteProduct"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="none"
-                            android:hint="Select Product"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-                    
+                    <!-- Product + Barcode Scan Row -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/autoCompleteProduct"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:hint="Select Product"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnScanBarcode"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:icon="@android:drawable/ic_menu_camera"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            app:cornerRadius="16dp"/>
+                    </LinearLayout>
+
+                    <!-- Quantity + Discount Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
                         
-                         <com.google.android.material.textfield.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -124,18 +146,63 @@
                                 android:inputType="number"
                                 android:hint="Qty" />
                         </com.google.android.material.textfield.TextInputLayout>
-                        
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnAddItem"
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etItemDiscount"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal"
+                                android:hint="Discount" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButtonToggleGroup
+                            android:id="@+id/toggleDiscountType"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:cornerRadius="8dp"
-                            android:text="Add"
-                            style="@style/Widget.Material3.Button.TonalButton"
-                            android:fontFamily="@font/circular_spotify"
-                            android:layout_gravity="center_vertical"/>
-                        
+                            app:singleSelection="true"
+                            app:selectionRequired="true"
+                            android:layout_gravity="center_vertical">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnDiscountPercent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:text="%"
+                                android:textSize="12sp"
+                                android:minWidth="40dp"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                style="?attr/materialButtonOutlinedStyle"/>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnDiscountFixed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:text="$"
+                                android:textSize="12sp"
+                                android:minWidth="40dp"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                style="?attr/materialButtonOutlinedStyle"/>
+                        </com.google.android.material.button.MaterialButtonToggleGroup>
+
                     </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cornerRadius="8dp"
+                        android:text="Add to Cart"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:fontFamily="@font/circular_spotify"/>
 
                 </LinearLayout>
 
@@ -163,7 +230,7 @@
 
     </ScrollView>
 
-    <!-- Footer -->
+    <!-- Footer with Subtotal / Discount / Tax / Total -->
     <LinearLayout
         android:id="@+id/footerLayout"
         android:layout_width="match_parent"
@@ -176,21 +243,100 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <!-- Subtotal -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal">
-
+            android:orientation="horizontal"
+            android:layout_marginBottom="4dp">
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/circular_spotify"
-                android:text="Total Amount:"
+                android:text="Subtotal"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tvSubtotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circular_spotify"
+                android:text="$0.00"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Discount -->
+        <LinearLayout
+            android:id="@+id/layoutDiscount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="4dp"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/circular_spotify"
+                android:text="Discount"
+                android:textSize="14sp"
+                android:textColor="#E53935" />
+            <TextView
+                android:id="@+id/tvDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circular_spotify"
+                android:text="-$0.00"
+                android:textColor="#E53935"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Tax -->
+        <LinearLayout
+            android:id="@+id/layoutTax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/tvTaxLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/circular_spotify"
+                android:text="Tax (0%)"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tvTaxAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circular_spotify"
+                android:text="$0.00"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorOutlineVariant"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Grand Total -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/circular_spotify"
+                android:text="Grand Total"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
             <TextView
                 android:id="@+id/tvTotalAmount"
                 android:layout_width="wrap_content"
@@ -200,7 +346,6 @@
                 android:textColor="#598C58"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
         <LinearLayout

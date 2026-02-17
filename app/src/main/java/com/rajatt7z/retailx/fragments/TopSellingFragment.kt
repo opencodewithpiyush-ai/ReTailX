@@ -30,6 +30,13 @@ class TopSellingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupSwipeRefresh()
+        
+        // Configure empty state
+        binding.emptyState.tvEmptyTitle.text = "No Sales Data"
+        binding.emptyState.tvEmptySubtitle.text = "Top selling products will appear here once orders are placed"
+        
+        showShimmer()
         loadTopSellingProducts()
     }
 
@@ -37,6 +44,24 @@ class TopSellingFragment : Fragment() {
         adapter = SimpleProductAdapter(emptyList())
         binding.rvTopSelling.layoutManager = LinearLayoutManager(context)
         binding.rvTopSelling.adapter = adapter
+    }
+
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            loadTopSellingProducts()
+        }
+    }
+
+    private fun showShimmer() {
+        binding.shimmerViewContainer.visibility = View.VISIBLE
+        binding.shimmerViewContainer.startShimmer()
+        binding.rvTopSelling.visibility = View.GONE
+        binding.emptyState.emptyStateContainer.visibility = View.GONE
+    }
+
+    private fun hideShimmer() {
+        binding.shimmerViewContainer.stopShimmer()
+        binding.shimmerViewContainer.visibility = View.GONE
     }
 
     private fun loadTopSellingProducts() {
@@ -67,10 +92,24 @@ class TopSellingFragment : Fragment() {
                 }
 
                 if (_binding != null) {
+                    hideShimmer()
+                    binding.swipeRefreshLayout.isRefreshing = false
                     adapter.updateList(items)
+
+                    if (items.isEmpty()) {
+                        binding.rvTopSelling.visibility = View.GONE
+                        binding.emptyState.emptyStateContainer.visibility = View.VISIBLE
+                    } else {
+                        binding.rvTopSelling.visibility = View.VISIBLE
+                        binding.emptyState.emptyStateContainer.visibility = View.GONE
+                    }
                 }
             } catch (e: Exception) {
                 android.util.Log.e("TopSellingFragment", "Failed to load data", e)
+                if (_binding != null) {
+                    hideShimmer()
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }
             }
         }
     }

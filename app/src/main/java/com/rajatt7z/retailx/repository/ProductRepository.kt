@@ -42,6 +42,18 @@ class ProductRepository {
             .await()
     }
 
+    suspend fun getProductByBarcode(barcode: String): Product? {
+        return try {
+            val snapshot = productsCollection
+                .whereEqualTo("barcode", barcode)
+                .limit(1)
+                .get().await()
+            snapshot.toObjects(Product::class.java).firstOrNull()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     private val imgBBService: ImgBBService by lazy {
         retrofit2.Retrofit.Builder()
             .baseUrl("https://api.imgbb.com/")

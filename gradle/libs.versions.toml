@@ -22,7 +22,9 @@ gson = "2.10.1"
 room = "2.6.1"
 ksp = "2.0.21-1.0.28"
 shimmer = "0.5.0"
+swiperefreshlayout = "1.1.0"
 generativeai = "0.9.0"
+mlkitBarcodeScanning = "17.3.0"
 
 [libraries]
 generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
@@ -56,6 +58,8 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 shimmer = { module = "com.facebook.shimmer:shimmer", version.ref = "shimmer" }
+swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+mlkit-barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "mlkitBarcodeScanning" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

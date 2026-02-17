@@ -55,6 +55,14 @@ class AdminSettingsFragment : Fragment() {
              findNavController().navigate(com.rajatt7z.retailx.R.id.action_settings_to_logs)
         }
 
+        binding.cardTaxConfig.setOnClickListener {
+             findNavController().navigate(com.rajatt7z.retailx.R.id.action_settings_to_taxConfig)
+        }
+
+        binding.cardCustomers.setOnClickListener {
+             findNavController().navigate(com.rajatt7z.retailx.R.id.action_settings_to_customers)
+        }
+
         binding.btnLogout.setOnClickListener {
             com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Logout")

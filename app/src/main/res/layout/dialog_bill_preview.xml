@@ -185,7 +185,8 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"/>
 
-                <!-- Total Section -->
+                <!-- Totals Section -->
+                <!-- Subtotal -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -195,7 +196,90 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Total Amount"
+                        android:text="Subtotal"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textSize="14sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"/>
+                    <TextView
+                        android:id="@+id/tvSubtotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$0.00"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textSize="14sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"/>
+                </LinearLayout>
+
+                <!-- Discount -->
+                <LinearLayout
+                    android:id="@+id/layoutPreviewDiscount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="4dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Discount"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textSize="14sp"
+                        android:textColor="#E53935"/>
+                    <TextView
+                        android:id="@+id/tvPreviewDiscount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-$0.00"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textSize="14sp"
+                        android:textColor="#E53935"/>
+                </LinearLayout>
+
+                <!-- Tax -->
+                <LinearLayout
+                    android:id="@+id/layoutPreviewTax"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="4dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:id="@+id/tvPreviewTaxLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Tax (0%)"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textSize="14sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"/>
+                    <TextView
+                        android:id="@+id/tvPreviewTaxAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$0.00"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textSize="14sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?attr/colorOutlineVariant"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <!-- Grand Total -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Grand Total"
                         android:fontFamily="@font/circular_spotify"
                         android:textSize="16sp"
                         android:textColor="?attr/colorOnSurface"/>

@@ -45,6 +45,7 @@ class ProductListFragment : Fragment() {
 
         setupRecyclerView()
         setupTabs()
+        setupSwipeRefresh()
         loadProducts()
         setupSearch()
 
@@ -132,6 +133,12 @@ class ProductListFragment : Fragment() {
         })
     }
 
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            loadProducts()
+        }
+    }
+
     private fun loadProducts() {
         // Show shimmer and hide RecyclerView while loading
         binding.shimmerViewContainer.visibility = View.VISIBLE
@@ -151,6 +158,7 @@ class ProductListFragment : Fragment() {
                 if (_binding != null) {
                     binding.shimmerViewContainer.stopShimmer()
                     binding.shimmerViewContainer.visibility = View.GONE
+                    binding.swipeRefreshLayout.isRefreshing = false
                     filterList()
                 }
             } catch (e: Exception) {
@@ -158,6 +166,7 @@ class ProductListFragment : Fragment() {
                 if (_binding != null) {
                     binding.shimmerViewContainer.stopShimmer()
                     binding.shimmerViewContainer.visibility = View.GONE
+                    binding.swipeRefreshLayout.isRefreshing = false
                 }
                 // Ideally show an error state
             }

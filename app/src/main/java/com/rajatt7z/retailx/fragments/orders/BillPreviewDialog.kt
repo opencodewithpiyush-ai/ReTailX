@@ -58,7 +58,23 @@ class BillPreviewDialog(
             itemsContainer.addView(itemView)
         }
 
-        // Setup Total
+        // Subtotal
+        view.findViewById<TextView>(R.id.tvSubtotal).text = String.format("$%.2f", bill.subtotal)
+
+        // Discount
+        if (bill.discountAmount > 0) {
+            view.findViewById<View>(R.id.layoutPreviewDiscount).visibility = View.VISIBLE
+            view.findViewById<TextView>(R.id.tvPreviewDiscount).text = String.format("-$%.2f", bill.discountAmount)
+        }
+
+        // Tax
+        if (bill.taxRate > 0 && bill.taxAmount > 0) {
+            view.findViewById<View>(R.id.layoutPreviewTax).visibility = View.VISIBLE
+            view.findViewById<TextView>(R.id.tvPreviewTaxLabel).text = String.format("Tax (%.1f%%)", bill.taxRate)
+            view.findViewById<TextView>(R.id.tvPreviewTaxAmount).text = String.format("$%.2f", bill.taxAmount)
+        }
+
+        // Grand Total
         view.findViewById<TextView>(R.id.tvGrandTotal).text = String.format("$%.2f", bill.totalAmount)
 
         // Close Button

@@ -40,6 +40,13 @@ class BillHistoryFragment : Fragment() {
         }
 
         setupRecyclerView()
+        setupSwipeRefresh()
+        
+        // Configure empty state
+        binding.emptyState.tvEmptyTitle.text = "No Bills Yet"
+        binding.emptyState.tvEmptySubtitle.text = "Your billing history will appear here"
+        
+        showShimmer()
         loadBills()
     }
 
@@ -52,21 +59,42 @@ class BillHistoryFragment : Fragment() {
         binding.rvBillHistory.adapter = adapter
     }
 
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            loadBills()
+        }
+    }
+
+    private fun showShimmer() {
+        binding.shimmerViewContainer.visibility = View.VISIBLE
+        binding.shimmerViewContainer.startShimmer()
+        binding.rvBillHistory.visibility = View.GONE
+        binding.emptyState.emptyStateContainer.visibility = View.GONE
+    }
+
+    private fun hideShimmer() {
+        binding.shimmerViewContainer.stopShimmer()
+        binding.shimmerViewContainer.visibility = View.GONE
+    }
+
     private fun loadBills() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        
-        binding.progressBar.visibility = View.VISIBLE
-        binding.tvEmpty.visibility = View.GONE
         
         lifecycleScope.launch {
             val bills = billRepository.getBillsByEmployee(userId)
             
-            binding.progressBar.visibility = View.GONE
-            
-            if (bills.isEmpty()) {
-                binding.tvEmpty.visibility = View.VISIBLE
-            } else {
-                adapter.updateList(bills)
+            if (_binding != null) {
+                hideShimmer()
+                binding.swipeRefreshLayout.isRefreshing = false
+                
+                if (bills.isEmpty()) {
+                    binding.rvBillHistory.visibility = View.GONE
+                    binding.emptyState.emptyStateContainer.visibility = View.VISIBLE
+                } else {
+                    adapter.updateList(bills)
+                    binding.rvBillHistory.visibility = View.VISIBLE
+                    binding.emptyState.emptyStateContainer.visibility = View.GONE
+                }
             }
         }
     }

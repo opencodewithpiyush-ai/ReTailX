@@ -7,8 +7,13 @@ data class Bill(
     val products: List<CartItem> = emptyList(),
     val customerName: String = "",
     val customerPhone: String = "",
+    val customerId: String = "",
+    val subtotal: Double = 0.0,
+    val discountAmount: Double = 0.0,
+    val taxRate: Double = 0.0,
+    val taxAmount: Double = 0.0,
     val totalAmount: Double = 0.0,
     val timestamp: Long = 0L,
-    val generatedBy: String = "", // Employee ID
-    val generatedByName: String = "" // Employee Name for display on Bill
+    val generatedBy: String = "",        // Employee ID
+    val generatedByName: String = ""     // Employee Name for display on Bill
 )
