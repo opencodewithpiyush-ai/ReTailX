@@ -10,6 +10,9 @@ import com.rajatt7z.retailx.databinding.ActivityAdminDashboardBinding
 
 import com.rajatt7z.retailx.utils.BaseActivity
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class AdminDashboardActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAdminDashboardBinding

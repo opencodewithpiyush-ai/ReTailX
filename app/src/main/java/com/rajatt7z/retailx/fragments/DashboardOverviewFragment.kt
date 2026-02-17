@@ -20,11 +20,24 @@ import com.google.firebase.auth.FirebaseAuth
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
 class DashboardOverviewFragment : Fragment() {
 
     private var _binding: FragmentDashboardOverviewBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AuthViewModel by viewModels()
+
+    @Inject
+    lateinit var productRepo: com.rajatt7z.retailx.repository.ProductRepository
+    
+    @Inject
+    lateinit var orderRepo: com.rajatt7z.retailx.repository.OrderRepository
+    
+    @Inject
+    lateinit var authRepo: com.rajatt7z.retailx.repository.AuthRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -105,9 +118,7 @@ class DashboardOverviewFragment : Fragment() {
         // Fetch real stats from Firestore
         lifecycleScope.launch {
             try {
-                val productRepo = com.rajatt7z.retailx.repository.ProductRepository()
-                val orderRepo = com.rajatt7z.retailx.repository.OrderRepository()
-                val authRepo = com.rajatt7z.retailx.repository.AuthRepository()
+                // Repositories are injected
                 
                 val products = productRepo.getAllProducts()
                 val orders = orderRepo.getAllOrders()

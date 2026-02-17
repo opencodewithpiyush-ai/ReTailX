@@ -15,6 +15,9 @@ import com.rajatt7z.retailx.utils.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.rajatt7z.retailx.utils.ImageUploadHelper
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class AdminProfileFragment : Fragment() {
 
     private var _binding: FragmentAdminProfileBinding? = null

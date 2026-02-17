@@ -7,7 +7,9 @@ import com.rajatt7z.retailx.models.Product
 import kotlinx.coroutines.tasks.await
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 
-class ProductRepository {
+import javax.inject.Inject
+
+class ProductRepository @Inject constructor() {
 
     private val firestore = FirebaseFirestore.getInstance()
     private val productsCollection = firestore.collection("products")

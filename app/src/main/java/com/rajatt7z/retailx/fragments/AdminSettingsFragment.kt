@@ -14,6 +14,9 @@ import com.rajatt7z.retailx.auth.MainActivity
 import com.rajatt7z.retailx.databinding.FragmentAdminSettingsBinding
 import com.rajatt7z.retailx.viewmodel.AuthViewModel
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class AdminSettingsFragment : Fragment() {
 
     private var _binding: FragmentAdminSettingsBinding? = null

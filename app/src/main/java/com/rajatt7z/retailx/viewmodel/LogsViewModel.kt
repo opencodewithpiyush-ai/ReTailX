@@ -9,9 +9,13 @@ import com.rajatt7z.retailx.repository.AuthRepository
 import com.rajatt7z.retailx.utils.Resource
 import kotlinx.coroutines.launch
 
-class LogsViewModel : ViewModel() {
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-    private val repository = AuthRepository()
+@HiltViewModel
+class LogsViewModel @Inject constructor(
+    private val repository: AuthRepository
+) : ViewModel() {
 
     private val _logs = MutableLiveData<Resource<List<LoginLog>>>()
     val logs: LiveData<Resource<List<LoginLog>>> = _logs

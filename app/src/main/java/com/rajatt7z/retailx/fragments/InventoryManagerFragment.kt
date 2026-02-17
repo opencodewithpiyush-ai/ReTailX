@@ -15,12 +15,21 @@ import com.rajatt7z.retailx.repository.OrderRepository
 import com.rajatt7z.retailx.repository.AuthRepository
 import kotlinx.coroutines.launch
 
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
 class InventoryManagerFragment : Fragment() {
 
     private var _binding: FragmentInventoryManagerBinding? = null
     private val binding get() = _binding!!
-    private val repository = OrderRepository()
-    private val authRepository = AuthRepository()
+    
+    @Inject
+    lateinit var repository: OrderRepository
+    
+    @Inject
+    lateinit var authRepository: AuthRepository
+    
     private lateinit var adapter: DetailedOrderAdapter
 
     private var employeeMap = mapOf<String, String>()

@@ -19,6 +19,9 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class EmployeeListFragment : Fragment() {
 
     private var _binding: FragmentEmployeeListBinding? = null

@@ -6,6 +6,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.rajatt7z.retailx.utils.BaseActivity
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class EmployeeDashboardActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

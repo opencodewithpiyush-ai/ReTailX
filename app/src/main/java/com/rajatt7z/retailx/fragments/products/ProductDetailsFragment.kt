@@ -18,11 +18,21 @@ import com.rajatt7z.retailx.databinding.FragmentProductDetailsBinding
 import com.rajatt7z.retailx.repository.ProductRepository
 import kotlinx.coroutines.launch
 
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
 class ProductDetailsFragment : Fragment() {
 
     private var _binding: FragmentProductDetailsBinding? = null
     private val binding get() = _binding!!
-    private val repository = ProductRepository()
+    
+    @Inject
+    lateinit var repository: ProductRepository
+
+    @Inject
+    lateinit var authRepository: com.rajatt7z.retailx.repository.AuthRepository
+
     private val args: ProductDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -62,7 +72,7 @@ class ProductDetailsFragment : Fragment() {
 
     private fun checkUserRole() {
         lifecycleScope.launch {
-            val authRepository = com.rajatt7z.retailx.repository.AuthRepository()
+            // authRepository is injected
             val currentUser = authRepository.getCurrentUser()
             if (currentUser != null) {
                 val result = authRepository.getUserDetails(currentUser.uid)

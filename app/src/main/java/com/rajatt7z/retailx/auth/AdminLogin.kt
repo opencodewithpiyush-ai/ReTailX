@@ -16,6 +16,9 @@ import com.rajatt7z.retailx.databinding.ActivityAdminLoginBinding
 import com.rajatt7z.retailx.utils.Resource
 import com.rajatt7z.retailx.viewmodel.AuthViewModel
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class AdminLogin : com.rajatt7z.retailx.utils.BaseActivity() {
 
     private lateinit var binding: ActivityAdminLoginBinding

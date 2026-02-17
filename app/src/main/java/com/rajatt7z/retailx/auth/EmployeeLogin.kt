@@ -16,6 +16,9 @@ import com.rajatt7z.retailx.databinding.ActivityEmployeeLoginBinding
 import com.rajatt7z.retailx.utils.Resource
 import com.rajatt7z.retailx.viewmodel.AuthViewModel
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class EmployeeLogin : com.rajatt7z.retailx.utils.BaseActivity() {
 
     private lateinit var binding: ActivityEmployeeLoginBinding

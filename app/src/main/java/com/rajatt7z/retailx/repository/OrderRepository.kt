@@ -5,7 +5,9 @@ import com.rajatt7z.retailx.models.Order
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 
-class OrderRepository {
+import javax.inject.Inject
+
+class OrderRepository @Inject constructor() {
 
     private val db = FirebaseFirestore.getInstance()
     private val ordersCollection = db.collection("orders")

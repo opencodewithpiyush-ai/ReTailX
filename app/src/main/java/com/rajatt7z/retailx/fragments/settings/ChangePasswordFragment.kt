@@ -14,6 +14,9 @@ import androidx.fragment.app.viewModels
 import com.rajatt7z.retailx.viewmodel.AuthViewModel
 import com.rajatt7z.retailx.utils.Resource
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class ChangePasswordFragment : Fragment() {
 
     private var _binding: FragmentChangePasswordBinding? = null

@@ -15,6 +15,9 @@ import com.rajatt7z.retailx.databinding.ActivityAdminRegBinding
 import com.rajatt7z.retailx.utils.Resource
 import com.rajatt7z.retailx.viewmodel.AuthViewModel
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class AdminReg : AppCompatActivity() {
 
     private lateinit var binding: ActivityAdminRegBinding

@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.gms.google.services)
     alias(libs.plugins.ksp)
     id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.hilt.android)
+    id("com.google.firebase.crashlytics")
 }
 
 val localProperties = Properties()
@@ -33,7 +35,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -45,12 +47,13 @@ android {
         buildConfig = true
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
+    // Allow Hilt to use Java 8 features
 }
 
 dependencies {
@@ -68,6 +71,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
+    implementation("com.google.firebase:firebase-crashlytics:19.4.0")
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
@@ -105,4 +109,17 @@ dependencies {
 
     // Biometric Authentication
     implementation("androidx.biometric:biometric:1.1.0")
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    // Unit Testing
+    // Unit Testing
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation("androidx.arch.core:core-testing:2.2.0") // Keep hardcoded if not in libs
 }

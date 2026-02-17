@@ -8,14 +8,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rajatt7z.retailx.databinding.FragmentActivityLogsBinding
 
+import dagger.hilt.android.AndroidEntryPoint
+import androidx.fragment.app.viewModels
+import com.rajatt7z.retailx.viewmodel.LogsViewModel
+
+@AndroidEntryPoint
 class ActivityLogsFragment : Fragment() {
 
     private var _binding: FragmentActivityLogsBinding? = null
     private val binding get() = _binding!!
     
-    private val viewModel: com.rajatt7z.retailx.viewmodel.LogsViewModel by lazy {
-        androidx.lifecycle.ViewModelProvider(this)[com.rajatt7z.retailx.viewmodel.LogsViewModel::class.java]
-    }
+    private val viewModel: LogsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

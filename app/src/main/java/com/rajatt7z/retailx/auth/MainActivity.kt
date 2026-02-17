@@ -23,6 +23,9 @@ import com.rajatt7z.retailx.utils.Resource
 import com.rajatt7z.retailx.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class MainActivity : com.rajatt7z.retailx.utils.BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding

@@ -8,9 +8,13 @@ import com.rajatt7z.retailx.repository.AuthRepository
 import com.rajatt7z.retailx.utils.Resource
 import kotlinx.coroutines.launch
 
-class AuthViewModel : ViewModel() {
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-    private val repository = AuthRepository()
+@HiltViewModel
+class AuthViewModel @Inject constructor(
+    private val repository: AuthRepository
+) : ViewModel() {
 
     private val _authStatus = MutableLiveData<Resource<String>>()
     val authStatus: LiveData<Resource<String>> = _authStatus

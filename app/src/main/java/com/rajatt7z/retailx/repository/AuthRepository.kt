@@ -5,7 +5,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.rajatt7z.retailx.utils.Resource
 import kotlinx.coroutines.tasks.await
 
-class AuthRepository {
+import javax.inject.Inject
+
+class AuthRepository @Inject constructor() {
 
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
