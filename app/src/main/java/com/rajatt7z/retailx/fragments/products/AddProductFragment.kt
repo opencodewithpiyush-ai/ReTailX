@@ -200,12 +200,28 @@ class AddProductFragment : Fragment() {
         }
 
         lifecycleScope.launch {
+            var animationJob: kotlinx.coroutines.Job? = null
             try {
                 setLoading(true)
+                
+                animationJob = launch {
+                    var dotCount = 0
+                    val baseText = "Your Description is generating\n\nPlease Wait Patiently"
+                    while (true) {
+                        val dots = ".".repeat(dotCount % 4)
+                        binding.etProductDescription.setText("$baseText$dots")
+                        kotlinx.coroutines.delay(500)
+                        dotCount++
+                    }
+                }
+
                 geminiHelper.generateProductDescription(productName, category).collect { description ->
+                     animationJob?.cancel()
                      binding.etProductDescription.setText(description)
                 }
             } catch (e: Exception) {
+                animationJob?.cancel()
+                binding.etProductDescription.setText("")
                 Log.e("AddProductFragment", "AI Generation Error", e)
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle("AI Generation Failed")
@@ -213,6 +229,7 @@ class AddProductFragment : Fragment() {
                     .setPositiveButton("OK", null)
                     .show()
             } finally {
+                animationJob?.cancel()
                 setLoading(false)
             }
         }
