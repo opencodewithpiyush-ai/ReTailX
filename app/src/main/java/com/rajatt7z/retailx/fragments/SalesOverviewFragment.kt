@@ -53,7 +53,8 @@ class SalesOverviewFragment : Fragment() {
             tab.text = when (position) {
                 0 -> "Today"
                 1 -> "This Week"
-                else -> "This Month"
+                2 -> "This Month"
+                else -> "This Year"
             }
         }.attach()
     }

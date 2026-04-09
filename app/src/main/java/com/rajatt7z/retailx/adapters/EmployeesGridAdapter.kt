@@ -23,11 +23,11 @@ class EmployeesGridAdapter(
             if (employee.profileImageUrl.isNotEmpty()) {
                 binding.imgEmployee.load(employee.profileImageUrl) {
                     crossfade(true)
-                    placeholder(R.drawable.baseline_person_24)
-                    error(R.drawable.baseline_person_24)
+                    placeholder(R.drawable.round_account_circle_24)
+                    error(R.drawable.round_account_circle_24)
                 }
             } else {
-                binding.imgEmployee.setImageResource(R.drawable.baseline_person_24)
+                binding.imgEmployee.setImageResource(R.drawable.round_account_circle_24)
             }
 
             binding.btnDetails.setOnClickListener {

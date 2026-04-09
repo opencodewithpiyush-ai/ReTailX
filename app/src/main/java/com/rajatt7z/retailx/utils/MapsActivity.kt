@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -50,7 +49,7 @@ class MapsActivity : AppCompatActivity() {
 
         // Load OSMDroid configuration
         val ctx = applicationContext
-        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx))
+        Configuration.getInstance().load(ctx, ctx.getSharedPreferences("osmdroid_prefs", android.content.Context.MODE_PRIVATE))
         Configuration.getInstance().userAgentValue = packageName
 
         setContentView(R.layout.activity_maps)
@@ -114,6 +113,7 @@ class MapsActivity : AppCompatActivity() {
         Thread {
             try {
                 val geocoder = Geocoder(this, Locale.getDefault())
+                @Suppress("DEPRECATION")
                 val addresses = geocoder.getFromLocationName(query, 1)
                 
                 runOnUiThread {
@@ -241,6 +241,7 @@ class MapsActivity : AppCompatActivity() {
             try {
                 val geocoder = Geocoder(this, Locale.getDefault())
                 // Basic android geocoder usually works without API key on devices with Play Services.
+                @Suppress("DEPRECATION")
                 val addresses = geocoder.getFromLocation(geoPoint.latitude, geoPoint.longitude, 1)
                 
                 runOnUiThread {

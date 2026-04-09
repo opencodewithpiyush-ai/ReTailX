@@ -12,13 +12,14 @@ class SalesChartPagerAdapter(
     private val fragments = mutableMapOf<Int, SalesChartPageFragment>()
     private var orders: List<Order> = emptyList()
 
-    override fun getItemCount(): Int = 3
+    override fun getItemCount(): Int = 4
 
     override fun createFragment(position: Int): Fragment {
         val type = when (position) {
             0 -> "Today"
             1 -> "This Week"
-            else -> "This Month"
+            2 -> "This Month"
+            else -> "This Year"
         }
         val fragment = SalesChartPageFragment.newInstance(type)
         fragment.updateData(orders) // Initial data if available

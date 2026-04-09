@@ -52,6 +52,7 @@ class SalesChartFragment : Fragment() {
                     com.rajatt7z.retailx.R.id.btnDaily -> 1
                     com.rajatt7z.retailx.R.id.btnWeekly -> 7
                     com.rajatt7z.retailx.R.id.btnMonthly -> 30
+                    com.rajatt7z.retailx.R.id.btnYearly -> 365
                     else -> 7
                 }
                 loadChartData(days)
@@ -79,7 +80,8 @@ class SalesChartFragment : Fragment() {
             val datePattern = when {
                 days <= 1 -> "HH:00"   // Hourly for daily
                 days <= 7 -> "EEE"      // Day name for weekly
-                else -> "dd MMM"        // Day+month for monthly
+                days <= 31 -> "dd MMM"        // Day+month for monthly
+                else -> "MMM yyyy"      // Month+year for yearly
             }
             val dateFormat = java.text.SimpleDateFormat(datePattern, java.util.Locale.getDefault())
             
@@ -110,7 +112,8 @@ class SalesChartFragment : Fragment() {
                 val periodLabel = when {
                     days <= 1 -> "Hourly Sales"
                     days <= 7 -> "Daily Sales"
-                    else -> "Sales by Date"
+                    days <= 31 -> "Sales by Date"
+                    else -> "Monthly Sales"
                 }
                 val barDataSet = com.github.mikephil.charting.data.BarDataSet(barEntries, periodLabel)
                 barDataSet.colors = com.github.mikephil.charting.utils.ColorTemplate.MATERIAL_COLORS.toList()

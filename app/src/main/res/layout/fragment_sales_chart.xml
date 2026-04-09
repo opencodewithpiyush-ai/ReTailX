@@ -50,6 +50,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Monthly"
+                android:fontFamily="@font/circular_spotify"
+                style="@style/Widget.Material3.Button.OutlinedButton"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnYearly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yearly"
                 app:cornerRadius="8dp"
                 android:fontFamily="@font/circular_spotify"
                 style="@style/Widget.Material3.Button.OutlinedButton"/>

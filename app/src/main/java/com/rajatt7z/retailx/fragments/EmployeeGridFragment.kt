@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rajatt7z.retailx.R
+import coil.load
 import com.rajatt7z.retailx.adapters.EmployeesGridAdapter
 import com.rajatt7z.retailx.databinding.FragmentEmployeeGridBinding
 import com.rajatt7z.retailx.utils.Resource
@@ -59,7 +60,7 @@ class EmployeeGridFragment : Fragment() {
 
     private fun setupRecyclerView() {
         employeesAdapter = EmployeesGridAdapter(emptyList()) { employee ->
-            Toast.makeText(requireContext(), "Selected: ${employee.name}", Toast.LENGTH_SHORT).show()
+            showEmployeeDetailsDialog(employee)
         }
         binding.rvEmployees.apply {
             adapter = employeesAdapter
@@ -112,6 +113,44 @@ class EmployeeGridFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showEmployeeDetailsDialog(employee: com.rajatt7z.retailx.models.Employee) {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_employee_details, null)
+        
+        val imgProfile = dialogView.findViewById<com.google.android.material.imageview.ShapeableImageView>(R.id.imgProfile)
+        val tvName = dialogView.findViewById<android.widget.TextView>(R.id.tvName)
+        val chipRole = dialogView.findViewById<com.google.android.material.chip.Chip>(R.id.chipRole)
+        val tvEmail = dialogView.findViewById<android.widget.TextView>(R.id.tvEmail)
+        val tvPhone = dialogView.findViewById<android.widget.TextView>(R.id.tvPhone)
+        val tvPermissions = dialogView.findViewById<android.widget.TextView>(R.id.tvPermissions)
+        val tvJoinDate = dialogView.findViewById<android.widget.TextView>(R.id.tvJoinDate)
+
+        tvName.text = employee.name
+        chipRole.text = employee.role
+        tvEmail.text = employee.email.ifEmpty { "No Email" }
+        tvPhone.text = employee.phone.ifEmpty { "No Phone" }
+        tvPermissions.text = "${employee.permissions} Permissions"
+        
+        val sdf = java.text.SimpleDateFormat("MMM yyyy", java.util.Locale.getDefault())
+        tvJoinDate.text = "Joined ${sdf.format(java.util.Date(employee.createdAt))}"
+
+        if (employee.profileImageUrl.isNotEmpty()) {
+            imgProfile.load(employee.profileImageUrl) {
+                crossfade(true)
+                placeholder(R.drawable.round_account_circle_24)
+                error(R.drawable.round_account_circle_24)
+            }
+        } else {
+            imgProfile.setImageResource(R.drawable.round_account_circle_24)
+        }
+
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogView)
+            .setPositiveButton("Close") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     override fun onDestroyView() {

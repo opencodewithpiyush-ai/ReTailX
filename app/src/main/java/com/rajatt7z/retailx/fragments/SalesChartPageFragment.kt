@@ -100,6 +100,7 @@ class SalesChartPageFragment : Fragment() {
             "Today" -> processTodayData(entries, labels)
             "This Week" -> processWeekData(entries, labels)
             "This Month" -> processMonthData(entries, labels)
+            "This Year" -> processYearData(entries, labels)
         }
 
         if (entries.isEmpty()) {
@@ -234,6 +235,30 @@ class SalesChartPageFragment : Fragment() {
                    count = 0
               }
          }
+    }
+
+    private fun processYearData(entries: ArrayList<BarEntry>, labels: ArrayList<String>) {
+        val today = Calendar.getInstance()
+        val year = today.get(Calendar.YEAR)
+        
+        val salesByMonth = FloatArray(12) { 0f }
+        
+        orders.forEach { order ->
+            val orderDate = Calendar.getInstance().apply { timeInMillis = order.timestamp }
+            if (orderDate.get(Calendar.YEAR) == year) {
+                val month = orderDate.get(Calendar.MONTH)
+                salesByMonth[month] += order.totalPrice.toFloat()
+            }
+        }
+        
+        val months = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+        
+        var index = 0f
+        for (m in 0..11) {
+            entries.add(BarEntry(index, salesByMonth[m]))
+            labels.add(months[m])
+            index++
+        }
     }
 
     override fun onDestroyView() {
