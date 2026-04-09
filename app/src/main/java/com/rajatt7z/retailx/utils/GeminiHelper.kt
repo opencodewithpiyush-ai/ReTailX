@@ -31,10 +31,27 @@ class GeminiHelper @Inject constructor(
     }
 
     fun generateProductDescription(name: String, category: String): Flow<String> = flow {
-        val prompt = "Generate a catchy, professional product description for a '$category' product named '$name'. Keep it under 2 sentences. Focus on benefits."
+        val emojis = listOf("👉", "📍", "🔹", "✨", "✅", "🚀", "🎯", "📌", "🌟", "⚡")
+        val randomEmoji = emojis.random()
+        
+        val prompt = """
+            Generate a catchy, professional product description for a '$category' product named '$name'.
+            Format the output strictly as a 3-point bulleted list focusing on the benefits.
+            Do not include any introductory or concluding text.
+            Instead of standard bullet points, use this specific emoji '$randomEmoji' at the beginning of each point.
+            Leave a blank line between each point.
+            
+            Example format:
+            $randomEmoji Benefit point 1
+            
+            $randomEmoji Benefit point 2
+            
+            $randomEmoji Benefit point 3
+        """.trimIndent()
+        
         try {
             val response = generativeModel.generateContent(prompt)
-            emit(response.text ?: "No description generated.")
+            emit(response.text?.trim() ?: "No description generated.")
         } catch (e: Exception) {
             emit("Error generating description: ${e.message}")
         }
