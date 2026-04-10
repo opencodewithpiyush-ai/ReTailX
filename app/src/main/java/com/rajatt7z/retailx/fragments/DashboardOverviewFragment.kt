@@ -89,6 +89,9 @@ class DashboardOverviewFragment : Fragment() {
         binding.cardOrders.setOnClickListener {
             findNavController().navigate(R.id.action_overview_to_orders)
         }
+        binding.btnReturns.setOnClickListener {
+            findNavController().navigate(R.id.action_overview_to_returnRefund)
+        }
     }
 
 

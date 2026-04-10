@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="1dp"
+    android:clickable="true"
+    android:focusable="true"
+    style="@style/Widget.Material3.CardView.Filled">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Top Row: ID + Status -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvRefundId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="REF-ABC123"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/circular_spotify" />
+
+            <TextView
+                android:id="@+id/tvRefundStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Processed"
+                android:textSize="12sp"
+                android:fontFamily="@font/circular_spotify"
+                android:textColor="#2E7D32"
+                android:background="@drawable/bg_role_badge"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp" />
+
+        </LinearLayout>
+
+        <!-- Bill Reference -->
+        <TextView
+            android:id="@+id/tvBillRef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bill: XYZ789"
+            android:textSize="13sp"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="?android:textColorSecondary"
+            android:layout_marginTop="4dp" />
+
+        <!-- Refund Amount -->
+        <TextView
+            android:id="@+id/tvRefundAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$0.00"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/circular_spotify"
+            android:textColor="#D32F2F"
+            android:layout_marginTop="8dp" />
+
+        <!-- Bottom Row: Reason + Date + Processed By -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvRefundReason"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Defective"
+                android:textSize="13sp"
+                android:fontFamily="@font/montserrat_regular"
+                android:textColor="?android:textColorSecondary"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/tvProcessedBy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="By: Staff"
+                android:textSize="12sp"
+                android:fontFamily="@font/montserrat_regular"
+                android:textColor="?android:textColorSecondary" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvRefundDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01 Jan 2026"
+            android:textSize="12sp"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="?android:textColorSecondary"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

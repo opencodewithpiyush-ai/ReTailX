@@ -295,4 +295,94 @@ object PdfGenerator {
             "Unknown Date"
         }
     }
+
+    fun generateRefundPdf(context: Context, refund: com.rajatt7z.retailx.models.Refund, originalBill: com.rajatt7z.retailx.models.Bill): Uri? {
+        val pdfDocument = PdfDocument()
+        val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create() // A4 size
+        val page = pdfDocument.startPage(pageInfo)
+        val canvas = page.canvas
+        val paint = Paint()
+
+        drawRefundContent(canvas, paint, pageInfo.pageWidth, refund, originalBill)
+
+        pdfDocument.finishPage(page)
+
+        val fileName = "Refund_${refund.id.takeLast(6)}_${System.currentTimeMillis()}.pdf"
+        val uri = savePdfToDownloads(context, pdfDocument, fileName)
+
+        pdfDocument.close()
+
+        if (uri != null) {
+            showDownloadNotification(context, uri, fileName)
+            Toast.makeText(context, "Refund receipt saved to Downloads", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Failed to save refund receipt", Toast.LENGTH_SHORT).show()
+        }
+
+        return uri
+    }
+
+    private fun drawRefundContent(canvas: Canvas, paint: Paint, pageWidth: Int, refund: com.rajatt7z.retailx.models.Refund, bill: com.rajatt7z.retailx.models.Bill) {
+        // Header
+        paint.textSize = 24f
+        paint.isFakeBoldText = true
+        paint.textAlign = Paint.Align.CENTER
+        canvas.drawText("ReTailX Refund Receipt", (pageWidth / 2).toFloat(), 50f, paint)
+
+        paint.textSize = 14f
+        paint.isFakeBoldText = false
+        paint.textAlign = Paint.Align.LEFT
+        canvas.drawText("Refund ID: REF-${refund.id.takeLast(6).uppercase()}", 20f, 90f, paint)
+        canvas.drawText("Date: ${formatDate(refund.timestamp)}", 20f, 110f, paint)
+        canvas.drawText("Original Bill: ${bill.id.takeLast(8).uppercase()}", 20f, 130f, paint)
+
+        canvas.drawText("Customer: ${bill.customerName}", 20f, 160f, paint)
+        canvas.drawText("Phone: ${bill.customerPhone}", 20f, 180f, paint)
+        canvas.drawText("Processed By: ${refund.processedByName}", 20f, 200f, paint)
+        canvas.drawText("Reason: ${refund.reason}", 20f, 220f, paint)
+
+        // Table Header
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 2f
+        canvas.drawLine(20f, 240f, pageWidth - 20f, 240f, paint)
+
+        paint.style = Paint.Style.FILL
+        paint.textSize = 14f
+        paint.isFakeBoldText = true
+        canvas.drawText("Product", 20f, 260f, paint)
+        canvas.drawText("Qty", 300f, 260f, paint)
+        canvas.drawText("Price", 380f, 260f, paint)
+        canvas.drawText("Refund", 480f, 260f, paint)
+
+        paint.style = Paint.Style.STROKE
+        canvas.drawLine(20f, 270f, pageWidth - 20f, 270f, paint)
+
+        // Returned Items
+        var yPos = 290f
+        paint.style = Paint.Style.FILL
+        paint.isFakeBoldText = false
+
+        for (item in refund.returnedItems) {
+            canvas.drawText(item.productName.take(25), 20f, yPos, paint)
+            canvas.drawText(item.quantity.toString(), 300f, yPos, paint)
+            canvas.drawText(String.format("%.2f", item.unitPrice), 380f, yPos, paint)
+            canvas.drawText(String.format("%.2f", item.refundAmount), 480f, yPos, paint)
+            yPos += 25f
+        }
+
+        // Total Section
+        paint.style = Paint.Style.STROKE
+        canvas.drawLine(20f, yPos + 10f, pageWidth - 20f, yPos + 10f, paint)
+
+        paint.style = Paint.Style.FILL
+        paint.textSize = 16f
+        paint.isFakeBoldText = true
+        paint.color = Color.rgb(211, 47, 47) // Red for refund
+        canvas.drawText(String.format("Total Refund: %.2f", refund.refundAmount), 350f, yPos + 40f, paint)
+
+        paint.color = Color.BLACK
+        paint.textSize = 12f
+        paint.isFakeBoldText = false
+        canvas.drawText("Status: ${refund.status}", 20f, yPos + 80f, paint)
+    }
 }

@@ -167,6 +167,9 @@
         <action
             android:id="@+id/action_storeManagerFragment_to_createBillFragment"
             app:destination="@id/createBillFragment" />
+        <action
+            android:id="@+id/action_storeManagerFragment_to_returnRefundFragment"
+            app:destination="@id/returnRefundFragment" />
     </fragment>
 
     <fragment
@@ -223,4 +226,25 @@
         android:name="com.rajatt7z.retailx.fragments.ChatBotFragment"
         android:label="ReTailX Assistant"
         tools:layout="@layout/fragment_chat_bot" />
+
+    <fragment
+        android:id="@+id/returnRefundFragment"
+        android:name="com.rajatt7z.retailx.fragments.orders.ReturnRefundFragment"
+        android:label="Returns &amp; Refunds"
+        tools:layout="@layout/fragment_return_refund">
+        <action
+            android:id="@+id/action_returnRefund_to_refundHistory"
+            app:destination="@id/refundHistoryFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_bottom" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/refundHistoryFragment"
+        android:name="com.rajatt7z.retailx.fragments.orders.RefundHistoryFragment"
+        android:label="Refund History"
+        tools:layout="@layout/fragment_refund_history" />
+
 </navigation>

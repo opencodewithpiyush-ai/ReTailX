@@ -44,6 +44,12 @@ class ProductRepository @Inject constructor() {
             .await()
     }
 
+    suspend fun incrementStock(productId: String, quantity: Int) {
+        productsCollection.document(productId)
+            .update("stock", com.google.firebase.firestore.FieldValue.increment(quantity.toLong()))
+            .await()
+    }
+
     suspend fun getProductByBarcode(barcode: String): Product? {
         return try {
             val snapshot = productsCollection

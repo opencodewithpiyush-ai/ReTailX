@@ -15,5 +15,6 @@ data class Bill(
     val totalAmount: Double = 0.0,
     val timestamp: Long = 0L,
     val generatedBy: String = "",        // Employee ID
-    val generatedByName: String = ""     // Employee Name for display on Bill
+    val generatedByName: String = "",     // Employee Name for display on Bill
+    val status: String = "paid"           // paid, partially_refunded, refunded
 )

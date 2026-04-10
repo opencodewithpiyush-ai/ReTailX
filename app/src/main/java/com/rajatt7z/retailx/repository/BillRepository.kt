@@ -57,4 +57,48 @@ class BillRepository {
             emptyList()
         }
     }
+
+    suspend fun getBillById(billId: String): Bill? {
+        return try {
+            val doc = billsCollection.document(billId).get().await()
+            doc.toObject(Bill::class.java)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun getAllBills(): List<Bill> {
+        return try {
+            val snapshot = billsCollection
+                .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .get()
+                .await()
+            snapshot.toObjects(Bill::class.java)
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    suspend fun searchBills(query: String): List<Bill> {
+        return try {
+            val allBills = getAllBills()
+            allBills.filter { bill ->
+                bill.id.lowercase().contains(query.lowercase()) ||
+                bill.customerPhone.contains(query) ||
+                bill.customerName.lowercase().contains(query.lowercase())
+            }
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    suspend fun updateBillStatus(billId: String, status: String): Boolean {
+        return try {
+            billsCollection.document(billId).update("status", status).await()
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
 }
