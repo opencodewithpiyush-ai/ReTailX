@@ -10,6 +10,8 @@
 .DS_Store
 /build
 /captures
+.kotlin
+.vscode
 .externalNativeBuild
 .cxx
 local.properties
