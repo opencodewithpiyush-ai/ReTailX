@@ -8,11 +8,11 @@ Below are some screenshots of the ReTailX application showcasing its features an
 
 | Screenshot 1      | Screenshot 2      | Screenshot 3      |Screenshot 4       |
 |-------------------|-------------------|-------------------|-------------------|
-| ![Image1](https://github.com/rajatt04/rajatt04.github.io/blob/main/images/RetailX/Screenshot_2026_0318_101333.jpg?raw=true) | ![Image2](https://github.com/rajatt04/rajatt04.github.io/blob/main/images/RetailX/Screenshot_2026_0318_101439.jpg?raw=true) | ![Image3](https://github.com/rajatt04/rajatt04.github.io/blob/main/images/RetailX/Screenshot_2026_0318_101644.jpg?raw=true) |![Image4](https://github.com/rajatt04/rajatt04.github.io/blob/main/images/RetailX/Screenshot_20260318_101732.jpg?raw=true) |
+| ![Image1](https://github.com/rajatt04/Student-Management-System/blob/sms-main/Projects/ReTailX/Screenshot_20260417_195739.jpg?raw=true) | ![Image2](https://github.com/rajatt04/Student-Management-System/blob/sms-main/Projects/ReTailX/Screenshot_20260417_195745.jpg?raw=true) | ![Image3](https://github.com/rajatt04/Student-Management-System/blob/sms-main/Projects/ReTailX/Screenshot_20260417_195805.jpg?raw=true) |![Image4](https://github.com/rajatt04/Student-Management-System/blob/sms-main/Projects/ReTailX/Screenshot_20260417_195838.jpg?raw=true) |
 
 | Screenshot 5      | Screenshot 6      | Screenshot 7      |Screenshot 8       |
 |-------------------|-------------------|-------------------|-------------------|
-| ![Image5](https://github.com/rajatt04/rajatt04.github.io/blob/main/images/RetailX/Screenshot_20260318_101813.jpg?raw=true) | ![Image6](https://github.com/rajatt04/rajatt04.github.io/blob/main/images/RetailX/Screenshot_2026_0318_101413.jpg?raw=true) | ![Image7](https://github.com/rajatt04/rajatt04.github.io/blob/main/images/RetailX/Screenshot_2026_0318_101451.jpg?raw=true) |![Image8](https://github.com/rajatt04/rajatt04.github.io/blob/main/images/RetailX/Screenshot_20260318_101505.jpg?raw=true) |
+| ![Image5](https://github.com/rajatt04/Student-Management-System/blob/sms-main/Projects/ReTailX/Screenshot_20260417_195904.jpg?raw=true) | ![Image6](https://github.com/rajatt04/Student-Management-System/blob/sms-main/Projects/ReTailX/Screenshot_20260417_195909.jpg?raw=true) | ![Image7](https://github.com/rajatt04/Student-Management-System/blob/sms-main/Projects/ReTailX/Screenshot_20260417_200011.jpg?raw=true) |![Image8](https://github.com/rajatt04/Student-Management-System/blob/sms-main/Projects/ReTailX/Screenshot_20260417_200034.jpg?raw=true) |
 
 
 ## 📱 Key Features
