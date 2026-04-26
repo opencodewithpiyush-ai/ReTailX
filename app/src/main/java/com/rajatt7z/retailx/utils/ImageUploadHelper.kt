@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
 import java.io.File
 
 class ImageUploadHelper(
@@ -95,7 +96,7 @@ class ImageUploadHelper(
                 val fileBytes = inputStream?.readBytes() ?: throw Exception("Could not read image file")
                 inputStream.close()
 
-                val requestBody = okhttp3.RequestBody.create(okhttp3.MediaType.get("image/jpeg"), fileBytes)
+                val requestBody = okhttp3.RequestBody.create("image/jpeg".toMediaType(), fileBytes)
                 val body = okhttp3.MultipartBody.Part.createFormData("file", "image.jpg", requestBody)
 
                 val retrofit = retrofit2.Retrofit.Builder()
