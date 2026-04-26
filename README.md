@@ -1,3 +1,39 @@
+# ReTailX Messaging API
+
+A Python-based API following Clean Architecture to send SMS via Twilio.
+
+## Project Structure
+- `app/core/entities`: Business entities (e.g., Message).
+- `app/core/use_cases`: Application business logic.
+- `app/infrastructure`: External tools/gateways (Twilio).
+- `app/interfaces/api`: FastAPI routes.
+
+## Setup
+1. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. Configure `.env` (already contains your credentials).
+
+## Running the API
+```bash
+python app/main.py
+```
+
+## API Usage
+- **Endpoint:** `POST /api/v1/send-sms`
+- **Body:**
+  ```json
+  {
+    "receiver": "Piyush",
+    "message": "Hello from ReTailX"
+  }
+  ```
+- **Alternative Receiver:** Change `"receiver"` to `"Rajat"`.
+
+## Alternative Logic
+The API is designed to look up numbers based on the name provided in the request using the mapping in `.env`.
+
 # ReTailX - Intelligent Retail Management System
 
 Welcome to **ReTailX**, a robust, modern, and scalable retail management Android application built with Kotlin. ReTailX is designed to streamline retail operations ranging from billing and inventory management to AI-powered sales insights and employee tracking. It leverages cutting-edge Android technologies and architectural best practices to deliver a premium user experience for both Store Managers and Sales Executives.
