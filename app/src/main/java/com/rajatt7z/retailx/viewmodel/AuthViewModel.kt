@@ -145,6 +145,17 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    private val _adminDetails = MutableLiveData<Resource<Map<String, Any>>>()
+    val adminDetails: LiveData<Resource<Map<String, Any>>> = _adminDetails
+
+    fun fetchAdminDetails(retailxId: String) {
+        _adminDetails.value = Resource.Loading()
+        viewModelScope.launch {
+            val result = repository.getAdminDetails(retailxId)
+            _adminDetails.value = result
+        }
+    }
+
     fun logout() {
         repository.logout()
     }

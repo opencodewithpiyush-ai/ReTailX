@@ -6,10 +6,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from fastapi import FastAPI
 from app.interfaces.api.routes import router
+from app.interfaces.api.image_routes import router as image_router
 
 app = FastAPI(title="ReTailX Messaging API")
 
 app.include_router(router, prefix="/api/v1")
+app.include_router(image_router, prefix="/api/v1/images", tags=["images"])
 
 @app.get("/")
 async def root():

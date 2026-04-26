@@ -184,22 +184,23 @@ class EmployeeListFragment : Fragment() {
         dialogBinding.toolbar.title = "Add New Employee"
         dialogBinding.toolbar.setNavigationOnClickListener { dialog.dismiss() }
 
-        // RESET state for new employee
+        // Setup Spinners
+        val genders = arrayOf("Male", "Female", "Other")
+        val genderAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, genders)
+        dialogBinding.spinnerGender.setAdapter(genderAdapter)
+
+        val roles = arrayOf("Store Manager", "Inventory Manager", "Sales Executive", "Accountant", "Delivery Partner")
+        val roleAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, roles)
+        dialogBinding.spinnerRole.setAdapter(roleAdapter)
+
+        // Setup Date Pickers
+        setupDatePicker(dialogBinding.etEmployeeDob)
+        setupDatePicker(dialogBinding.etDoj)
+
+        // Reset state for new employee
         currentUploadedImageUrl = null
         currentDialogImageView = dialogBinding.ivEmployeeProfile
-        
-        // Setup Image Picker
-        dialogBinding.ivEmployeeProfile.setOnClickListener {
-            imageUploadHelper.showImagePicker()
-        }
-
-        // Setup Spinner
-        val roles = arrayOf("Store Manager", "Inventory Manager", "Sales Executive")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, roles)
-        dialogBinding.spinnerRole.setAdapter(adapter)
-
-        // Default permission
-        dialogBinding.rgPermissions.check(R.id.rbViewer)
+        dialogBinding.ivEmployeeProfile.setOnClickListener { imageUploadHelper.showImagePicker() }
 
         dialogBinding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -207,34 +208,144 @@ class EmployeeListFragment : Fragment() {
                     val name = dialogBinding.etEmployeeName.text.toString().trim()
                     val phone = dialogBinding.etEmployeePhone.text.toString().trim()
                     val email = dialogBinding.etEmployeeEmail.text.toString().trim()
-                    val password = dialogBinding.etEmployeePassword.text.toString().trim()
-                    val role = dialogBinding.spinnerRole.text.toString()
-                    val permission = if (dialogBinding.rgPermissions.checkedButtonId == R.id.rbEditor) "Editor" else "Viewer"
+                    val dob = dialogBinding.etEmployeeDob.text.toString()
+                    val gender = dialogBinding.spinnerGender.text.toString()
+                    val pan = dialogBinding.etPanCard.text.toString().trim()
+                    
+                    val houseNo = dialogBinding.etHouseNo.text.toString().trim()
+                    val street = dialogBinding.etStreet.text.toString().trim()
+                    val landmark = dialogBinding.etLandmark.text.toString().trim()
+                    val city = dialogBinding.etCity.text.toString().trim()
+                    val state = dialogBinding.etState.text.toString().trim()
+                    val pincode = dialogBinding.etPincode.text.toString().trim()
 
-                    if (validation(name, phone, email, password)) {
+                    val role = dialogBinding.spinnerRole.text.toString()
+                    val dept = dialogBinding.etDepartment.text.toString().trim()
+                    val doj = dialogBinding.etDoj.text.toString()
+
+                    val bankAcc = dialogBinding.etBankAccNo.text.toString().trim()
+                    val ifsc = dialogBinding.etIfscCode.text.toString().trim()
+                    
+                    val emergency = dialogBinding.etEmergencyContact.text.toString().trim()
+                    val blood = dialogBinding.etBloodGroup.text.toString().trim()
+                    val nominee = dialogBinding.etNomineeDetails.text.toString().trim()
+                    
+                    val password = generateRandomPassword()
+                    val retailxId = "RX_" + (1000..9999).random().toString() + "_" + name.take(2).uppercase()
+                    val uan = (100000000000..999999999999).random().toString()
+
+                    if (validateFields(name, phone, dob, gender, pan, houseNo, street, city, state, pincode, role, dept, doj, bankAcc, ifsc)) {
+                        val address = com.rajatt7z.retailx.models.EmployeeAddress(houseNo, street, landmark, city, state, pincode)
                         val userMap: HashMap<String, Any> = hashMapOf(
                             "name" to name,
                             "phone" to phone,
                             "email" to email,
-                            "userType" to "employee",
+                            "dob" to dob,
+                            "gender" to gender,
+                            "panCard" to pan,
+                            "address" to address,
                             "role" to role,
-                            "permissions" to permission,
+                            "department" to dept,
+                            "doj" to doj,
+                            "bankAccNo" to bankAcc,
+                            "ifscCode" to ifsc,
+                            "emergencyContact" to emergency,
+                            "bloodGroup" to blood,
+                            "nomineeDetails" to nominee,
+                            "userType" to "employee",
+                            "retailxId" to retailxId,
+                            "uan" to uan,
+                            "password" to password, 
+                            "isTempPsswd" to true,
                             "createdAt" to System.currentTimeMillis(),
                             "profileImageUrl" to (currentUploadedImageUrl ?: "")
                         )
 
-                        viewModel.createEmployee(email, password, userMap)
+                        viewModel.createEmployee(email.ifEmpty { "${phone}@retailx.com" }, password, userMap)
+                        
+                        // Send Professional Notification via Render API
+                        sendProfessionalWelcomeSMS(name, phone, retailxId, password)
+                        
                         dialog.dismiss()
-                    } else {
-                        Toast.makeText(context, "Please check all fields", Toast.LENGTH_SHORT).show()
                     }
                     true
                 }
                 else -> false
             }
         }
-
         dialog.show()
+    }
+
+    private fun generateRandomPassword(): String {
+        val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#%"
+        return (1..8).map { chars.random() }.joinToString("")
+    }
+
+    private fun sendProfessionalWelcomeSMS(name: String, phone: String, id: String, pass: String) {
+        val retrofit = retrofit2.Retrofit.Builder()
+            .baseUrl("https://retailxdev.onrender.com/")
+            .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
+            .build()
+        val service = retrofit.create(com.rajatt7z.retailx.network.NotificationService::class.java)
+
+        val professionalMessage = """
+            Dear $name,
+            
+            Welcome to the ReTailX family! Your professional account has been successfully set up.
+            
+            Access Credentials:
+            --------------------------
+            ReTailX ID : $id
+            Temp Password: $pass
+            --------------------------
+            
+            Security Notice:
+            For your protection, this is a temporary password. You are required to reset it during your first login. Please maintain the confidentiality of your account by not sharing these credentials with anyone.
+            
+            Best Regards,
+            Administration | Team ReTailX
+        """.trimIndent()
+
+        lifecycleScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            try {
+                service.sendNotification(com.rajatt7z.retailx.network.NotificationRequest(phone, professionalMessage))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun setupDatePicker(editText: android.widget.EditText) {
+        editText.setOnClickListener {
+            val calendar = java.util.Calendar.getInstance()
+            android.app.DatePickerDialog(requireContext(), { _, year, month, day ->
+                editText.setText("$day/${month + 1}/$year")
+            }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH)).show()
+        }
+    }
+
+    private fun validateFields(vararg fields: String): Boolean {
+        for (field in fields) {
+            if (field.isEmpty()) return false
+        }
+        return true
+    }
+
+    private fun sendWelcomeNotification(name: String, phone: String) {
+        val retrofit = retrofit2.Retrofit.Builder()
+            .baseUrl("https://retailxdev.onrender.com/")
+            .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
+            .build()
+        val service = retrofit.create(com.rajatt7z.retailx.network.NotificationService::class.java)
+
+        lifecycleScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            try {
+                val message = "Welcome $name to ReTailX! Your account has been created successfully."
+                service.sendNotification(com.rajatt7z.retailx.network.NotificationRequest(name, message))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     private fun showEditEmployeeDialog(employee: Employee) {
@@ -249,12 +360,50 @@ class EmployeeListFragment : Fragment() {
         dialogBinding.toolbar.title = "Edit Employee"
         dialogBinding.toolbar.setNavigationOnClickListener { dialog.dismiss() }
         
-        // SETUP state for existing employee
+        // Setup Spinners
+        val genders = arrayOf("Male", "Female", "Other")
+        val genderAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, genders)
+        dialogBinding.spinnerGender.setAdapter(genderAdapter)
+
+        val roles = arrayOf("Store Manager", "Inventory Manager", "Sales Executive", "Accountant", "Delivery Partner")
+        val roleAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, roles)
+        dialogBinding.spinnerRole.setAdapter(roleAdapter)
+
+        // Setup Date Pickers
+        setupDatePicker(dialogBinding.etEmployeeDob)
+        setupDatePicker(dialogBinding.etDoj)
+
+        // Pre-fill existing data
+        dialogBinding.etEmployeeName.setText(employee.name)
+        dialogBinding.etEmployeePhone.setText(employee.phone)
+        dialogBinding.etEmployeeEmail.setText(employee.email)
+        dialogBinding.etEmployeeDob.setText(employee.dob)
+        dialogBinding.spinnerGender.setText(employee.gender, false)
+        dialogBinding.etPanCard.setText(employee.panCard)
+        
+        dialogBinding.etHouseNo.setText(employee.address.houseNo)
+        dialogBinding.etStreet.setText(employee.address.street)
+        dialogBinding.etLandmark.setText(employee.address.landmark)
+        dialogBinding.etCity.setText(employee.address.city)
+        dialogBinding.etState.setText(employee.address.state)
+        dialogBinding.etPincode.setText(employee.address.pincode)
+
+        dialogBinding.spinnerRole.setText(employee.role, false)
+        dialogBinding.etDepartment.setText(employee.department)
+        dialogBinding.etDoj.setText(employee.doj)
+
+        dialogBinding.etBankAccNo.setText(employee.bankAccNo)
+        dialogBinding.etIfscCode.setText(employee.ifscCode)
+        
+        dialogBinding.etEmergencyContact.setText(employee.emergencyContact)
+        dialogBinding.etBloodGroup.setText(employee.bloodGroup)
+        dialogBinding.etNomineeDetails.setText(employee.nomineeDetails)
+
+        // SETUP state for profile image
         currentUploadedImageUrl = employee.profileImageUrl
         currentDialogImageView = dialogBinding.ivEmployeeProfile
         
-        // Load existing image if available
-        if (currentUploadedImageUrl.isNullOrEmpty() == false) {
+        if (!currentUploadedImageUrl.isNullOrEmpty()) {
              coil.ImageLoader(requireContext()).enqueue(
                 coil.request.ImageRequest.Builder(requireContext())
                     .data(currentUploadedImageUrl)
@@ -265,37 +414,7 @@ class EmployeeListFragment : Fragment() {
             )
         }
         
-        // Setup Image Picker
-        dialogBinding.ivEmployeeProfile.setOnClickListener {
-            imageUploadHelper.showImagePicker()
-        }
-
-        // Setup Spinner
-        val roles = arrayOf("Store Manager", "Inventory Manager", "Sales Executive")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, roles)
-        dialogBinding.spinnerRole.setAdapter(adapter)
-
-        // Pre-fill data
-        dialogBinding.etEmployeeName.setText(employee.name)
-        dialogBinding.etEmployeePhone.setText(employee.phone)
-        dialogBinding.etEmployeeEmail.setText(employee.email)
-        dialogBinding.etEmployeePassword.hint = "Password"
-
-        // Enable editing for Email and Password
-        dialogBinding.etEmployeeEmail.isEnabled = true
-        dialogBinding.etEmployeePassword.isEnabled = true
-
-        val roleIndex = roles.indexOf(employee.role)
-        if (roleIndex >= 0) dialogBinding.spinnerRole.setText(employee.role, false)
-
-        if (employee.permissions == "Editor") {
-            dialogBinding.rgPermissions.check(R.id.rbEditor)
-        } else {
-            dialogBinding.rgPermissions.check(R.id.rbViewer)
-        }
-
-        // Show warning toast once
-        Toast.makeText(context, "Note: Changing Email/Password only updates the database record.", Toast.LENGTH_LONG).show()
+        dialogBinding.ivEmployeeProfile.setOnClickListener { imageUploadHelper.showImagePicker() }
 
         dialogBinding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -303,45 +422,63 @@ class EmployeeListFragment : Fragment() {
                     val name = dialogBinding.etEmployeeName.text.toString().trim()
                     val phone = dialogBinding.etEmployeePhone.text.toString().trim()
                     val email = dialogBinding.etEmployeeEmail.text.toString().trim()
-                    val password = dialogBinding.etEmployeePassword.text.toString().trim()
-                    val role = dialogBinding.spinnerRole.text.toString()
-                    val permission = if (dialogBinding.rgPermissions.checkedButtonId == R.id.rbEditor) "Editor" else "Viewer"
+                    val dob = dialogBinding.etEmployeeDob.text.toString()
+                    val gender = dialogBinding.spinnerGender.text.toString()
+                    val pan = dialogBinding.etPanCard.text.toString().trim()
+                    
+                    val houseNo = dialogBinding.etHouseNo.text.toString().trim()
+                    val street = dialogBinding.etStreet.text.toString().trim()
+                    val landmark = dialogBinding.etLandmark.text.toString().trim()
+                    val city = dialogBinding.etCity.text.toString().trim()
+                    val state = dialogBinding.etState.text.toString().trim()
+                    val pincode = dialogBinding.etPincode.text.toString().trim()
 
-                    if (name.isNotEmpty() && phone.isNotEmpty() && email.isNotEmpty()) {
+                    val role = dialogBinding.spinnerRole.text.toString()
+                    val dept = dialogBinding.etDepartment.text.toString().trim()
+                    val doj = dialogBinding.etDoj.text.toString()
+
+                    val bankAcc = dialogBinding.etBankAccNo.text.toString().trim()
+                    val ifsc = dialogBinding.etIfscCode.text.toString().trim()
+                    
+                    val emergency = dialogBinding.etEmergencyContact.text.toString().trim()
+                    val blood = dialogBinding.etBloodGroup.text.toString().trim()
+                    val nominee = dialogBinding.etNomineeDetails.text.toString().trim()
+
+                    if (validateFields(name, phone, dob, gender, pan, houseNo, street, city, state, pincode, role, dept, doj, bankAcc, ifsc)) {
+                        val address = com.rajatt7z.retailx.models.EmployeeAddress(houseNo, street, landmark, city, state, pincode)
                         val updates = hashMapOf<String, Any>(
                             "name" to name,
                             "phone" to phone,
                             "email" to email,
+                            "dob" to dob,
+                            "gender" to gender,
+                            "panCard" to pan,
+                            "address" to address,
                             "role" to role,
-                            "permissions" to permission
+                            "department" to dept,
+                            "doj" to doj,
+                            "bankAccNo" to bankAcc,
+                            "ifscCode" to ifsc,
+                            "emergencyContact" to emergency,
+                            "bloodGroup" to blood,
+                            "nomineeDetails" to nominee
                         )
                         
                         if (currentUploadedImageUrl != null) {
                             updates["profileImageUrl"] = currentUploadedImageUrl!!
                         }
 
-                        // Password changes are handled through Firebase Auth, not Firestore
-
                         viewModel.updateEmployee(employee.uid, updates)
                         dialog.dismiss()
                     } else {
-                        Toast.makeText(context, "Name, Phone and Email cannot be empty", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Please check all required fields", Toast.LENGTH_SHORT).show()
                     }
                     true
                 }
                 else -> false
             }
         }
-
         dialog.show()
-    }
-
-    private fun validation(name: String, phone: String, email: String, password: String): Boolean {
-         if (name.length < 3) return false
-         if (phone.length < 10) return false
-         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) return false
-         if (password.length < 6) return false
-         return true
     }
 
     override fun onDestroyView() {

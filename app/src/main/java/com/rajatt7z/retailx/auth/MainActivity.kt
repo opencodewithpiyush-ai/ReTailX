@@ -125,18 +125,14 @@ class MainActivity : com.rajatt7z.retailx.utils.BaseActivity() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 if (position == onboardingData.size - 1) {
-                    // Final Page: Show Buttons
-                    binding.loginBusinessBtn.visibility = View.VISIBLE
-                    binding.loginCustomerBtn.visibility = View.VISIBLE
+                    // Final Page: Show Button
+                    binding.continueBtn.visibility = View.VISIBLE
                     // Optional: Fade in animation
-                    binding.loginBusinessBtn.alpha = 0f
-                    binding.loginCustomerBtn.alpha = 0f
-                    binding.loginBusinessBtn.animate().alpha(1f).setDuration(300).start()
-                    binding.loginCustomerBtn.animate().alpha(1f).setDuration(300).start()
+                    binding.continueBtn.alpha = 0f
+                    binding.continueBtn.animate().alpha(1f).setDuration(300).start()
                 } else {
-                    // Other Pages: Hide Buttons
-                    binding.loginBusinessBtn.visibility = View.GONE
-                    binding.loginCustomerBtn.visibility = View.GONE
+                    // Other Pages: Hide Button
+                    binding.continueBtn.visibility = View.GONE
                 }
             }
         })
@@ -159,13 +155,80 @@ class MainActivity : com.rajatt7z.retailx.utils.BaseActivity() {
                 .show()
         }
 
-        binding.loginCustomerBtn.setOnClickListener {
-            startActivity(Intent(this, EmployeeLogin::class.java))
+        binding.continueBtn.setOnClickListener {
+            showLoginBottomSheet()
+        }
+    }
+
+    private fun showLoginBottomSheet() {
+        val bottomSheetDialog = com.google.android.material.bottomsheet.BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_login, null)
+        bottomSheetDialog.setContentView(view)
+
+        val btnContinue = view.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnContinue)
+        val etId = view.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etEmail)
+        val etPassword = view.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etPassword)
+        val tilPassword = view.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.tilPassword)
+        val tilId = view.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.tilEmail)
+        val progressBar = view.findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.sheetProgress)
+
+        var isIdVerified = false
+        var adminData: Map<String, Any>? = null
+
+        // Observe adminDetails for ID verification
+        viewModel.adminDetails.observe(this) { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                    progressBar.visibility = View.VISIBLE
+                    btnContinue.isEnabled = false
+                }
+                is Resource.Success -> {
+                    progressBar.visibility = View.GONE
+                    btnContinue.isEnabled = true
+                    adminData = resource.data
+                    if (adminData != null) {
+                        isIdVerified = true
+                        tilId.isEnabled = false // Disable ID field
+                        tilPassword.visibility = View.VISIBLE // Show password field
+                        btnContinue.text = "Login"
+                        etPassword.requestFocus()
+                    }
+                }
+                is Resource.Error -> {
+                    progressBar.visibility = View.GONE
+                    btnContinue.isEnabled = true
+                    etId.error = resource.message ?: "Invalid ReTailX ID"
+                }
+            }
         }
 
-        binding.loginBusinessBtn.setOnClickListener {
-            startActivity(Intent(this, AdminLogin::class.java))
+        btnContinue.setOnClickListener {
+            val id = etId.text.toString().trim()
+            if (!isIdVerified) {
+                if (id.isNotEmpty()) {
+                    viewModel.fetchAdminDetails(id)
+                } else {
+                    etId.error = "Please enter ReTailX ID"
+                }
+            } else {
+                val password = etPassword.text.toString().trim()
+                if (password.isNotEmpty()) {
+                    val correctPassword = adminData?.get("password") as? String
+                    if (password == correctPassword) {
+                        Toast.makeText(this, "Welcome, ${adminData?.get("name")}", Toast.LENGTH_SHORT).show()
+                        bottomSheetDialog.dismiss()
+                        startActivity(Intent(this, com.rajatt7z.retailx.AdminDashboardActivity::class.java))
+                        finish()
+                    } else {
+                        etPassword.error = "Incorrect Password"
+                    }
+                } else {
+                    etPassword.error = "Please enter password"
+                }
+            }
         }
+
+        bottomSheetDialog.show()
     }
 
     private fun checkUserSession() {
@@ -183,8 +246,7 @@ class MainActivity : com.rajatt7z.retailx.utils.BaseActivity() {
             when (resource) {
                 is Resource.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
-                    binding.loginCustomerBtn.isEnabled = false
-                    binding.loginBusinessBtn.isEnabled = false
+                    binding.continueBtn.isEnabled = false
                 }
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
@@ -198,16 +260,14 @@ class MainActivity : com.rajatt7z.retailx.utils.BaseActivity() {
                             startActivity(Intent(this, EmployeeDashboardActivity::class.java))
                             finish()
                         } else {
-                            binding.loginCustomerBtn.isEnabled = true
-                            binding.loginBusinessBtn.isEnabled = true
+                            binding.continueBtn.isEnabled = true
                             Toast.makeText(this, "Unknown user type", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.loginCustomerBtn.isEnabled = true
-                    binding.loginBusinessBtn.isEnabled = true
+                    binding.continueBtn.isEnabled = true
                     // Only show session expired if we actually tried to check a session
                     if (FirebaseAuth.getInstance().currentUser != null) {
                          Toast.makeText(this, "Session expired or invalid", Toast.LENGTH_SHORT).show()

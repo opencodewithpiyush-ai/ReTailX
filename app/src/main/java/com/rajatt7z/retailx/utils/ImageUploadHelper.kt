@@ -1,26 +1,19 @@
 package com.rajatt7z.retailx.utils
 
-import android.content.Context
 import android.net.Uri
-import android.os.Environment
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import com.google.android.material.button.MaterialButton
-import com.rajatt7z.retailx.R
-import com.rajatt7z.retailx.repository.ProductRepository
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
-import java.io.FileOutputStream
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class ImageUploadHelper(
     private val fragment: Fragment,
@@ -28,7 +21,6 @@ class ImageUploadHelper(
     private val onImageUploaded: (String) -> Unit
 ) {
     private var tempImageUri: Uri? = null
-    private val repository = ProductRepository()
 
     private val pickMedia = fragment.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
@@ -94,14 +86,28 @@ class ImageUploadHelper(
     }
 
     private fun uploadImage(uri: Uri) {
-        // Show loading state if possible (optional: pass a callback for loading)
         Toast.makeText(fragment.context, "Uploading image...", Toast.LENGTH_SHORT).show()
-        
+
         scope.launch(Dispatchers.IO) {
             try {
-                val url = repository.uploadImage(fragment.requireContext(), uri)
+                val context = fragment.requireContext()
+                val inputStream = context.contentResolver.openInputStream(uri)
+                val fileBytes = inputStream?.readBytes() ?: throw Exception("Could not read image file")
+                inputStream.close()
+
+                val requestBody = okhttp3.RequestBody.create(okhttp3.MediaType.get("image/jpeg"), fileBytes)
+                val body = okhttp3.MultipartBody.Part.createFormData("file", "image.jpg", requestBody)
+
+                val retrofit = retrofit2.Retrofit.Builder()
+                    .baseUrl("https://retailxdev.onrender.com/")
+                    .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
+                    .build()
+                
+                val service = retrofit.create(com.rajatt7z.retailx.network.NotificationService::class.java)
+                val response = service.uploadImage(body)
+
                 withContext(Dispatchers.Main) {
-                    onImageUploaded(url)
+                    onImageUploaded(response.url)
                     Toast.makeText(fragment.context, "Image uploaded successfully", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {

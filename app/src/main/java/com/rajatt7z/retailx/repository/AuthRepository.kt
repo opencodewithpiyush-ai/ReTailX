@@ -64,7 +64,7 @@ class AuthRepository @Inject constructor() {
                 // We use 'db' which is the main instance. Admin should have write permission to "users" collection.
                 // NOTE: Firestore rules must allow authenticated users to write to 'users' collection.
                 userMap["uid"] = uid
-                db.collection("users").document(uid).set(userMap).await()
+                db.collection("employees").document(uid).set(userMap).await()
                 
                 // 5. Sign out the secondary instance to be clean
                 secondaryAuth.signOut()
@@ -150,7 +150,7 @@ class AuthRepository @Inject constructor() {
 
     suspend fun getEmployees(): Resource<List<com.rajatt7z.retailx.models.Employee>> {
         return try {
-            val snapshot = db.collection("users")
+            val snapshot = db.collection("employees")
                 .whereEqualTo("userType", "employee")
                 .get()
                 .await()
@@ -163,7 +163,7 @@ class AuthRepository @Inject constructor() {
 
     suspend fun updateEmployee(uid: String, updates: Map<String, Any>): Resource<String> {
         return try {
-            db.collection("users").document(uid).update(updates).await()
+            db.collection("employees").document(uid).update(updates).await()
             Resource.Success("Employee updated successfully")
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Failed to update employee")
@@ -183,11 +183,11 @@ class AuthRepository @Inject constructor() {
         return try {
             // Mark user as disabled before deletion so they can't log in
             // even if Firestore delete succeeds but Auth delete isn't possible from client
-            db.collection("users").document(uid)
+            db.collection("employees").document(uid)
                 .update("disabled", true).await()
             
             // Delete the Firestore user document
-            db.collection("users").document(uid).delete().await()
+            db.collection("employees").document(uid).delete().await()
             
             // NOTE: Firebase Auth account cannot be deleted from the client SDK
             // for another user. To fully remove the Auth account, deploy a
@@ -211,7 +211,18 @@ class AuthRepository @Inject constructor() {
         }
     }
 
-
+    suspend fun getAdminDetails(retailxId: String): Resource<Map<String, Any>> {
+        return try {
+            val document = db.collection("admins").document(retailxId).get().await()
+            if (document.exists()) {
+                Resource.Success(document.data ?: emptyMap())
+            } else {
+                Resource.Error("ReTailX ID not found")
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Failed to fetch admin details")
+        }
+    }
 
     fun logout() = auth.signOut()
 }

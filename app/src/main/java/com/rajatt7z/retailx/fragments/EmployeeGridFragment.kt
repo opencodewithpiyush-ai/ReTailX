@@ -130,7 +130,7 @@ class EmployeeGridFragment : Fragment() {
         chipRole.text = employee.role
         tvEmail.text = employee.email.ifEmpty { "No Email" }
         tvPhone.text = employee.phone.ifEmpty { "No Phone" }
-        tvPermissions.text = "${employee.permissions} Permissions"
+        tvPermissions.text = "N/A"
         
         val sdf = java.text.SimpleDateFormat("MMM yyyy", java.util.Locale.getDefault())
         tvJoinDate.text = "Joined ${sdf.format(java.util.Date(employee.createdAt))}"

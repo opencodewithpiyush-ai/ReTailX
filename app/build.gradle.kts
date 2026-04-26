@@ -18,7 +18,7 @@ if (localPropertiesFile.exists()) {
 
 android {
     namespace = "com.rajatt7z.retailx"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.rajatt7z.ReTailX"
